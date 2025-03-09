@@ -75,7 +75,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Content</label>
-                                    <textarea name="content" class="form-control" id=""></textarea>
+                                    <textarea name="content" class="form-control" id="summernote"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Image</label>
@@ -94,12 +94,21 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
+
+
 @endsection
 @push('js')
     <script>
         $(function() {
             //Initialize Select2 Elements
             $('.select2').select2()
+        })
+    </script>
+
+<script>
+        $(function () {
+        // Summernote
+        $('#summernote').summernote()
         })
     </script>
 @endpush

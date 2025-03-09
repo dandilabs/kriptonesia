@@ -15,6 +15,8 @@ Auth::routes();
 // Route::get('/', 'BlogController@index');
 Route::get('/', [BlogController::class, 'index']);
 Route::get('/detail-post/{slug}', [BlogController::class,'isi_post'])->name('blog.isi');
+Route::get('/list-post/{slug}', [BlogController::class,'list_post'])->name('blog.list');
+Route::get('/list-category/{category}', [BlogController::class,'list_category'])->name('blog.category');
 // Route::get('/', [BlogController::class,'index'])->name('blog');
 
 // Route::get('/isi_post', function () {

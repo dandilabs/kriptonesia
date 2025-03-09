@@ -55,7 +55,7 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->judul }}</td>
-                                            <td>{{ $item->categories->name }}</td>
+                                            <td>{{ $item->category->name }}</td>
                                             <td>
                                                 @foreach ($item->tags as $tag)
                                                     <span class="badge badge-success">{{ $tag->name }}</span>

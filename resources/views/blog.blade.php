@@ -40,8 +40,8 @@
                                                 @endif
                                             @endforeach
                                         </p>
-                                        <p>{{ $item->content }}</p>
-                                        <a class="button" href="#">Read More <i class="ti-arrow-right"></i></a>
+                                        {{-- <p>{{ $item->content }}</p> --}}
+                                        <a class="button" href="{{route('blog.isi', $item->slug)}}">Read More <i class="ti-arrow-right"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -51,7 +51,8 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <nav class="blog-pagination justify-content-center d-flex">
-                                <ul class="pagination">
+                                {{ $data->links() }}
+                                {{-- <ul class="pagination">
                                     <li class="page-item">
                                         <a href="#" class="page-link" aria-label="Previous">
                                             <span aria-hidden="true">
@@ -68,7 +69,7 @@
                                             </span>
                                         </a>
                                     </li>
-                                </ul>
+                                </ul> --}}
                             </nav>
                         </div>
                     </div>
