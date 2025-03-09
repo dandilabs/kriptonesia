@@ -14,11 +14,11 @@ use App\Http\Controllers\CategoryController;
 Auth::routes();
 // Route::get('/', 'BlogController@index');
 Route::get('/', [BlogController::class, 'index']);
-
+Route::get('/detail-post/{slug}', [BlogController::class,'isi_post'])->name('blog.isi');
 // Route::get('/', [BlogController::class,'index'])->name('blog');
 
-// Route::get('/home', function () {
-//     return view('home');
+// Route::get('/isi_post', function () {
+//     return view('blog.isi_post');
 // });
 
 Route::group(['middleware' => 'auth'], function() {
