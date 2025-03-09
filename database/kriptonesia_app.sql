@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2025 at 08:22 AM
+-- Generation Time: Mar 09, 2025 at 05:05 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -73,7 +73,8 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`id`, `name`, `slug`, `created_at`, `updated_at`) VALUES
 (1, 'Post pertama', 'post-pertama', '2025-03-06 22:58:49', '2025-03-06 22:58:49'),
-(2, 'Liliana Carson', 'liliana-carson', '2025-03-06 23:27:37', '2025-03-06 23:27:37');
+(2, 'Liliana Carson', 'liliana-carson', '2025-03-06 23:27:37', '2025-03-06 23:27:37'),
+(3, 'crypto', 'crypto', '2025-03-09 08:39:48', '2025-03-09 08:39:48');
 
 -- --------------------------------------------------------
 
@@ -176,7 +177,7 @@ CREATE TABLE `posts` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `judul` varchar(255) NOT NULL,
   `slug` varchar(255) NOT NULL,
-  `categories_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
   `content` text NOT NULL,
   `image` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -189,11 +190,14 @@ CREATE TABLE `posts` (
 -- Dumping data for table `posts`
 --
 
-INSERT INTO `posts` (`id`, `judul`, `slug`, `categories_id`, `content`, `image`, `created_at`, `updated_at`, `deleted_at`, `users_id`) VALUES
+INSERT INTO `posts` (`id`, `judul`, `slug`, `category_id`, `content`, `image`, `created_at`, `updated_at`, `deleted_at`, `users_id`) VALUES
 (1, 'Post pertamaku edit', 'post-pertamaku-edit', 2, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', 'public/uploads/posts/1741350786ARBUSDT_2025-03-06_23-09-58.png', '2025-03-07 00:31:37', '2025-03-08 10:02:09', NULL, 1),
-(2, 'Tristan Morrow', 'tristan-morrow', 2, 'adadada', 'public/uploads/posts/1741354115ADAUSDT_2025-03-06_23-10-42.png', '2025-03-07 06:28:35', '2025-03-08 10:02:34', NULL, 1),
-(4, 'mencoba user', 'mencoba-user', 1, 'ada', 'public/uploads/posts/1741474708Share (2).png', '2025-03-08 11:27:59', '2025-03-08 15:58:28', NULL, 1),
-(5, 'menoba user baru', 'menoba-user-baru', 2, 'addsdsdss', 'public/uploads/posts/1741474699ADAUSDT_2025-03-06_23-10-42.png', '2025-03-08 11:34:20', '2025-03-08 15:58:19', NULL, 2);
+(2, 'Tristan Morrow', 'tristan-morrow', 2, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'public/uploads/posts/1741354115ADAUSDT_2025-03-06_23-10-42.png', '2025-03-07 06:28:35', '2025-03-09 06:48:08', NULL, 1),
+(4, 'mencoba user', 'mencoba-user', 1, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'public/uploads/posts/1741528659ADAUSDT_2025-03-02_23-48-34.png', '2025-03-08 11:27:59', '2025-03-09 06:57:39', NULL, 1),
+(5, 'menoba user baru', 'menoba-user-baru', 2, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'public/uploads/posts/1741474699ADAUSDT_2025-03-06_23-10-42.png', '2025-03-08 11:34:20', '2025-03-09 06:47:57', NULL, 2),
+(6, 'mencoba multipe lagi', 'mencoba-multipe-lagi', 2, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'public/uploads/posts/1741505397ONDOUSDT.P_2025-03-02_20-50-14.png', '2025-03-09 00:29:57', '2025-03-09 06:46:56', NULL, 1),
+(7, 'haihai', 'haihai', 1, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'public/uploads/posts/1741507242ONDOUSDT_2025-02-28_22-47-09.png', '2025-03-09 01:00:42', '2025-03-09 06:46:13', NULL, 1),
+(8, 'mencoba baru', 'mencoba-baru', 1, 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'public/uploads/posts/1741528134ONDOUSDT.P_2025-03-02_20-50-14.png', '2025-03-09 06:48:54', '2025-03-09 06:51:28', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -223,7 +227,14 @@ INSERT INTO `post_tag` (`id`, `post_id`, `tag_id`, `created_at`, `updated_at`) V
 (10, 4, 1, NULL, NULL),
 (11, 4, 2, NULL, NULL),
 (12, 4, 3, NULL, NULL),
-(13, 5, 2, NULL, NULL);
+(13, 5, 2, NULL, NULL),
+(15, 7, 1, NULL, NULL),
+(16, 7, 2, NULL, NULL),
+(17, 7, 3, NULL, NULL),
+(18, 6, 3, NULL, NULL),
+(19, 8, 1, NULL, NULL),
+(20, 8, 2, NULL, NULL),
+(21, 8, 3, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -245,7 +256,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('vLtVYIRgD6F6Vnxb23eyV11ZeDBCKk4UrK5SmWof', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiRldqb1FDanNEQ0Vhcm1vTjR0Sm1icmo0bGNyVlJRdlF5QjZ2aXR4eiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjA6e31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6NDoiYXV0aCI7YToxOntzOjIxOiJwYXNzd29yZF9jb25maXJtZWRfYXQiO2k6MTc0MTQ3NDY4NTt9fQ==', 1741475971);
+('OX3XClVFbfHsrp8LrTmFocJJzZ4qWVUBbmYFnJ3L', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiNjJnZkJPVzZwdVBYQW5VT3JiU0RzT2xQZDd3R0I2MURoam5XVE1sTSI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjIxOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6NDoiYXV0aCI7YToxOntzOjIxOiJwYXNzd29yZF9jb25maXJtZWRfYXQiO2k6MTc0MTUyNzkwODt9fQ==', 1741536229);
 
 -- --------------------------------------------------------
 
@@ -395,7 +406,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -419,13 +430,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `posts`
 --
 ALTER TABLE `posts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `post_tag`
 --
 ALTER TABLE `post_tag`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `tags`
