@@ -1,7 +1,22 @@
-@extends('layouts.app')
+@extends('template.index')
 
 @section('content')
-<div class="container">
+<section class="mb-30px">
+    <div class="container">
+        <div class="hero-banner hero-banner--sm">
+            <div class="hero-banner__content">
+                <h1>Membership</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url('/') }}">Beranda</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Daftar</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container mb-4">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -63,7 +78,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="button button--active button-contactForm">
                                     {{ __('Register') }}
                                 </button>
                             </div>

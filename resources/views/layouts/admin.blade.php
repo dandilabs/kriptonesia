@@ -168,6 +168,13 @@
         <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
         <!-- Select2 -->
         <script src="{{asset('admin/plugins/select2/js/select2.full.min.js')}}"></script>
+        <!-- CKEditor -->
+        <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
+        <script>
+            $(document).ready(function() {
+                CKEDITOR.replace('content'); // Pastikan ID sesuai dengan textarea
+            });
+        </script>
         {{-- <script src="{{ asset('admin/plugins/datatables/jquery.dataTables.min.js') }}"></script>
         <script src="{{ asset('admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
         <script src="{{ asset('admin/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>

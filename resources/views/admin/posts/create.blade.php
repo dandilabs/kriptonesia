@@ -75,7 +75,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Content</label>
-                                    <textarea name="content" class="form-control" id="summernote"></textarea>
+                                    <textarea name="content" class="form-control" id="content"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Image</label>

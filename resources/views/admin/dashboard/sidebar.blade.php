@@ -26,7 +26,7 @@ with font-awesome or any other icon font library -->
             </ul>
         </li> --}}
         <li class="nav-item">
-            <a href="/home" class="nav-link">
+            <a href="/admin/home" class="nav-link">
                 <i class="nav-icon fas fa-tachometer-alt"></i>
                 <p>
                     Dashboard

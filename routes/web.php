@@ -23,7 +23,7 @@ Route::get('/list-category/{category}', [BlogController::class,'list_category'])
 //     return view('blog.isi_post');
 // });
 
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => 'auth','prefix' => 'admin'], function() {
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::resource('/category', CategoryController::class);

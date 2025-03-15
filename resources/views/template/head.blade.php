@@ -25,7 +25,7 @@
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container box_1620">
                     <!-- Brand and toggle get grouped for better mobile display -->
-                    <a class="navbar-brand logo_h" href="{{ url('/') }}"><img src="{{ asset('assets/img/logo.png') }}"
+                    <a class="navbar-brand logo_h" href="{{ url('/') }}"><img src="{{ asset('assets/img/kriptonesia.png') }}"
                             alt=""></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -37,18 +37,49 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav justify-content-center">
-                            <li class="nav-item active"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="archive.html">Archive</a></li>
-                            <li class="nav-item"><a class="nav-link" href="category.html">Category</a>
+                            <li class="nav-item active"><a class="nav-link" href="{{ url('/') }}">Beranda</a></li>
+                            <li class="nav-item"><a class="nav-link" href="archive.html">Artikel</a></li>
+                            <li class="nav-item"><a class="nav-link" href="category.html">Panduan & Strategi</a>
+                            <li class="nav-item"><a class="nav-link" href="contact.html">Tentang Kami</a></li>
+                            <li class="nav-item"><a class="nav-link" href="contact.html">Kontak</a></li>
+                            {{-- <li class="nav-item submenu dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+                                    aria-haspopup="true" aria-expanded="false">Membership</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a class="nav-link" href="blog-details.html">Masuk</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="blog-details.html">Daftar</a></li>
+                                </ul>
+                            </li> --}}
                             <li class="nav-item submenu dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-                                    aria-haspopup="true" aria-expanded="false">Pages</a>
+                                    aria-haspopup="true" aria-expanded="false">Membership</a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="blog-details.html">Blog Details</a>
-                                    </li>
+                                    @guest
+                                        @if (Route::has('login'))
+                                            <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Masuk</a></li>
+                                        @endif
+                                        @if (Route::has('register'))
+                                            <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Daftar</a></li>
+                                        @endif
+                                    @else
+                                        <li class="nav-item">
+                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false">
+                                                {{ Auth::user()->name }}
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                    Logout
+                                                </a>
+                                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                                    @csrf
+                                                </form>
+                                            </div>
+                                        </li>
+                                    @endguest
                                 </ul>
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right navbar-social">
                             <li><a href="#"><i class="ti-facebook"></i></a></li>
