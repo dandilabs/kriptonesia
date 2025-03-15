@@ -68,9 +68,19 @@
                                                 {{ Auth::user()->name }}
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                                <!-- Cek role user -->
+                                                @if (Auth::user()->role == 1) <!-- Admin -->
+                                                    <a class="dropdown-item" href="{{ url('/admin/home') }}">
+                                                        <i class="nav-icon fas fa-tachometer-alt"></i> Dashboard Admin
+                                                    </a>
+                                                    @elseif (Auth::user()->role == 0) <!-- Member -->
+                                                    <a class="dropdown-item" href="{{ url('/member/home') }}">
+                                                        <i class="nav-icon fas fa-user"></i> Dashboard Member
+                                                    </a>
+                                                @endif
                                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                    Logout
+                                                    <i class="nav-icon fas fa-sign-out-alt"></i> Logout
                                                 </a>
                                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                                     @csrf

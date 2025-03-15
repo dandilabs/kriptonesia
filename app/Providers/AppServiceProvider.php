@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\ServiceProvider;
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\MemberMiddleware;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // Paginator::useBootstrapFive();
+        Route::middlewareGroup('admin', [AdminMiddleware::class]);
+        Route::middlewareGroup('member', [MemberMiddleware::class]);
         Paginator::useBootstrap();
     }
 }

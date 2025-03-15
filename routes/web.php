@@ -8,8 +8,8 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
-
-
+use App\Http\Controllers\MemberTradeController;
+use App\Http\Controllers\SignalTradeController;
 
 Auth::routes();
 // Route::get('/', 'BlogController@index');
@@ -23,7 +23,7 @@ Route::get('/list-category/{category}', [BlogController::class,'list_category'])
 //     return view('blog.isi_post');
 // });
 
-Route::group(['middleware' => 'auth','prefix' => 'admin'], function() {
+Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function() {
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::resource('/category', CategoryController::class);
@@ -34,9 +34,15 @@ Route::group(['middleware' => 'auth','prefix' => 'admin'], function() {
     Route::delete('/post/delete/{id}', [PostController::class, 'delete'])->name('post.delete');
     Route::resource('/post', PostController::class);
     Route::resource('/user', UserController::class);
+    Route::resource('/signal-trade', SignalTradeController::class);
 
 });
 
+Route::group(['middleware' => ['auth', 'member'], 'prefix' => 'member'], function() {
+    Route::get('/home', [App\Http\Controllers\MemberController::class, 'index'])->name('member.home');
+    Route::get('/signal-trade', [MemberTradeController::class, 'index'])->name('trade.index');
+    // Route::get('/profile', [App\Http\Controllers\MemberController::class, 'profile'])->name('member.profile');
+});
 
 
 

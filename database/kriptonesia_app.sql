@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2025 at 05:05 PM
+-- Generation Time: Mar 15, 2025 at 05:47 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -153,7 +153,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (9, '2025_03_07_064736_create_post_tag_table', 5),
 (10, '2025_03_07_130322_create_soft_deleted_posts', 6),
 (11, '2025_03_08_182206_create_field_users_post', 7),
-(12, '2025_03_08_184449_create_field_users_role', 8);
+(12, '2025_03_08_184449_create_field_users_role', 8),
+(13, '2025_03_15_142053_create_trade_signals_table', 9);
 
 -- --------------------------------------------------------
 
@@ -256,7 +257,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('OX3XClVFbfHsrp8LrTmFocJJzZ4qWVUBbmYFnJ3L', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiNjJnZkJPVzZwdVBYQW5VT3JiU0RzT2xQZDd3R0I2MURoam5XVE1sTSI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjIxOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6NDoiYXV0aCI7YToxOntzOjIxOiJwYXNzd29yZF9jb25maXJtZWRfYXQiO2k6MTc0MTUyNzkwODt9fQ==', 1741536229);
+('f7CxG6th1xIe8pNtxs4yPKHsoDwZdW5P4NTKMt23', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiQjJSYUFlNTFHV05nbkhuRkVVVkJ6VTRHUzlsbmdNOGl6S0tDaWRJRSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yZWdpc3RlciI7fX0=', 1742057194);
 
 -- --------------------------------------------------------
 
@@ -280,6 +281,30 @@ INSERT INTO `tags` (`id`, `name`, `slug`, `created_at`, `updated_at`) VALUES
 (1, 'Penelope Whitney', 'Penelope-Whitney', NULL, NULL),
 (2, 'Julia Powell', 'julia-powell', NULL, '2025-03-06 08:49:58'),
 (3, 'Clifford Wade', 'clifford-wade', '2025-03-06 08:47:12', '2025-03-06 08:47:12');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `trade_signals`
+--
+
+CREATE TABLE `trade_signals` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `trade_signals`
+--
+
+INSERT INTO `trade_signals` (`id`, `name`, `content`, `image`, `created_at`, `updated_at`) VALUES
+(1, 'Bitcoin', 'long setup, timeframe 1H ', 'sasd.png', NULL, NULL),
+(2, 'ETH', 'Long setup', 'eth.png', NULL, NULL),
+(3, 'Doge', 'long setup', 'sad.png', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -392,6 +417,12 @@ ALTER TABLE `tags`
   ADD UNIQUE KEY `tags_name_unique` (`name`);
 
 --
+-- Indexes for table `trade_signals`
+--
+ALTER TABLE `trade_signals`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -424,7 +455,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `posts`
@@ -443,6 +474,12 @@ ALTER TABLE `post_tag`
 --
 ALTER TABLE `tags`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `trade_signals`
+--
+ALTER TABLE `trade_signals`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
