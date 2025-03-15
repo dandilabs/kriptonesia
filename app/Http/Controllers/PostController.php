@@ -48,7 +48,7 @@ class PostController extends Controller
         $post = Post::create([
             'judul'         => $request->judul,
             'slug'          => Str::slug($request->judul),
-            'categories_id' => $request->categories_id,
+            'categories_id'   => $request->categories_id,
             'content'       => $request->content,
             'image'         => 'public/uploads/posts/'. $new_image,
             'users_id'      => Auth::id()
@@ -87,7 +87,7 @@ class PostController extends Controller
     {
         $validasi = $request->validate([
             'judul'         => 'required|min:3',
-            'categories_id' => 'required',
+            'categories_id'   => 'required',
             'content'       => 'required',
         ]);
 

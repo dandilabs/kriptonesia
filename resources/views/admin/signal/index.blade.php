@@ -52,9 +52,9 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->name }}</td>
-                                            <td>{{ $item->content }}</td>
+                                            <td>{!! $item->content !!}</td>
                                             <td>
-                                                <img src="{{asset($item->image)}}" class="img-fluid mb-2" style="width: 250px" alt="">
+                                                <img src="{{asset($item->image)}}" class="img-fluid mb-2" style="width: 600px" alt="">
                                             </td>
                                             <td class="project-actions text-center">
                                                 <form action="{{route('signal-trade.destroy', $item->id )}}" method="post">

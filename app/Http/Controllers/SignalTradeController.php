@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TradeSignal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SignalTradeController extends Controller
 {
@@ -21,7 +22,7 @@ class SignalTradeController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.signal.create');
     }
 
     /**
@@ -29,7 +30,25 @@ class SignalTradeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validasi = $request->validate([
+            'name'          => 'required|min:3',
+            'content'       => 'required',
+            'image'         => 'required'
+        ]);
+
+        $image_data = $request->image;
+        $new_image = time().$image_data->getClientOriginalName();
+
+        $trade = TradeSignal::create([
+            'name'          => $request->name,
+            'content'       => $request->content,
+            'image'         => 'public/uploads/trade/'. $new_image,
+            'users_id'      => Auth::id()
+        ]);
+
+        $image_data->move('public/uploads/trade/', $new_image);
+
+        return redirect()->route('signal-trade.index')->with('success', 'Signal create successfully');
     }
 
     /**

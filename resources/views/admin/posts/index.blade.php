@@ -55,13 +55,13 @@
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->judul }}</td>
-                                            <td>{{ $item->category->name }}</td>
+                                            <td>{{ $item->categories->name }}</td>
                                             <td>
                                                 @foreach ($item->tags as $tag)
                                                     <span class="badge badge-success">{{ $tag->name }}</span>
                                                 @endforeach
                                             </td>
-                                            <td>{{ $item->content }}</td>
+                                            <td>{!! $item->content !!}</td>
                                             <td>
                                                 <img src="{{asset($item->image)}}" class="img-fluid mb-2" style="width: 250px" alt="">
                                             </td>

@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Post extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['judul','slug','category_id','content','image','tags','users_id'];
+    protected $fillable = ['judul','slug','categories_id','content','image','tags','users_id'];
 
-    public function category(){
+    public function categories(){
         return $this->belongsTo(Category::class);
     }
 
