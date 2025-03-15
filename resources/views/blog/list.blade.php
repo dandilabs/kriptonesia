@@ -38,7 +38,7 @@
                                     @endif
                                 @endforeach
                             </p>
-                            <p class="text-justify">{{ $list->content }}</p>
+                            <p class="text-justify">{!! $list->content !!}</p>
                             <a class="button" href="{{ route('blog.isi', $list->slug) }}">Read More <i class="ti-arrow-right"></i></a>
                         </div>
                     </div>

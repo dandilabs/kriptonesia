@@ -30,7 +30,7 @@
                         </a>
                         <div class="user_details">
                             <div class="float-left">
-                                <a href="#">{{ $isi_post->categories->name }}</a>
+                                <a href="#">{{ $isi_post->category->name }}</a>
                                 {{-- @foreach ($isi_post->categories as $category)
                                     <a href="#">{{ $category->name }}</a>
                                 @endforeach --}}
@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="text-justify">{{ $isi_post->content }}</p>
+                        <p class="text-justify">{!! $isi_post->content !!}</p>
                         {{-- <blockquote class="blockquote">
                             <p class="mb-0">MCSE boot camps have its supporters and its detractors. Some people do not
                                 understand why you should have to spend money on boot camp when you can get the MCSE study
