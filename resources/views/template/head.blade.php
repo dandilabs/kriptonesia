@@ -41,7 +41,7 @@
                             <li class="nav-item {{ Request::is('artikel') ? 'active' : '' }} "><a class="nav-link" href="{{route('blog.artikel')}}">Artikel</a></li>
                             <li class="nav-item {{ Request::is('panduan') ? 'active' : '' }} "><a class="nav-link" href="#">Panduan & Strategi</a>
                             <li class="nav-item {{ Request::is('tentang-kami') ? 'active' : '' }} "><a class="nav-link" href="{{url('/tentang-kami')}}">Tentang Kami</a></li>
-                            <li class="nav-item {{ Request::is('kontak') ? 'active' : '' }} "><a class="nav-link" href="#">Kontak</a></li>
+                            <li class="nav-item {{ Request::is('kontak') ? 'active' : '' }} "><a class="nav-link" href="{{url('/kontak')}}">Kontak</a></li>
                             {{-- <li class="nav-item submenu dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                                     aria-haspopup="true" aria-expanded="false">Membership</a>

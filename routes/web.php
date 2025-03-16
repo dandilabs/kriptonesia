@@ -17,6 +17,9 @@ Route::get('/', [BlogController::class, 'index']);
 Route::get('/tentang-kami', function () {
     return view('blog.tentang');
 });
+Route::get('/kontak', function () {
+    return view('blog.kontak');
+});
 Route::get('/artikel', [BlogController::class, 'artikel'])->name('blog.artikel');
 Route::get('/detail-post/{slug}', [BlogController::class,'isi_post'])->name('blog.isi');
 Route::get('/list-post/{slug}', [BlogController::class,'list_post'])->name('blog.list');
