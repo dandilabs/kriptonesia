@@ -1,27 +1,30 @@
 @extends('template.index')
 @section('title')
-    Beranda
+    Artikel
 @endsection
 @section('content')
-<!--================Hero Banner start =================-->
-<section class="mb-30px">
-    <div class="container">
-        <div class="hero-banner">
-            <div class="hero-banner__content">
-                <h3>Crypto Market Insights: Apa yang Harus Diketahui Hari Ini?</h3>
-                <h2>Berita, analisis, dan tren terbaru untuk membantu Anda tetap selangkah lebih maju.</h2>
-                <h4>{{ \Carbon\Carbon::now()->format('F d, Y') }}</h4>
+    <!--================Hero Banner start =================-->
+    <section class="mb-30px">
+        <div class="container">
+            <div class="hero-banner hero-banner--sm">
+                <div class="hero-banner__content">
+                    <h1>Artikel</h1>
+                    <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ url('/') }}">Beranda</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Artikel</li>
+                        </ol>
+                    </nav>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-<!--================Hero Banner end =================-->
+    </section>
     <section class="blog-post-area section-margin">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
                     <div class="row">
-                        @foreach ($data as $item)
+                        @foreach ($data_artikel as $item)
                             <div class="col-md-6">
                                 <div class="single-recent-blog-post card-view">
                                     <div class="thumb">
@@ -54,7 +57,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <nav class="blog-pagination justify-content-center d-flex">
-                                {{ $data->links() }}
+                                {{ $data_artikel->links() }}
                                 {{-- <ul class="pagination">
                                     <li class="page-item">
                                         <a href="#" class="page-link" aria-label="Previous">

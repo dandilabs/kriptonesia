@@ -30,7 +30,22 @@ class BlogController extends Controller
 
     public function list_category(Category $category) {
         $category_sidebar = Category::all();
-        $data = $category->posts()->paginate(3);
+        $data = $category->posts()->paginate(1);
         return view('blog.list', compact('category_sidebar','data'));
+    }
+
+    public function artikel(Request $request){
+        // List kategori yang ingin ditampilkan
+        $categoryNames = ['Dasar-dasar Crypto', 'Analisis Pasar', 'Berita & Update','Review & Rekomendasi'];
+        // Ambil ID dari kategori yang sesuai dengan nama kategori
+        $category_data = Category::whereIn('name', $categoryNames)->pluck('id');
+
+        // Jika kategori tidak ditemukan, return error
+        if ($category_data->isEmpty()) {
+            return abort(404, 'Kategori tidak ditemukan');
+        }
+        $category_sidebar = Category::all();
+        $data_artikel = Post::whereIn('category_id', $category_data)->latest()->paginate(10);
+        return view('blog.artikel', compact('category_sidebar', 'data_artikel','categoryNames'));
     }
 }

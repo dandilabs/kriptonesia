@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Kriptonesia - Home</title>
+    <title>Kriptonesia - @yield('title')</title>
     <link rel="icon" href="{{ asset('assets/img/Fevicon.png') }}" type="image/png">
 
     <link rel="stylesheet" href="{{ asset('assets/vendors/bootstrap/bootstrap.min.css') }}">
@@ -37,11 +37,11 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav justify-content-center">
-                            <li class="nav-item active"><a class="nav-link" href="{{ url('/') }}">Beranda</a></li>
-                            <li class="nav-item"><a class="nav-link" href="archive.html">Artikel</a></li>
-                            <li class="nav-item"><a class="nav-link" href="category.html">Panduan & Strategi</a>
-                            <li class="nav-item"><a class="nav-link" href="contact.html">Tentang Kami</a></li>
-                            <li class="nav-item"><a class="nav-link" href="contact.html">Kontak</a></li>
+                            <li class="nav-item {{ Request::is('/') ? 'active' : '' }} "><a class="nav-link" href="{{ url('/') }}">Beranda</a></li>
+                            <li class="nav-item {{ Request::is('artikel') ? 'active' : '' }} "><a class="nav-link" href="{{route('blog.artikel')}}">Artikel</a></li>
+                            <li class="nav-item {{ Request::is('panduan') ? 'active' : '' }} "><a class="nav-link" href="#">Panduan & Strategi</a>
+                            <li class="nav-item {{ Request::is('tentang-kami') ? 'active' : '' }} "><a class="nav-link" href="{{url('/tentang-kami')}}">Tentang Kami</a></li>
+                            <li class="nav-item {{ Request::is('kontak') ? 'active' : '' }} "><a class="nav-link" href="#">Kontak</a></li>
                             {{-- <li class="nav-item submenu dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                                     aria-haspopup="true" aria-expanded="false">Membership</a>
