@@ -7,6 +7,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MemberTradeController;
 use App\Http\Controllers\SignalTradeController;
@@ -24,6 +25,7 @@ Route::get('/artikel', [BlogController::class, 'artikel'])->name('blog.artikel')
 Route::get('/detail-post/{slug}', [BlogController::class,'isi_post'])->name('blog.isi');
 Route::get('/list-post/{slug}', [BlogController::class,'list_post'])->name('blog.list');
 Route::get('/list-category/{category}', [BlogController::class,'list_category'])->name('blog.category');
+Route::post('/payment/create', [PaymentController::class, 'create'])->name('payment.create');
 // Route::get('/', [BlogController::class,'index'])->name('blog');
 
 // Route::get('/isi_post', function () {

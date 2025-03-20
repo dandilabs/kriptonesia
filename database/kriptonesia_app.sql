@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 16, 2025 at 10:43 AM
+-- Generation Time: Mar 20, 2025 at 06:48 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -158,7 +158,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (10, '2025_03_07_130322_create_soft_deleted_posts', 6),
 (11, '2025_03_08_182206_create_field_users_post', 7),
 (12, '2025_03_08_184449_create_field_users_role', 8),
-(13, '2025_03_15_142053_create_trade_signals_table', 9);
+(13, '2025_03_15_142053_create_trade_signals_table', 9),
+(15, '2025_03_20_172607_add_membership_to_users_table', 10);
 
 -- --------------------------------------------------------
 
@@ -252,7 +253,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('BtetzwG92ki0DrsMsLR6htZhWMQF6O4YFZFiIlaM', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiWjFLa21UT2hkWUpyVEVrM1NtbWV2UjN4N2dKUjdvY0ZQQklQN0tkSyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC90ZW50YW5nLWthbWkiO319', 1742117911);
+('G0kBI16brbfAopoRRHx0XawzxgmECwumnqUoAPcR', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiaGp6SlF0N0ZGeHh2b2tBQ2lRTGdOQTNKUUdnd3N1QnZXSGRPUXFmbiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9yZWdpc3RlciI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1742492846);
 
 -- --------------------------------------------------------
 
@@ -316,6 +317,8 @@ CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `membership_type` varchar(255) NOT NULL,
+  `payment_status` varchar(255) NOT NULL DEFAULT 'pending',
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `remember_token` varchar(100) DEFAULT NULL,
@@ -328,9 +331,9 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`) VALUES
-(1, 'Dandi Hermawan', 'dandihermawan87@gmail.com', NULL, '$2y$12$3lJN/faVYFzzMEPNcQonD.0PDThARRU1QMS9LnBeIS54nEcIbAjG2', NULL, '2025-03-08 10:25:29', '2025-03-08 10:25:29', 1),
-(2, 'Hikmatul Hasanah', 'hikmah@gmail.com', NULL, '$2y$12$l7HaB3930u/8JP0goz44vOJZfbRnLEOXaO/QBXX5L8/IxHNjHim9i', NULL, '2025-03-08 11:33:59', '2025-03-08 11:33:59', 0);
+INSERT INTO `users` (`id`, `name`, `email`, `membership_type`, `payment_status`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`) VALUES
+(1, 'Dandi Hermawan', 'dandihermawan87@gmail.com', '', 'pending', NULL, '$2y$12$3lJN/faVYFzzMEPNcQonD.0PDThARRU1QMS9LnBeIS54nEcIbAjG2', NULL, '2025-03-08 10:25:29', '2025-03-08 10:25:29', 1),
+(2, 'Hikmatul Hasanah', 'hikmah@gmail.com', '', 'pending', NULL, '$2y$12$l7HaB3930u/8JP0goz44vOJZfbRnLEOXaO/QBXX5L8/IxHNjHim9i', NULL, '2025-03-08 11:33:59', '2025-03-08 11:33:59', 0);
 
 --
 -- Indexes for dumped tables
@@ -455,7 +458,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `posts`
