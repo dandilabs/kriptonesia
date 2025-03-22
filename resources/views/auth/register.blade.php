@@ -1,7 +1,7 @@
 @extends('template.index')
 
 @section('title')
-    Membership
+    Daftar Akun
 @endsection
 
 @section('content')
@@ -9,7 +9,7 @@
     <div class="container">
         <div class="hero-banner hero-banner--sm">
             <div class="hero-banner__content">
-                <h1>Membership</h1>
+                <h1>Daftar Akun</h1>
                 <nav aria-label="breadcrumb" class="banner-breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ url('/') }}">Beranda</a></li>
@@ -20,82 +20,71 @@
         </div>
     </div>
 </section>
+
 <div class="container mb-4">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Daftar membership') }}</div>
+                <div class="card-header">Daftar Akun</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
                         <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Nama') }}</label>
-
+                            <label for="name" class="col-md-4 col-form-label text-md-end">Nama</label>
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required>
                             </div>
                         </div>
 
                         <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email') }}</label>
-
+                            <label for="email" class="col-md-4 col-form-label text-md-end">Email</label>
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
                             </div>
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
+                            <label for="password" class="col-md-4 col-form-label text-md-end">Password</label>
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                                <input id="password" type="password" class="form-control" name="password" required>
                             </div>
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Konfirmasi Password') }}</label>
-
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">Konfirmasi Password</label>
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>
 
                         <div class="row mb-3">
-                            <label for="membership" class="col-md-4 col-form-label text-md-end">Pilih Membership</label>
+                            <label for="membership" class="col-md-4 col-form-label text-md-end">Pilih Paket</label>
                             <div class="col-md-6">
-                                <select id="membership" class="form-control" name="membership_type" required>
-                                    <option value="1_bulan">1 Bulan - Rp250.000</option>
-                                    <option value="3_bulan">3 Bulan - Rp500.000</option>
-                                    <option value="6_bulan">6 Bulan - Rp1.500.000</option>
-                                    <option value="lifetime">Lifetime - Rp3.000.000</option>
+                                <select id="membership" class="form-control" name="membership_type">
+                                    <option value="free">Hanya Daftar</option>
+                                    <optgroup label="Langganan News">
+                                        <option value="news_1hari">News - 1 Hari (Rp5.000)</option>
+                                        <option value="news_1bulan">News - 1 Bulan (Rp50.000)</option>
+                                        <option value="news_3bulan">News - 3 Bulan (Rp120.000)</option>
+                                        <option value="news_6bulan">News - 6 Bulan (Rp200.000)</option>
+                                        <option value="news_lifetime">News - Lifetime (Rp500.000)</option>
+                                    </optgroup>
+                                    <optgroup label="Membership Full Akses">
+                                        <option value="membership_1bulan">1 Bulan - Rp250.000</option>
+                                        <option value="membership_3bulan">3 Bulan - Rp500.000</option>
+                                        <option value="membership_6bulan">6 Bulan - Rp1.500.000</option>
+                                        <option value="membership_lifetime">Lifetime - Rp3.000.000</option>
+                                    </optgroup>
                                 </select>
                             </div>
                         </div>
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="button" id="pay-button" class="button button--active button-contactForm">
-                                    Bayar Sekarang
+                                <button type="submit" class="button button--active button-contactForm">
+                                    Daftar Sekarang
                                 </button>
                             </div>
                         </div>
@@ -106,44 +95,3 @@
     </div>
 </div>
 @endsection
-
-@push('js')
-
-<script>
-    document.getElementById('pay-button').onclick = function () {
-    let membership = document.getElementById('membership').value;
-    let price = membership === "1_bulan" ? 250000 :
-                membership === "3_bulan" ? 500000 :
-                membership === "6_bulan" ? 1500000 : 3000000;
-
-    fetch("{{ route('payment.create') }}", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-        },
-        body: JSON.stringify({
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            membership_type: membership,
-            price: price // Harga tanpa biaya layanan
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        snap.pay(data.snap_token, {
-            onSuccess: function(result) {
-                alert('Pembayaran sukses!');
-                window.location.href = "{{ url('/membership/success') }}";
-            },
-            onPending: function(result) {
-                alert('Menunggu pembayaran...');
-            },
-            onError: function(result) {
-                alert('Pembayaran gagal!');
-            }
-        });
-    });
-};
-</script>
-@endpush

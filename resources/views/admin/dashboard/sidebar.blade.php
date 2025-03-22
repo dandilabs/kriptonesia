@@ -134,6 +134,12 @@ with font-awesome or any other icon font library -->
             </ul>
         </li>
         <li class="nav-item">
+            <a href="{{ route('admin.payments') }}" class="nav-link {{ request()->is('admin/payments') ? 'active' : '' }}">
+                <i class="nav-icon fas fa-money-check-alt"></i>
+                <p>Payments</p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="nav-link">
                 <i class="nav-icon fas fa-sign-out-alt"></i>
                 <p>

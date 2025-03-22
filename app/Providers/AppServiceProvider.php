@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Observers\PaymentObserver;
+use App\Models\PaymentConfirmation;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         // Paginator::useBootstrapFive();
         Route::middlewareGroup('admin', [AdminMiddleware::class]);
         Route::middlewareGroup('member', [MemberMiddleware::class]);
+        PaymentConfirmation::observe(PaymentObserver::class);
         Paginator::useBootstrap();
     }
 }

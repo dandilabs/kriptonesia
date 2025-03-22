@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TagController;
@@ -11,6 +10,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MemberTradeController;
 use App\Http\Controllers\SignalTradeController;
+use App\Http\Controllers\PaymentAdminController;
 
 Auth::routes();
 // Route::get('/', 'BlogController@index');
@@ -22,18 +22,26 @@ Route::get('/kontak', function () {
     return view('blog.kontak');
 });
 Route::get('/artikel', [BlogController::class, 'artikel'])->name('blog.artikel');
-Route::get('/detail-post/{slug}', [BlogController::class,'isi_post'])->name('blog.isi');
-Route::get('/list-post/{slug}', [BlogController::class,'list_post'])->name('blog.list');
-Route::get('/list-category/{category}', [BlogController::class,'list_category'])->name('blog.category');
-Route::post('/payment/create', [PaymentController::class, 'create'])->name('payment.create');
+Route::get('/detail-post/{slug}', [BlogController::class, 'isi_post'])->name('blog.isi');
+Route::get('/list-post/{slug}', [BlogController::class, 'list_post'])->name('blog.list');
+Route::get('/list-category/{category}', [BlogController::class, 'list_category'])->name('blog.category');
+Route::get('/payment/confirm', [PaymentController::class, 'showConfirmationForm'])->name('payment.confirm');
+Route::post('/payment/confirm', [PaymentController::class, 'processConfirmation'])->name('payment.confirm.process');
+// Route::get('/payment/confirm', function () {
+//     return "Route berhasil diakses!";
+// });
+
+// Route::get('/payment/confirm', function () {
+//     return app()->make(App\Http\Controllers\PaymentController::class)->showConfirmationForm(request());
+// });
+
 // Route::get('/', [BlogController::class,'index'])->name('blog');
 
 // Route::get('/isi_post', function () {
 //     return view('blog.isi_post');
 // });
 
-Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function() {
-
+Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::resource('/category', CategoryController::class);
     Route::resource('/tag', TagController::class);
@@ -44,14 +52,12 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function(
     Route::resource('/post', PostController::class);
     Route::resource('/user', UserController::class);
     Route::resource('/signal-trade', SignalTradeController::class);
-
+    Route::get('/payments', [PaymentAdminController::class, 'index'])->name('admin.payments');
+    Route::post('/payments/update/{id}', [PaymentAdminController::class, 'updateStatus'])->name('admin.payments.update');
 });
 
-Route::group(['middleware' => ['auth', 'member'], 'prefix' => 'member'], function() {
+Route::group(['middleware' => ['auth', 'member'], 'prefix' => 'member'], function () {
     Route::get('/home', [App\Http\Controllers\MemberController::class, 'index'])->name('member.home');
     Route::get('/signal-trade', [MemberTradeController::class, 'index'])->name('trade.index');
     // Route::get('/profile', [App\Http\Controllers\MemberController::class, 'profile'])->name('member.profile');
 });
-
-
-

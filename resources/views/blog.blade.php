@@ -11,6 +11,7 @@
                 <h3>Crypto Market Insights: Apa yang Harus Diketahui Hari Ini?</h3>
                 <h2>Berita, analisis, dan tren terbaru untuk membantu Anda tetap selangkah lebih maju.</h2>
                 <h4>{{ \Carbon\Carbon::now()->format('F d, Y') }}</h4>
+                {{-- {{ dd(Auth::user()->membership_type) }} --}}
             </div>
         </div>
     </div>
