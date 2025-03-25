@@ -30,7 +30,7 @@
                 {{-- <p><strong>Jumlah yang harus dibayar:</strong> Rp{{ number_format($amount, 0, ',', '.') }}</p> --}}
                 <p><strong>Biaya Layanan:</strong> {{ number_format($biayaLayananUsd, 2) }} USDT </p>
                 <p><strong>Pajak (10%):</strong> {{ number_format($pajakUsd, 2) }} USDT</p>
-                <p><strong>Total Bayar (IDR):</strong> Rp{{ number_format($totalBayar, 0, ',', '.') }}</p>
+                {{-- <p><strong>Total Bayar (IDR):</strong> Rp{{ number_format($totalBayar, 0, ',', '.') }}</p> --}}
                 {{-- <p><strong>Kurs USDT saat ini:</strong> Rp{{ number_format($usdRate, 0, ',', '.') }}</p> --}}
                 <p><strong>Total Bayar dalam USDT:</strong> {{ number_format($totalBayarUsd, 2) }} USDT</p>
 
@@ -39,6 +39,7 @@
                 <h5>Alamat USDT:</h5>
                 <p><strong>Jaringan:</strong> BSC (BEP20)</p>
                 <p><strong>Alamat:</strong> 0x9a06d02e720879eea41779723698902f01cb3ec6</p>
+                <p id="payment-timer" style="color: red; font-weight: bold;"></p>
                 {{-- <p><strong>Atas Nama:</strong> PT. Crypto Indonesia</p> --}}
                 <hr>
 
@@ -67,3 +68,23 @@
         </div>
     </div>
 @endsection
+<script>
+    // Timer 5 menit
+    let timeLeft = 300; // 5 menit dalam detik
+    const timerDisplay = document.getElementById('payment-timer');
+
+    function updateTimer() {
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+        timerDisplay.innerHTML = `Selesaikan pembayaran dalam ${minutes}:${seconds < 10 ? '0' : ''}${seconds} menit`;
+        if (timeLeft > 0) {
+            timeLeft--;
+            setTimeout(updateTimer, 1000);
+        } else {
+            // Jika waktu habis, redirect ke halaman transaksi sebelumnya
+            window.location.href = "{{ route('payment.history') }}";
+        }
+    }
+
+    updateTimer();
+</script>

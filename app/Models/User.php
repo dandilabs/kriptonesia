@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
         'role',
         'membership_type',
+        'expired_at',
         'payment_status'
     ];
 

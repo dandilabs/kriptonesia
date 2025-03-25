@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\PaymentConfirmation;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Auth\RegisterController;
@@ -37,7 +38,6 @@ class PaymentController extends Controller
         }
 
         $paymentType = $request->payment_type ?? 'membership'; // **Pastikan variabel ini ada**
-        // $payment = PaymentConfirmation::where('user_id', $user->id)->where('payment_type', $request->payment_type)->where('status', 'pending')->latest()->first();
         $payment = PaymentConfirmation::where('user_id', $user->id)
             ->where('payment_type', $request->payment_type)
             ->where('status', 'pending')
@@ -106,30 +106,38 @@ class PaymentController extends Controller
 
         $user = User::findOrFail($request->user_id);
 
-        // **Cari data pembayaran yang sudah ada (pending)**
-        $payment = PaymentConfirmation::where('user_id', $user->id)->where('payment_type', $request->payment_type)->where('status', 'pending')->first();
+        $payment = PaymentConfirmation::updateOrCreate(
+            [
+                'user_id' => $user->id,
+                'payment_type' => $request->payment_type,
+                'status' => 'pending',
+            ],
+            [
+                'amount' => $request->amount,
+                'proof' => $this->storeProof($request->file('proof')),
+            ],
+        );
 
-        // Jika tidak ada, buat baru
-        if (!$payment) {
-            $payment = new PaymentConfirmation();
-            $payment->user_id = $user->id;
-            $payment->payment_type = $request->payment_type;
-            $payment->amount = $request->amount;
-            $payment->status = 'pending';
-        }
+        // Update user status
+        $user->payment_status = 'pending';
+        $user->save();
 
-        // **Pindahkan file ke public/uploads/bukti/**
-        $proofFile = $request->file('proof');
-        $proofName = time() . '_' . $proofFile->getClientOriginalName(); // Nama unik
-        $proofFile->move(public_path('uploads/bukti'), $proofName);
+        // Logout user
+        Auth::logout();
 
-        // Path yang disimpan ke database (relatif ke public/)
-        $proofPath = 'uploads/bukti/' . $proofName;
+        return redirect('/')->with('success', 'Bukti pembayaran berhasil diupload. Silakan tunggu verifikasi admin.');
+    }
 
-        // Update atau simpan bukti transfer
-        $payment->proof = $proofPath;
-        $payment->save();
+    private function storeProof($file)
+    {
+        $proofName = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('uploads/bukti'), $proofName);
+        return 'uploads/bukti/' . $proofName;
+    }
 
-        return redirect('/')->with('success', 'Konfirmasi pembayaran terkirim. Tunggu verifikasi dari admin.');
+    public function showHistory()
+    {
+        $payments = PaymentConfirmation::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
+        return view('payment.history', compact('payments'));
     }
 }

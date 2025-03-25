@@ -21,7 +21,7 @@
             <tr>
                 <td>{{ $payment->id }}</td>
                 <td>{{ $payment->user->name }}</td>
-                <td>{{ ucfirst($payment->payment_type) }}</td>
+                <td>{{ str_replace('_', ' ', $payment->payment_type) }}</td>
                 <td>Rp{{ number_format($payment->amount, 0, ',', '.') }}</td>
                 <td>
                     @if ($payment->proof)

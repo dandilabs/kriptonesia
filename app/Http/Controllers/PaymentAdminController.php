@@ -11,8 +11,8 @@ class PaymentAdminController extends Controller
     public function index()
     {
         $payments = PaymentConfirmation::whereNotNull('proof') // Hanya yang punya bukti
-                    ->orderBy('created_at', 'desc')
-                    ->get();
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('admin.payments.index', compact('payments'));
     }
 
@@ -20,21 +20,45 @@ class PaymentAdminController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $payment = PaymentConfirmation::findOrFail($id);
-        $payment->status = 'paid'; // Ubah status pembayaran menjadi 'paid'
+        $payment->status = 'paid';
+        $expiredAt = $this->calculateExpiryDate($payment->payment_type);
+        $payment->expired_at = $expiredAt;
         $payment->save();
 
-        // **Cari user berdasarkan user_id dari pembayaran ini**
         $user = $payment->user;
+        $user->update([
+            'payment_status' => 'paid',
+            'membership_type' => $payment->payment_type,
+            'expired_at' => $expiredAt, // Pastikan nama kolomnya benar
+        ]);
 
-        // **Update membership_type berdasarkan jenis pembayaran**
-        if ($payment->payment_type == 'membership') {
-            $user->membership_type = 'membership_6bulan'; // Bisa diubah sesuai dengan sistem paketnya
-        } elseif ($payment->payment_type == 'news') {
-            $user->membership_type = 'news_lifetime'; // Bisa diubah sesuai sistem paketnya
+        return redirect()->back()->with('success', 'Status pembayaran berhasil diperbarui.');
+    }
+
+    private function calculateExpiryDate($paymentType)
+    {
+        $now = now();
+
+        if ($paymentType == 'news_1hari') {
+            return $now->addDay(); // 1 hari
+        } elseif ($paymentType == 'news_1bulan') {
+            return $now->addMonth(); // 1 bulan
+        } elseif ($paymentType == 'news_3bulan') {
+            return $now->addMonths(3); // 3 bulan
+        } elseif ($paymentType == 'news_6bulan') {
+            return $now->addMonths(6); // 6 bulan
+        } elseif ($paymentType == 'membership_1bulan') {
+            return $now->addMonth(); // 1 bulan
+        } elseif ($paymentType == 'membership_3bulan') {
+            return $now->addMonths(3); // 3 bulan
+        } elseif ($paymentType == 'membership_6bulan') {
+            return $now->addMonths(6); // 6 bulan
+        }
+        // Untuk lifetime
+        elseif (str_contains($paymentType, 'lifetime')) {
+            return $now->addYears(100); // 100 tahun
         }
 
-        $user->save(); // Simpan perubahan di tabel users
-
-        return redirect()->back()->with('success', 'Status pembayaran berhasil diperbarui dan membership user diperbarui.');
+        return $now->addDay(); // Default 1 hari
     }
 }

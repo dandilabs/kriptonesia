@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Models\PaymentConfirmation;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Support\Facades\DB;
 
 class RegisterController extends Controller
 {
@@ -31,7 +32,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -67,34 +68,26 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $membershipType = $data['membership_type'] ?? null;
-        return DB::transaction(function () use ($data, $membershipType) {
-            $user = User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-                'membership_type' => $membershipType,
-                'payment_status' => $membershipType ? 'pending' : 'free',
+        $membershipType = $data['membership_type'] ?? 'free';
+
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'membership_type' => $membershipType,
+            'payment_status' => $membershipType === 'free' ? 'free' : 'pending',
+        ]);
+
+        if ($membershipType !== 'free') {
+            PaymentConfirmation::create([
+                'user_id' => $user->id,
+                'payment_type' => $membershipType,
+                'amount' => $this->getPrice($membershipType),
+                'status' => 'pending',
             ]);
+        }
 
-            if (!empty($membershipType)) {
-                $paymentType = str_contains($membershipType, 'news') ? 'news' : 'membership';
-
-                // **Cek apakah sudah ada pembayaran pending**
-                $existingPayment = PaymentConfirmation::lockForUpdate()->where('user_id', $user->id)->where('payment_type', $paymentType)->where('status', 'pending')->first();
-
-                if (!$existingPayment) {
-                    PaymentConfirmation::create([
-                        'user_id' => $user->id,
-                        'payment_type' => $paymentType,
-                        'amount' => $this->getPrice($membershipType),
-                        'status' => 'pending',
-                    ]);
-                }
-            }
-
-            return $user;
-        });
+        return $user;
     }
 
     // 🔹 Fungsi mendapatkan harga berdasarkan paket yang dipilih
@@ -120,20 +113,26 @@ class RegisterController extends Controller
     }
 
     // 🔹 Override redirect setelah registrasi
-    protected function registered(Request $request, $user)
+    public function register(Request $request)
     {
-        // Jika user memilih membership, arahkan ke halaman konfirmasi pembayaran
-        if ($user->membership_type && $user->membership_type !== 'free') {
-            return redirect()
-                ->route('payment.confirm', [
-                    'user_id' => $user->id,
-                    'payment_type' => str_contains($user->membership_type, 'news') ? 'news' : 'membership',
-                    'amount' => $this->getPrice($user->membership_type),
-                ])
-                ->with('message', 'Silakan konfirmasi pembayaran.');
+        $this->validator($request->all())->validate();
+
+        event(new Registered(($user = $this->create($request->all()))));
+
+        // Untuk user free, login seperti biasa
+        if ($user->membership_type === 'free') {
+            $this->guard()->login($user);
+            return redirect($this->redirectPath());
         }
 
-        // Jika user memilih free, arahkan ke home
-        return redirect('/')->with('message', 'Pendaftaran berhasil. Silakan login.');
+        // Untuk user berbayar, TIDAK login, langsung redirect
+        return redirect()->route('payment.confirm', [
+            'user_id' => $user->id,
+            'payment_type' => $user->membership_type,
+        ]);
+    }
+    protected function registered(Request $request, $user)
+    {
+        return null;
     }
 }

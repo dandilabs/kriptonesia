@@ -11,7 +11,14 @@ class PaymentConfirmation extends Model
         'payment_type',
         'amount',
         'proof',
-        'status'
+        'status',
+        'created_at' // Tambahkan ini
+    ];
+
+    protected $casts = [
+        'expired_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
     ];
 
     public function user(){

@@ -43,6 +43,7 @@
                                         <th>No</th>
                                         <th>Name</th>
                                         <th>Email</th>
+                                        <th>Membership</th>
                                         <th>Role</th>
                                         <th class="text-center">Action</th>
                                     </tr>
@@ -53,6 +54,7 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>{{ $item->name }}</td>
                                             <td>{{ $item->email }}</td>
+                                            <td><span class="badge badge-success">{{ $item->membership_type }}</span></td>
                                             <td>
                                                 @if ($item->role)
                                                     <span class="badge badge-danger">Administrator</span>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 22, 2025 at 11:24 PM
+-- Generation Time: Mar 25, 2025 at 11:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -153,7 +153,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (13, '2025_03_15_142053_create_trade_signals_table', 9),
 (15, '2025_03_20_172607_add_membership_to_users_table', 10),
 (16, '2025_03_21_180843_create_payment_confirmations_table', 11),
-(17, '2025_03_22_193222_add_expired_at_to_payment_confirmations_table', 12);
+(17, '2025_03_22_193222_add_expired_at_to_payment_confirmations_table', 12),
+(22, '2025_03_25_180609_add_expired_at_to_users', 13);
 
 -- --------------------------------------------------------
 
@@ -179,7 +180,7 @@ CREATE TABLE `payment_confirmations` (
   `payment_type` varchar(255) NOT NULL COMMENT 'membership atau news',
   `amount` decimal(10,2) NOT NULL,
   `proof` varchar(255) DEFAULT NULL COMMENT 'Path file bukti transfer',
-  `status` enum('pending','paid','failed') NOT NULL DEFAULT 'pending',
+  `status` enum('unpaid','pending','paid') NOT NULL DEFAULT 'unpaid',
   `expired_at` timestamp NULL DEFAULT NULL,
   `keterangan` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -191,10 +192,9 @@ CREATE TABLE `payment_confirmations` (
 --
 
 INSERT INTO `payment_confirmations` (`id`, `user_id`, `payment_type`, `amount`, `proof`, `status`, `expired_at`, `keterangan`, `created_at`, `updated_at`) VALUES
-(31, 40, 'membership', 1654000.00, 'uploads/bukti/1742674736_67dc533c0a9dd-qris.png', 'paid', NULL, NULL, '2025-03-22 13:18:40', '2025-03-22 13:19:34'),
-(32, 41, 'news', 554000.00, 'uploads/bukti/1742680562_BNBUSDT_2025-03-16_22-14-09.png', 'paid', NULL, NULL, '2025-03-22 14:55:40', '2025-03-22 14:56:24'),
-(33, 42, 'membership', 4000.00, NULL, 'pending', NULL, NULL, '2025-03-22 15:03:11', '2025-03-22 15:03:11'),
-(34, 43, 'news', 9500.00, 'uploads/bukti/1742682088_67dc533c0a9dd-qris.png', 'paid', NULL, NULL, '2025-03-22 15:20:48', '2025-03-22 15:22:55');
+(13, 18, 'membership_1bulan', 279000.00, 'uploads/bukti/1742933735_67dc533c0a9dd-qris.png', 'paid', '2025-04-25 13:15:57', NULL, '2025-03-25 13:15:08', '2025-03-25 13:15:57'),
+(20, 24, 'membership_1bulan', 250000.00, 'uploads/bukti/1742936888_67dc533c0a9dd-qris.png', 'paid', '2025-04-25 14:08:33', NULL, '2025-03-25 14:07:47', '2025-03-25 14:08:33'),
+(21, 25, 'news_1bulan', 59000.00, 'uploads/bukti/1742940405_67dc533c0a9dd-qris.png', 'paid', '2025-04-25 15:07:14', NULL, '2025-03-25 15:05:44', '2025-03-25 15:07:14');
 
 -- --------------------------------------------------------
 
@@ -276,7 +276,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('RmawntcBhKL2a4q6LBPaNyMqlvFVDhPzImlM2Lz5', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiU2owcGltckpNeUZFSXg0ZllYMVcwMjlLUG9OelJycGlwN3dTMmg1TyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fX0=', 1742682208);
+('MvqUekQxICqexHyNjhT0ycwNxJP37eOti8d9s8Yv', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiajBiZ0pHNWs0VXlYV0c4ZWdvR0F1dGFES1pMemF2dG1nSmJiS3BCdSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9rb250YWsiO319', 1742940604);
 
 -- --------------------------------------------------------
 
@@ -341,6 +341,7 @@ CREATE TABLE `users` (
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `membership_type` varchar(255) NOT NULL DEFAULT 'free',
+  `expired_at` timestamp NULL DEFAULT NULL,
   `payment_status` varchar(255) NOT NULL DEFAULT 'pending',
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) NOT NULL,
@@ -354,12 +355,11 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `membership_type`, `payment_status`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`) VALUES
-(1, 'Dandi Hermawan', 'dandihermawan87@gmail.com', '', 'pending', NULL, '$2y$12$3lJN/faVYFzzMEPNcQonD.0PDThARRU1QMS9LnBeIS54nEcIbAjG2', NULL, '2025-03-08 10:25:29', '2025-03-08 10:25:29', 1),
-(40, 'Hikmatul Hasanah', 'hikmah@gmail.com', 'membership_6bulan', 'paid', NULL, '$2y$12$Rq8.Zl5Nml6K..Uo7KdrNu5zQqfTemU.cc9AtYzr7X9ldO27N88QS', NULL, '2025-03-22 13:18:40', '2025-03-22 13:19:34', 0),
-(41, 'mencoba daftar', 'daftar@gmail.com', 'news_lifetime', 'paid', NULL, '$2y$12$P6z3mZpCr2q8TRajp2q6gOQii/CqxYG/4yuXtyIGQ2gQD0Rdj29nS', NULL, '2025-03-22 14:55:40', '2025-03-22 14:56:24', 0),
-(42, 'daftar aja', 'admin@admin.com', 'free', 'pending', NULL, '$2y$12$DRj3vcoUTYa8ZjDjnI7T7OLkPE.0OSo5L8wWHDn0kExfUhssRZliu', NULL, '2025-03-22 15:03:11', '2025-03-22 15:03:11', 0),
-(43, 'cobaindong', 'dong@gmail.com', 'news_lifetime', 'paid', NULL, '$2y$12$nJnDamsWpaQK2d9Eu2dJ/OqpBn705IioCHRjIliAxDhNN7vL/1Tg.', NULL, '2025-03-22 15:20:48', '2025-03-22 15:22:55', 0);
+INSERT INTO `users` (`id`, `name`, `email`, `membership_type`, `expired_at`, `payment_status`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`) VALUES
+(1, 'Dandi Hermawan', 'dandihermawan87@gmail.com', 'free', NULL, 'pending', NULL, '$2y$12$R1X9xETaaPYnCPoz4ERiE.5rfdc3t/kjvwPrzxYVJSeqQdey9Fi1y', NULL, '2025-03-23 12:06:44', '2025-03-23 12:06:44', 1),
+(18, 'cobaa dong', 'baru@gmail.com', 'membership_1bulan', '2025-04-25 13:15:57', 'paid', NULL, '$2y$12$g7fV6KlvDRAlbFU4l93VGOyblygvR.E/Knk/aauL8Jw/n8Hz54srS', NULL, '2025-03-25 13:15:08', '2025-03-25 13:15:57', 0),
+(24, 'Hikmatul Hasanah', 'hikmah@gmail.com', 'membership_1bulan', '2025-04-25 14:08:33', 'paid', NULL, '$2y$12$irGsJTpQH60eZon/2.JjYegHfX4Pyjffk5VGdadj5kL0loTjN.wMm', NULL, '2025-03-25 14:07:28', '2025-03-25 14:08:33', 0),
+(25, 'coba timer', 'timer@gmail.com', 'news_1bulan', '2025-04-25 15:07:14', 'paid', NULL, '$2y$12$xBxSyYgAxqSP6QO9FpFNfuKJuOhJhVCYYd.OfFLbJP2Z8uCQ1Pm1O', NULL, '2025-03-25 15:05:30', '2025-03-25 15:07:14', 0);
 
 --
 -- Indexes for dumped tables
@@ -491,13 +491,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `payment_confirmations`
 --
 ALTER TABLE `payment_confirmations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `posts`
@@ -527,7 +527,7 @@ ALTER TABLE `trade_signals`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Constraints for dumped tables

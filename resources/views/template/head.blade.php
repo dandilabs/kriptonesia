@@ -87,6 +87,19 @@
                                                     <a class="dropdown-item" href="{{ url('/member/home') }}">
                                                         <i class="nav-icon fas fa-user"></i> Dashboard Member
                                                     </a>
+                                                    <a class="dropdown-item" href="{{ route('payment.history') }}">
+                                                        <i class="nav-icon fas fa-history"></i> Riwayat Pembayaran
+                                                    </a>
+                                                @elseif (Auth::user()->payment_status === 'pending')
+                                                    <div class="dropdown-item text-warning">
+                                                        <i class="nav-icon fas fa-hourglass-half"></i> Pembayaran Sedang
+                                                        Diverifikasi
+                                                    </div>
+                                                @else
+                                                    <!-- Free User Menu -->
+                                                    <a class="dropdown-item" href="{{ route('member.upgrade') }}">
+                                                        <i class="nav-icon fas fa-shopping-cart"></i> Mulai Berlangganan
+                                                    </a>
                                                 @endif
                                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

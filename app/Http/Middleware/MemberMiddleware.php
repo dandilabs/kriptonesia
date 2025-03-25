@@ -22,6 +22,18 @@ class MemberMiddleware
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
 
+        $user = Auth::user();
+
+            // Jika user memiliki status pembayaran 'paid', izinkan akses
+        if ($user->payment_status === 'paid') {
+            return $next($request);
+        }
+
+            // Jika user adalah free member, izinkan akses ke halaman upgrade
+        if ($request->routeIs('member.upgrade*')) {
+            return $next($request);
+        }
+
         // Cek status pembayaran di tabel payment_confirmations
         $payment = DB::table('payment_confirmations')
             ->where('user_id', Auth::user()->id)
