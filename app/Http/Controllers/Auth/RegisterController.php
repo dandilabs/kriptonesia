@@ -9,6 +9,7 @@ use App\Models\PaymentConfirmation;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -126,6 +127,7 @@ class RegisterController extends Controller
         }
 
         // Untuk user berbayar, TIDAK login, langsung redirect
+        Alert::success('Registrasi berhasil! Silakan lakukan pembayaran.');
         return redirect()->route('payment.confirm', [
             'user_id' => $user->id,
             'payment_type' => $user->membership_type,

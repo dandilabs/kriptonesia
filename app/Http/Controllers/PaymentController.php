@@ -8,6 +8,7 @@ use App\Models\PaymentConfirmation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Controllers\Auth\RegisterController;
 
 class PaymentController extends Controller
@@ -28,13 +29,15 @@ class PaymentController extends Controller
     public function showConfirmationForm(Request $request)
     {
         if (!$request->has(['user_id', 'payment_type'])) {
-            return redirect('/')->with('error', 'Parameter pembayaran tidak lengkap.');
+            Alert::warning('Parameter pembayaran tidak lengkap.');
+            return redirect('/');
         }
 
         $user = User::find($request->user_id);
 
         if (!$user) {
-            return redirect('/')->with('error', 'User tidak ditemukan.');
+            Alert::error('User tidak ditemukan.');
+            return redirect('/');
         }
 
         $paymentType = $request->payment_type ?? 'membership'; // **Pastikan variabel ini ada**
@@ -45,7 +48,8 @@ class PaymentController extends Controller
             ->first();
 
         if (!$payment) {
-            return redirect('/')->with('error', 'Data pembayaran tidak ditemukan.');
+            Alert::error('Data pembayaran tidak ditemukan.');
+            return redirect('/');
         }
 
         $amount = $payment->amount; // ✅ Ambil dari database
@@ -125,7 +129,8 @@ class PaymentController extends Controller
         // Logout user
         Auth::logout();
 
-        return redirect('/')->with('success', 'Bukti pembayaran berhasil diupload. Silakan tunggu verifikasi admin.');
+        Alert::success('Pembayaran Berhasil', 'Bukti pembayaran telah dikirim dan sedang diproses.');
+        return redirect('/');
     }
 
     private function storeProof($file)

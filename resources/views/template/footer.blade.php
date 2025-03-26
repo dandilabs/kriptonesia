@@ -102,6 +102,11 @@
 <script src="{{ asset('assets/js/mail-script.js') }}"></script>
 <script src="{{ asset('assets/js/main.js') }}"></script>
 @stack('js')
+<script>
+    setTimeout(function() {
+        $(".alert").fadeOut("slow");
+    }, 3000); // 3 detik
+</script>
 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
 </body>
 

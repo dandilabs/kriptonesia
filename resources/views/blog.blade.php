@@ -3,20 +3,20 @@
     Beranda
 @endsection
 @section('content')
-<!--================Hero Banner start =================-->
-<section class="mb-30px">
-    <div class="container">
-        <div class="hero-banner">
-            <div class="hero-banner__content">
-                <h3>Crypto Market Insights: Apa yang Harus Diketahui Hari Ini?</h3>
-                <h2>Berita, analisis, dan tren terbaru untuk membantu Anda tetap selangkah lebih maju.</h2>
-                <h4>{{ \Carbon\Carbon::now()->format('F d, Y') }}</h4>
-                {{-- {{ dd(Auth::user()->membership_type) }} --}}
+    <!--================Hero Banner start =================-->
+    <section class="mb-30px">
+        <div class="container">
+            <div class="hero-banner">
+                <div class="hero-banner__content">
+                    <h3>Crypto Market Insights: Apa yang Harus Diketahui Hari Ini?</h3>
+                    <h2>Berita, analisis, dan tren terbaru untuk membantu Anda tetap selangkah lebih maju.</h2>
+                    <h4>{{ \Carbon\Carbon::now()->format('F d, Y') }}</h4>
+                    {{-- {{ dd(Auth::user()->membership_type) }} --}}
+                </div>
             </div>
         </div>
-    </div>
-</section>
-<!--================Hero Banner end =================-->
+    </section>
+    <!--================Hero Banner end =================-->
     <section class="blog-post-area section-margin">
         <div class="container">
             <div class="row">
@@ -28,12 +28,15 @@
                                     <div class="thumb">
                                         <img class="card-img rounded-0" src="{{ $item->image }}" alt="">
                                         <ul class="thumb-info">
-                                            <li><a href="#" style="font-size: 12px;"><i class="ti-user"></i>{{ $item->users->name }}</a></li>
-                                            <li><a href="#" style="font-size: 12px;"><i class="fa fa-calendar"></i>{{ \Carbon\Carbon::parse($item->created_at)->format('F d, Y') }}</a></li>
+                                            <li><a href="#" style="font-size: 12px;"><i
+                                                        class="ti-user"></i>{{ $item->users->name }}</a></li>
+                                            <li><a href="#" style="font-size: 12px;"><i
+                                                        class="fa fa-calendar"></i>{{ \Carbon\Carbon::parse($item->created_at)->format('F d, Y') }}</a>
+                                            </li>
                                         </ul>
                                     </div>
                                     <div class="details mt-20">
-                                        <a href="{{route('blog.isi', $item->slug)}}">
+                                        <a href="{{ route('blog.isi', $item->slug) }}">
                                             <h3>{{ $item->judul }}</h3>
                                         </a>
                                         <p class="tag-list-inline">Tag:
@@ -45,7 +48,8 @@
                                             @endforeach
                                         </p>
                                         {{-- <p>{{ $item->content }}</p> --}}
-                                        <a class="button" href="{{route('blog.isi', $item->slug)}}">Read More <i class="ti-arrow-right"></i></a>
+                                        <a class="button" href="{{ route('blog.isi', $item->slug) }}">Read More <i
+                                                class="ti-arrow-right"></i></a>
                                     </div>
                                 </div>
                             </div>

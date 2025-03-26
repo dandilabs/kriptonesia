@@ -3,21 +3,21 @@
 @section('title', 'Riwayat Pembayaran')
 
 @section('content')
-<section class="mb-30px">
-    <div class="container">
-        <div class="hero-banner hero-banner--sm">
-            <div class="hero-banner__content text-center">
-                <h1>Riwayat Pembayaran</h1>
-                <nav aria-label="breadcrumb" class="banner-breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ url('/') }}">Beranda</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Riwayat Pembayaran</li>
-                    </ol>
-                </nav>
+    <section class="mb-30px">
+        <div class="container">
+            <div class="hero-banner hero-banner--sm">
+                <div class="hero-banner__content text-center">
+                    <h1>Riwayat Pembayaran</h1>
+                    <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ url('/') }}">Beranda</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Riwayat Pembayaran</li>
+                        </ol>
+                    </nav>
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
     <div class="container">
         <h3>Riwayat Pembayaran</h3>
         <table class="table table-bordered">
@@ -39,9 +39,9 @@
                         <td>Rp{{ number_format($payment->amount, 0, ',', '.') }}</td>
                         <td>{{ ucfirst($payment->status) }}</td>
                         <td>
-                            @if($payment->expired_at)
+                            @if ($payment->expired_at)
                                 {{ $payment->expired_at->format('d M Y H:i') }}
-                                @if(now() > $payment->expired_at)
+                                @if (now() > $payment->expired_at)
                                     <span class="badge badge-danger">Expired</span>
                                 @else
                                     <span class="badge badge-success">

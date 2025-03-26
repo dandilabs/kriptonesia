@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -36,5 +38,20 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
+    }
+
+    // Tambahkan flash message ketika login gagal
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        Alert::error('Email atau password salah. Silakan coba lagi.');
+        return redirect()->back()
+            ->withInput($request->only($this->username(), 'remember'));
+    }
+
+    // Tambahkan flash message ketika login berhasil
+    protected function authenticated(Request $request, $user)
+    {
+        Alert::success('Login berhasil! Selamat datang kembali.');
+        return redirect($this->redirectTo);
     }
 }
