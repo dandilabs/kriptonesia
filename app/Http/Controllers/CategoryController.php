@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CategoryController extends Controller
 {
@@ -38,7 +39,8 @@ class CategoryController extends Controller
             'name' => $request->name,
             'slug' => Str::slug($request->name)
         ]);
-        return redirect()->back()->with('success', 'Category add successfully');
+        Alert::success('Category add successfully');
+        return redirect()->back();
     }
 
     /**
@@ -73,7 +75,8 @@ class CategoryController extends Controller
         ];
 
         Category::whereId($id)->update($category_data);
-        return redirect()->route('category.index')->with('success', 'Category updated successfully');
+        Alert::success('Category updated successfully');
+        return redirect()->route('category.index');
     }
 
     /**
@@ -83,6 +86,7 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $category->delete();
-        return redirect()->back()->with('success', 'Category successfully deleted');
+        Alert::success('Category successfully deleted');
+        return redirect()->back();
     }
 }

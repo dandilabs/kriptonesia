@@ -60,7 +60,7 @@
                     <input type="hidden" name="amount" value="{{ $totalBayar }}">
                     <div class="form-group">
                         <label for="proof">Unggah Bukti Transfer</label>
-                        <input type="file" class="form-control" name="proof" id="proof" required>
+                        <input type="file" class="form-control" name="proof" id="proof" required accept="image/*">
                     </div>
                     <button type="submit" class="btn btn-primary">Kirim Konfirmasi</button>
                 </form>
@@ -68,23 +68,6 @@
         </div>
     </div>
 @endsection
-<script>
-    // Timer 5 menit
-    let timeLeft = 300; // 5 menit dalam detik
-    const timerDisplay = document.getElementById('payment-timer');
+@push('scripts')
 
-    function updateTimer() {
-        let minutes = Math.floor(timeLeft / 60);
-        let seconds = timeLeft % 60;
-        timerDisplay.innerHTML = `Selesaikan pembayaran dalam ${minutes}:${seconds < 10 ? '0' : ''}${seconds} menit`;
-        if (timeLeft > 0) {
-            timeLeft--;
-            setTimeout(updateTimer, 1000);
-        } else {
-            // Jika waktu habis, redirect ke halaman transaksi sebelumnya
-            window.location.href = "{{ route('payment.history') }}";
-        }
-    }
-
-    updateTimer();
-</script>
+@endpush

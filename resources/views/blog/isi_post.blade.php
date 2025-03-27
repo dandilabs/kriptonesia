@@ -1,4 +1,7 @@
 @extends('template.index')
+@section(section: 'title')
+    Detail
+@endsection
 @section('content')
     <!--================Hero Banner start =================-->
     <section class="mb-30px">

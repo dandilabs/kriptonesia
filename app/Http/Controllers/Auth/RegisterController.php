@@ -120,9 +120,11 @@ class RegisterController extends Controller
 
         event(new Registered(($user = $this->create($request->all()))));
 
+         // Login user terlepas dari jenis membership
+        $this->guard()->login($user);
+
         // Untuk user free, login seperti biasa
         if ($user->membership_type === 'free') {
-            $this->guard()->login($user);
             return redirect($this->redirectPath());
         }
 

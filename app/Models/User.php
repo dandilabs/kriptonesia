@@ -49,4 +49,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function payments()
+    {
+        return $this->hasMany(PaymentConfirmation::class);
+    }
+
+    protected $casts = [
+        'expired_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
+    ];
 }

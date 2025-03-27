@@ -107,6 +107,25 @@
         $(".alert").fadeOut("slow");
     }, 3000); // 3 detik
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let timeLeft = 300;
+        const timerDisplay = document.getElementById('payment-timer');
+
+        function updateTimer() {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            timerDisplay.innerHTML = `Selesaikan pembayaran dalam ${minutes}:${seconds < 10 ? '0' : ''}${seconds} menit`;
+            if (timeLeft > 0) {
+                timeLeft--;
+                setTimeout(updateTimer, 1000);
+            } else {
+                window.location.href = "{{ route('payment.history') }}";
+            }
+        }
+        updateTimer();
+    });
+</script>
 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
 </body>
 

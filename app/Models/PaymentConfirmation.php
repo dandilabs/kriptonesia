@@ -12,7 +12,8 @@ class PaymentConfirmation extends Model
         'amount',
         'proof',
         'status',
-        'created_at' // Tambahkan ini
+        'created_at', // Tambahkan ini
+        'expired_at'
     ];
 
     protected $casts = [
@@ -21,7 +22,22 @@ class PaymentConfirmation extends Model
         'updated_at' => 'datetime'
     ];
 
+    const STATUS_PENDING = 'pending';
+    const STATUS_PAID = 'paid';
+    const STATUS_FAILED = 'failed';
+    const STATUS_EXPIRED = 'expired';
+    const STATUS_VERIFYING = 'verifying';
+
     public function user(){
         return $this->belongsTo(User::class);
+    }
+
+    public function scopeLatestPerType($query)
+    {
+        return $query->whereIn('id', function($query) {
+            $query->selectRaw('MAX(id)')
+                ->from('payment_confirmations')
+                ->groupBy('payment_type');
+        });
     }
 }

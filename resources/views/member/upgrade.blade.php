@@ -40,17 +40,26 @@
                         <label for="membership">Pilih Paket Membership</label>
                         <select id="membership" class="form-control" name="membership_type">
                             <optgroup label="Langganan News">
-                                <option value="news_1hari">News - 1 Hari (Rp5.000)</option>
-                                <option value="news_1bulan">News - 1 Bulan (Rp50.000)</option>
-                                <option value="news_3bulan">News - 3 Bulan (Rp120.000)</option>
-                                <option value="news_6bulan">News - 6 Bulan (Rp200.000)</option>
-                                <option value="news_lifetime">News - Lifetime (Rp500.000)</option>
+                                <option value="news_1hari">News - 1 Hari (Rp5.000 / ${{ number_format(5000 / $usdRate, 2) }}
+                                    USDT)</option>
+                                <option value="news_1bulan">News - 1 Bulan (Rp50.000 /
+                                    ${{ number_format(50000 / $usdRate, 2) }} USDT)</option>
+                                <option value="news_3bulan">News - 3 Bulan (Rp120.000 /
+                                    ${{ number_format(120000 / $usdRate, 2) }} USDT)</option>
+                                <option value="news_6bulan">News - 6 Bulan (Rp200.000 /
+                                    ${{ number_format(200000 / $usdRate, 2) }} USDT)</option>
+                                <option value="news_lifetime">News - Lifetime (Rp500.000 /
+                                    ${{ number_format(500000 / $usdRate, 2) }} USDT)</option>
                             </optgroup>
                             <optgroup label="Membership Full Akses">
-                                <option value="membership_1bulan">1 Bulan - Rp250.000</option>
-                                <option value="membership_3bulan">3 Bulan - Rp500.000</option>
-                                <option value="membership_6bulan">6 Bulan - Rp1.500.000</option>
-                                <option value="membership_lifetime">Lifetime - Rp3.000.000</option>
+                                <option value="membership_1bulan">1 Bulan (Rp250.000 /
+                                    ${{ number_format(250000 / $usdRate, 2) }} USDT)</option>
+                                <option value="membership_3bulan">3 Bulan (Rp500.000 /
+                                    ${{ number_format(500000 / $usdRate, 2) }} USDT)</option>
+                                <option value="membership_6bulan">6 Bulan (Rp1.500.000 /
+                                    ${{ number_format(1500000 / $usdRate, 2) }} USDT)</option>
+                                <option value="membership_lifetime">Lifetime (Rp3.000.000 /
+                                    ${{ number_format(3000000 / $usdRate, 2) }} USDT)</option>
                             </optgroup>
                         </select>
                     </div>

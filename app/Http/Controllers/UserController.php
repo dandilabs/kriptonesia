@@ -55,7 +55,12 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::with(['payments' => function($query) {
+            $query->latest();
+        }])
+        ->findOrFail($id);
+
+    return view('admin.users.show', compact('user'));
     }
 
     /**

@@ -8,6 +8,7 @@ use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PostController extends Controller
 {
@@ -58,7 +59,8 @@ class PostController extends Controller
 
         $image_data->move('public/uploads/posts/', $new_image);
 
-        return redirect()->route('post.index')->with('success', 'Posts create successfully');
+        Alert::success('Posts create successfully');
+        return redirect()->route('post.index');
     }
 
     /**
@@ -117,7 +119,8 @@ class PostController extends Controller
         $post->tags()->sync($request->tags);
         $post->update($post_data);
 
-        return redirect()->route('post.index')->with('success', 'Posts updated successfully');
+        Alert::success('Posts updated successfully');
+        return redirect()->route('post.index');
     }
 
     /**
@@ -127,7 +130,9 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
         $post->delete();
-        return redirect()->back()->with('success', 'Posts deleted successfully, cek your list trashed');
+
+        Alert::success('Posts deleted successfully, cek your list trashed');
+        return redirect()->back();
     }
 
     public function trashed(){
@@ -139,13 +144,15 @@ class PostController extends Controller
         $post = Post::withTrashed()->where('id', $id)->first();
         $post->restore();
 
-        return redirect()->back()->with('success', 'Posts restore successfully');
+        Alert::success('Posts restore successfully');
+        return redirect()->back();
     }
 
     public function delete($id){
         $post = Post::withTrashed()->where('id', $id)->first();
         $post->forceDelete();
 
-        return redirect()->route('post.index')->with('success', 'Posts deleted permanent successfully');
+        Alert::success('Posts deleted permanent successfully');
+        return redirect()->route('post.index');
     }
 }

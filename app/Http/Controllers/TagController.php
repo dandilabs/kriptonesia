@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class TagController extends Controller
 {
@@ -38,7 +39,8 @@ class TagController extends Controller
             'name' => $request->name,
             'slug' => Str::slug($request->name)
         ]);
-        return redirect()->route('tag.index')->with('success', 'Tags add successfully');
+        Alert::success('Tags add successfully');
+        return redirect()->route('tag.index');
     }
 
     /**
@@ -73,7 +75,8 @@ class TagController extends Controller
         ];
 
         Tag::whereId($id)->update($tags_data);
-        return redirect()->route('tag.index')->with('success', 'Tags updated successfully');
+        Alert::success('Tags updated successfully');
+        return redirect()->route('tag.index');
     }
 
     /**
@@ -83,6 +86,7 @@ class TagController extends Controller
     {
         $tags = Tag::findOrFail($id);
         $tags->delete();
-        return redirect()->back()->with('success', 'Tag successfully deleted');
+        Alert::success('Tags successfully deleted');
+        return redirect()->back();
     }
 }

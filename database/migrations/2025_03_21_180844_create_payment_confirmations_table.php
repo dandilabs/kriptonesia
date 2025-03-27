@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('payment_type')->comment('membership atau news');
             $table->decimal('amount', 10, 2);
             $table->string('proof')->nullable()->comment('Path file bukti transfer');
-            $table->enum('status', ['pending', 'paid', 'failed'])->default('pending');
+            $table->enum('status', ['pending', 'verifying', 'paid', 'failed', 'expired'])->default('pending');
             $table->text('keterangan')->nullable();
             $table->timestamps();
 

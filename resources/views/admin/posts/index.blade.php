@@ -1,43 +1,48 @@
 @extends('layouts.admin')
 @section('content')
-
-@if (Session::has('success'))
-        <div class="alert alert-success" role="alert">
-            {{ Session('success') }}
-        </div>
-@endif
-    <!-- Content Header (Page header) -->
+@include('sweetalert::alert')
+    <!-- Content Header -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0">List Posts</h1>
-                </div><!-- /.col -->
+                </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('post.index')}}">Home</a></li>
-                        <li class="breadcrumb-item active">List Posts</li>
+                        <li class="breadcrumb-item"><a href="{{ route('post.index') }}">Home</a></li>
+                        <li class="breadcrumb-item active">Posts</li>
                     </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
+                </div>
+            </div>
+        </div>
     </div>
-    <!-- /.content-header -->
 
-    <!-- Main content -->
-    <div class="content">
+    <!-- Main Content -->
+    <section class="content">
         <div class="container-fluid">
+            @if (Session::has('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ Session('success') }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">
-                                <a href="{{route('post.create')}}" class="btn btn-block btn-outline-primary">
-                                    <i class="fa fa-plus-circle"></i> Add </a>
-                            </h3>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h3 class="card-title">Posts Data</h3>
+                                <a href="{{ route('post.create') }}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-plus-circle mr-1"></i> Add Post
+                                </a>
+                            </div>
                         </div>
                         <div class="card-body">
-                            <table id="example2" class="table table-bordered table-hover">
+                            <table id="postsTable" class="table table-bordered table-hover w-100">
                                 <thead>
                                     <tr>
                                         <th>No</th>
@@ -54,26 +59,43 @@
                                     @foreach ($post as $item)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->judul }}</td>
-                                            <td>{{ $item->category->name }}</td>
+                                            <td>{{ Str::limit($item->judul, 30) }}</td>
+                                            <td>
+                                                <span class="badge badge-info">
+                                                    {{ $item->category->name ?? '-' }}
+                                                </span>
+                                            </td>
                                             <td>
                                                 @foreach ($item->tags as $tag)
-                                                    <span class="badge badge-success">{{ $tag->name }}</span>
+                                                    <span class="badge badge-success mb-1">{{ $tag->name }}</span>
                                                 @endforeach
                                             </td>
-                                            <td>{!! $item->content !!}</td>
-                                            <td>
-                                                <img src="{{asset($item->image)}}" class="img-fluid mb-2" style="width: 250px" alt="">
+                                            <td>{!! Str::limit(strip_tags($item->content), 50) !!}</td>
+                                            <td class="text-center">
+                                                @if ($item->image)
+                                                    <img src="{{ asset($item->image) }}" class="img-thumbnail"
+                                                        style="max-height: 60px" alt="Post Image">
+                                                @else
+                                                    <span class="text-muted">No image</span>
+                                                @endif
                                             </td>
-                                            <td><span class="badge badge-info">{{ $item->users->name }}</span> </td>
-                                            <td class="project-actions text-center">
-                                                <form action="{{route('post.destroy', $item->id )}}" method="post">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <a href="{{route('post.edit', $item->id)}}" class="btn btn-outline-primary btn-sm"> <i class="fas fa-pencil-alt">
-                                                    </i> Edit</a>
-                                                    <button type="submit" class="btn btn-outline-danger btn-sm"> <i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
-                                                </form>
+                                            <td>{{ $item->users->name ?? '-' }}</td>
+                                            <td class="text-center">
+                                                <div class="btn-group btn-group-sm" role="group">
+                                                    <a href="{{ route('post.edit', $item->id) }}" class="btn btn-info"
+                                                        title="Edit">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <form action="{{ route('post.destroy', $item->id) }}" method="POST"
+                                                        class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger" title="Delete"
+                                                            onclick="return confirm('Delete this post?')">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -83,15 +105,13 @@
                     </div>
                 </div>
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content -->
+        </div>
+    </section>
 @endsection
 @push('js')
     <script>
         $(document).ready(function() {
-            $('#example2').DataTable({
+            $('#postsTable').DataTable({
                 "paging": true, // Aktifkan pagination
                 "lengthChange": true, // Tambahkan pilihan jumlah data per halaman
                 "searching": true,

@@ -40,6 +40,28 @@ class PaymentController extends Controller
             return redirect('/');
         }
 
+        // CEK PEMBAYARAN EXPIRED - TAMBAHKAN KODE INI
+        $payment = PaymentConfirmation::where('user_id', $user->id)
+        ->where('payment_type', $request->payment_type)
+        ->where('status', 'pending')
+        ->first();
+
+        if ($payment && $payment->created_at->diffInMinutes(now()) > 5) {
+            $payment->update(['status' => 'expired']);
+
+            $newPayment = PaymentConfirmation::create([
+                'user_id' => $user->id,
+                'payment_type' => $request->payment_type,
+                'amount' => $this->getPrice($request->payment_type), // Ganti calculateAmount dengan getPrice
+                'status' => 'pending',
+            ]);
+
+            return redirect()->route('payment.confirm', [
+                'user_id' => $user->id,
+                'payment_type' => $request->payment_type,
+            ]);
+        }
+
         $paymentType = $request->payment_type ?? 'membership'; // **Pastikan variabel ini ada**
         $payment = PaymentConfirmation::where('user_id', $user->id)
             ->where('payment_type', $request->payment_type)
@@ -119,15 +141,18 @@ class PaymentController extends Controller
             [
                 'amount' => $request->amount,
                 'proof' => $this->storeProof($request->file('proof')),
-            ],
+                'status' => 'verifying', // Ubah status menjadi verifying
+            ]
         );
 
         // Update user status
-        $user->payment_status = 'pending';
+        $user->payment_status = 'verifying'; // Tambahkan ini
         $user->save();
 
         // Logout user
-        Auth::logout();
+        // if ($payment->status == 'paid') {
+        //     Auth::logout();
+        // }
 
         Alert::success('Pembayaran Berhasil', 'Bukti pembayaran telah dikirim dan sedang diproses.');
         return redirect('/');
@@ -142,7 +167,12 @@ class PaymentController extends Controller
 
     public function showHistory()
     {
-        $payments = PaymentConfirmation::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
-        return view('payment.history', compact('payments'));
+        $usdRate = $this->getUsdRate(); // Ambil kurs USDT terbaru
+        // Hanya tampilkan pembayaran terakhir per jenis pembayaran
+        $payments = PaymentConfirmation::where('user_id', Auth::id())
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->unique('payment_type'); // Hanya ambil yang unik berdasarkan payment_type
+        return view('payment.history', compact('payments','usdRate'));
     }
 }

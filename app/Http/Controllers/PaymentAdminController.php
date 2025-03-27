@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PaymentConfirmation;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PaymentAdminController extends Controller
 {
     // Menampilkan daftar pembayaran
     public function index()
     {
-        $payments = PaymentConfirmation::whereNotNull('proof') // Hanya yang punya bukti
+        $payments = PaymentConfirmation::with('user')
+            ->whereIn('status', ['verifying', 'pending']) // Tampilkan yang perlu diverifikasi
             ->orderBy('created_at', 'desc')
             ->get();
         return view('admin.payments.index', compact('payments'));
@@ -20,19 +22,28 @@ class PaymentAdminController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $payment = PaymentConfirmation::findOrFail($id);
-        $payment->status = 'paid';
-        $expiredAt = $this->calculateExpiryDate($payment->payment_type);
-        $payment->expired_at = $expiredAt;
-        $payment->save();
 
-        $user = $payment->user;
-        $user->update([
-            'payment_status' => 'paid',
-            'membership_type' => $payment->payment_type,
-            'expired_at' => $expiredAt, // Pastikan nama kolomnya benar
+        // Validasi bahwa pembayaran memiliki bukti
+        if (!$payment->proof) {
+            Alert::error('Pembayaran belum memiliki bukti transfer.');
+            return redirect()->back();
+        }
+
+        // Update status pembayaran
+        $payment->update([
+            'status' => 'paid',
+            'expired_at' => $this->calculateExpiryDate($payment->payment_type)
         ]);
 
-        return redirect()->back()->with('success', 'Status pembayaran berhasil diperbarui.');
+         // Update user
+        $payment->user->update([
+            'payment_status' => 'paid',
+            'membership_type' => $payment->payment_type,
+            'expired_at' => $payment->expired_at
+        ]);
+
+        Alert::success('Status pembayaran berhasil diperbarui.');
+        return redirect()->back();
     }
 
     private function calculateExpiryDate($paymentType)

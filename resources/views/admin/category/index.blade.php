@@ -1,11 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-
-@if (Session::has('success'))
-        <div class="alert alert-success" role="alert">
-            {{ Session('success') }}
-        </div>
-@endif
+    @include('sweetalert::alert')
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
@@ -32,8 +27,9 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <a href="{{route('category.create')}}" class="btn btn-block btn-outline-primary">
-                                    <i class="fa fa-plus-circle"></i> Add </a>
+                                <a href="{{ route('category.create') }}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-plus-circle mr-1"></i> Add
+                                </a>
                             </h3>
                         </div>
                         <div class="card-body">
@@ -53,12 +49,15 @@
                                             <td>{{ $item->name }}</td>
                                             <td>{{ $item->slug }}</td>
                                             <td class="text-center">
-                                                <form action="{{route('category.destroy', $item->id )}}" method="post">
+                                                <form action="{{ route('category.destroy', $item->id) }}" method="post">
                                                     @csrf
                                                     @method('delete')
-                                                    <a href="{{route('category.edit', $item->id)}}" class="btn btn-outline-primary btn-sm"> <i class="fas fa-pencil-alt">
-                                                    </i> Edit</a>
-                                                    <button type="submit" class="btn btn-outline-danger btn-sm"> <i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                                                    <a href="{{ route('category.edit', $item->id) }}"
+                                                        class="btn btn-outline-primary btn-sm"> <i
+                                                            class="fas fa-pencil-alt">
+                                                        </i> Edit</a>
+                                                    <button type="submit" class="btn btn-outline-danger btn-sm"> <i
+                                                            class="fa fa-trash" aria-hidden="true"></i> Delete</button>
                                                 </form>
                                             </td>
                                         </tr>

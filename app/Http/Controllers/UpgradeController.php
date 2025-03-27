@@ -5,12 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PaymentConfirmation;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UpgradeController extends Controller
 {
+    private function getUsdRate()
+    {
+        try {
+            $apiUrl = 'https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=idr';
+            $response = file_get_contents($apiUrl);
+            $data = json_decode($response, true);
+
+            return $data['tether']['idr'] ?? 16500; // Default 16.500 jika API gagal
+        } catch (\Exception $e) {
+            return 16500; // Default jika terjadi error
+        }
+    }
     public function showForm()
     {
-        return view('member.upgrade');
+        $usdRate = $this->getUsdRate();
+        return view('member.upgrade', compact('usdRate'));
     }
 
     public function processUpgrade(Request $request)
@@ -24,14 +38,14 @@ class UpgradeController extends Controller
         // Hapus pembayaran pending sebelumnya
         PaymentConfirmation::where('user_id', $user->id)->where('status', 'pending')->delete();
 
-         // Hitung total harga termasuk pajak dan biaya layanan
+        // Hitung total harga termasuk pajak dan biaya layanan
         $totalAmount = $this->getPrice($request->membership_type);
 
         // Buat payment baru
         $payment = PaymentConfirmation::create([
             'user_id' => $user->id,
             'payment_type' => $request->membership_type,
-            'amount' =>  $totalAmount,
+            'amount' => $totalAmount,
             'status' => 'pending',
         ]);
 
@@ -40,14 +54,14 @@ class UpgradeController extends Controller
         $user->save();
 
         // Logout user
-        Auth::logout();
+        // Auth::logout();
 
+        Alert::success('Silakan lakukan pembayaran.');
         return redirect()
             ->route('payment.confirm', [
                 'user_id' => $user->id,
                 'payment_type' => $request->membership_type,
-            ])
-            ->with('message', 'Silakan lakukan pembayaran.');
+            ]);
     }
 
     public function getPrice($membershipType)

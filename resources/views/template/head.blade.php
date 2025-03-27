@@ -16,6 +16,16 @@
     <link rel="stylesheet" href="{{ asset('assets/vendors/owl-carousel/owl.carousel.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }} ">
+    <style>
+        .badge-custom {
+            background: linear-gradient(45deg, #ff9f43, #ff3f34);
+            color: white;
+            font-size: 10px;
+            padding: 5px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 
 <body>
@@ -39,10 +49,14 @@
                         <ul class="nav navbar-nav menu_nav justify-content-center">
                             <li class="nav-item {{ Request::is('/') ? 'active' : '' }} "><a class="nav-link"
                                     href="{{ url('/') }}">Beranda</a></li>
-                            <li class="nav-item {{ Request::is('artikel') ? 'active' : '' }} "><a class="nav-link"
-                                    href="{{ route('blog.artikel') }}">Artikel</a></li>
-                            <li class="nav-item {{ Request::is('panduan') ? 'active' : '' }} "><a class="nav-link"
-                                    href="#">Panduan & Strategi</a>
+                            <li class="nav-item {{ Route::is('blog.artikel') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('blog.artikel') }}">Artikel</a>
+                            </li>
+                            <li class="nav-item {{ Request::is('produk') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('produk') }}">
+                                    Produk <span class="badge badge-custom">🔥 Limited</span>
+                                </a>
+                            </li>
                             <li class="nav-item {{ Request::is('tentang-kami') ? 'active' : '' }} "><a class="nav-link"
                                     href="{{ url('/tentang-kami') }}">Tentang Kami</a></li>
                             <li class="nav-item {{ Request::is('kontak') ? 'active' : '' }} "><a class="nav-link"
@@ -76,27 +90,52 @@
                                                 {{ Auth::user()->name }}
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                                <!-- Cek role user -->
                                                 @if (Auth::user()->role == 1)
-                                                    <!-- Admin -->
                                                     <a class="dropdown-item" href="{{ url('/admin/home') }}">
                                                         <i class="nav-icon fas fa-tachometer-alt"></i> Dashboard Admin
                                                     </a>
                                                 @elseif (Auth::check() && Auth::user()->payment_status === 'paid')
-                                                    <!-- Member Berbayar & Sudah Bayar -->
                                                     <a class="dropdown-item" href="{{ url('/member/home') }}">
                                                         <i class="nav-icon fas fa-user"></i> Dashboard Member
                                                     </a>
                                                     <a class="dropdown-item" href="{{ route('payment.history') }}">
                                                         <i class="nav-icon fas fa-history"></i> Riwayat Pembayaran
                                                     </a>
-                                                @elseif (Auth::user()->payment_status === 'pending')
-                                                    <div class="dropdown-item text-warning">
+                                                @elseif (Auth::user()->payment_status === 'verifying')
+                                                    <div class="dropdown-item text-info">
                                                         <i class="nav-icon fas fa-hourglass-half"></i> Pembayaran Sedang
                                                         Diverifikasi
                                                     </div>
+                                                    <a class="dropdown-item" href="{{ route('payment.history') }}">
+                                                        <i class="nav-icon fas fa-history"></i> Riwayat Pembayaran
+                                                    </a>
+                                                @elseif (Auth::user()->payment_status === 'pending')
+                                                    @php
+                                                        $pendingPayment = App\Models\PaymentConfirmation::where(
+                                                            'user_id',
+                                                            Auth::id(),
+                                                        )
+                                                            ->where('status', 'pending')
+                                                            ->first();
+                                                    @endphp
+
+                                                    @if ($pendingPayment)
+                                                        <a class="dropdown-item text-warning"
+                                                            href="{{ route('payment.confirm', ['user_id' => Auth::id(), 'payment_type' => $pendingPayment->payment_type]) }}">
+                                                            <i class="nav-icon fas fa-exclamation-triangle"></i> Selesaikan
+                                                            Pembayaran
+                                                        </a>
+                                                    @else
+                                                        <div class="dropdown-item text-warning">
+                                                            <i class="nav-icon fas fa-hourglass-half"></i> Pembayaran
+                                                            Sedang
+                                                            Diverifikasi
+                                                        </div>
+                                                    @endif
+                                                    <a class="dropdown-item" href="{{ route('payment.history') }}">
+                                                        <i class="nav-icon fas fa-history"></i> Riwayat Pembayaran
+                                                    </a>
                                                 @else
-                                                    <!-- Free User Menu -->
                                                     <a class="dropdown-item" href="{{ route('member.upgrade') }}">
                                                         <i class="nav-icon fas fa-shopping-cart"></i> Mulai Berlangganan
                                                     </a>
@@ -114,6 +153,7 @@
                                     @endguest
                                 </ul>
                             </li>
+
                         </ul>
                         <ul class="nav navbar-nav navbar-right navbar-social">
                             <li><a href="#"><i class="ti-facebook"></i></a></li>

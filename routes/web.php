@@ -7,6 +7,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UpgradeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MemberTradeController;
@@ -25,10 +26,11 @@ Route::get('/tentang-kami', function () {
 Route::get('/kontak', function () {
     return view('blog.kontak');
 });
-Route::get('/artikel', [BlogController::class, 'artikel'])->name('blog.artikel');
+Route::get('/list-artikel', [BlogController::class, 'list_artikel'])->name('blog.artikel');
 Route::get('/detail-post/{slug}', [BlogController::class, 'isi_post'])->name('blog.isi');
 Route::get('/list-post/{slug}', [BlogController::class, 'list_post'])->name('blog.list');
 Route::get('/list-category/{category}', [BlogController::class, 'list_category'])->name('blog.category');
+Route::get('/produk-kriptonesia', [ProductController::class, 'index'])->name('produk');
 
 // 🔹 Route untuk pembayaran (semua user)
 Route::get('/payment/confirm', [PaymentController::class, 'showConfirmationForm'])->name('payment.confirm');
@@ -59,6 +61,7 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
 
     // 🔹 Manajemen User
     Route::resource('/user', UserController::class);
+    Route::get('/user/detail/{id}', [UserController::class, 'show'])->name('admin.user.detail');
 
     // 🔹 Manajemen Trading Signals
     Route::resource('/signal-trade', SignalTradeController::class);

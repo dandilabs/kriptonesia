@@ -1,11 +1,7 @@
 @extends('layouts.admin')
 @section('content')
 
-@if (Session::has('success'))
-        <div class="alert alert-success" role="alert">
-            {{ Session('success') }}
-        </div>
-@endif
+@include('sweetalert::alert')
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
