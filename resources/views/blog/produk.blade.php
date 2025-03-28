@@ -1,4 +1,4 @@
-@extends('template.index')
+@extends('frontend.index')
 
 @section('title', 'Produk')
 

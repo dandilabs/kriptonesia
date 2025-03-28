@@ -13,22 +13,31 @@ class BlogController extends Controller
 {
     public function index(Post $posts)
     {
-        $category_sidebar = Category::all();
-        $data = Post::latest()->paginate(6);
+        // Ambil 3 post terbaru
+        $featured_posts = Post::latest()->take(3)->get();
+        $categories = Category::with(['posts' => function($query) {
+            $query->with(['users', 'tags'])
+                ->latest()
+                ->take(3);
+        }])->get(); // Ambil semua kategori, meskipun tidak ada post
 
+        $data = Post::latest()->paginate(5);
+        $terbaru = Post::latest()->paginate(6);
         // Ambil 3 post dengan views tertinggi
         $popular_posts = Post::orderByDesc('views')->take(3)->get();
 
         // Ambil tag yang paling sering digunakan
         $popular_tags = Tag::withCount('posts')->orderByDesc('posts_count')->take(10)->get();
 
-        return view('blog', compact('data', 'category_sidebar', 'popular_posts', 'popular_tags'));
+        return view('frontend', compact('data', 'categories', 'popular_posts', 'popular_tags','featured_posts','terbaru'));
     }
 
     public function isi_post($slug)
     {
         $category_sidebar = Category::all();
         $post  = Post::where('slug', $slug)->firstOrFail();
+
+        $data = Post::latest()->paginate(5);
 
         // Tambahkan views +1
         $post->increment('views');
@@ -49,7 +58,7 @@ class BlogController extends Controller
 
 
 
-        return view('blog.isi_post', compact('post', 'category_sidebar','popular_posts','popular_tags'));
+        return view('blog.isi_post', compact('post', 'category_sidebar','popular_posts','popular_tags','data'));
     }
 
     public function list_post(Post $posts)

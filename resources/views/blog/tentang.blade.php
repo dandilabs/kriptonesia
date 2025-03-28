@@ -1,23 +1,27 @@
-@extends('template.index')
+@extends('frontend.index')
 @section('title')
     Tentang Kami | Platform Edukasi Cryptocurrency Terpercaya
 @endsection
 
 @section('content')
     <!--================ Hero Banner Start =================-->
-    <section class="hero-banner hero-banner--sm bg-gradient-primary">
-        <div class="container">
-            <div class="hero-banner__content text-center text-white">
-                <h1 class="display-4 mb-3">Mengenal Kriptonesia</h1>
-                <nav aria-label="breadcrumb" class="banner-breadcrumb justify-content-center">
-                    <ol class="breadcrumb bg-transparent p-0">
-                        <li class="breadcrumb-item"><a href="{{ url('/') }}">Beranda</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Tentang Kami</li>
-                    </ol>
-                </nav>
-            </div>
+    <!-- Page Title -->
+    <div class="page-title">
+        <div class="breadcrumbs">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url('/') }}"><i class="bi bi-house"></i> Beranda</a></li>
+                    <li class="breadcrumb-item active current">Tentang Kami</li>
+                </ol>
+            </nav>
         </div>
-    </section>
+
+        <div class="title-wrapper">
+            <h1>Mengenal Kriptonesia</h1>
+            {{-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis,
+                pulvinar dapibus leo.</p> --}}
+        </div>
+    </div><!-- End Page Title -->
     <!--================ Hero Banner End =================-->
 
     <!--================ About Section Start =================-->

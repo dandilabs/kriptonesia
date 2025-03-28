@@ -10,6 +10,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UpgradeController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CryptoNewsController;
 use App\Http\Controllers\MemberTradeController;
 use App\Http\Controllers\SignalTradeController;
 use App\Http\Controllers\PaymentAdminController;
@@ -20,12 +21,20 @@ Auth::routes();
 // 🔹 Route untuk halaman utama (tanpa login)
 // Route::get('/', 'BlogController@index');
 Route::get('/', [BlogController::class, 'index']);
+// Route::get('/', function () {
+//     return view('frontend');
+// });
+
 Route::get('/tentang-kami', function () {
     return view('blog.tentang');
 });
 Route::get('/kontak', function () {
     return view('blog.kontak');
 });
+
+Route::get('/news', [CryptoNewsController::class, 'getCryptoNews']);
+
+
 Route::get('/list-artikel', [BlogController::class, 'list_artikel'])->name('blog.artikel');
 Route::get('/detail-post/{slug}', [BlogController::class, 'isi_post'])->name('blog.isi');
 Route::get('/list-post/{slug}', [BlogController::class, 'list_post'])->name('blog.list');

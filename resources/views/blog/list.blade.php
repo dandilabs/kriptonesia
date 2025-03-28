@@ -1,4 +1,4 @@
-@extends('template.index')
+@extends('frontend.index')
 @section('content')
     <section class="mb-30px">
         <div class="container">

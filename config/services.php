@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'newsdata' => [
+        'api_key' => env('NEWSDATA_API_KEY', 'default_api_key_jika_tidak_terbaca'),
+    ],
+
 ];
