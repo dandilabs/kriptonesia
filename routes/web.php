@@ -30,6 +30,7 @@ Route::get('/list-artikel', [BlogController::class, 'list_artikel'])->name('blog
 Route::get('/detail-post/{slug}', [BlogController::class, 'isi_post'])->name('blog.isi');
 Route::get('/list-post/{slug}', [BlogController::class, 'list_post'])->name('blog.list');
 Route::get('/list-category/{category}', [BlogController::class, 'list_category'])->name('blog.category');
+Route::get('/tag/{tag:slug}', [BlogController::class, 'list_tag'])->name('blog.tag');
 Route::get('/produk-kriptonesia', [ProductController::class, 'index'])->name('produk');
 
 // 🔹 Route untuk pembayaran (semua user)

@@ -118,7 +118,7 @@
                             </div>
 
                             <div class="form-group text-right">
-                                <button type="submit" class="btn btn-primary px-4 py-2">
+                                <button type="submit" class="button px-4 py-2">
                                     <i class="fas fa-paper-plane mr-2"></i> Kirim Pesan
                                 </button>
                             </div>

@@ -7,11 +7,13 @@
     <section class="mb-30px">
         <div class="container">
             <div class="hero-banner">
-                <div class="hero-banner__content">
-                    <h3>Crypto Market Insights: Apa yang Harus Diketahui Hari Ini?</h3>
-                    <h2>Berita, analisis, dan tren terbaru untuk membantu Anda tetap selangkah lebih maju.</h2>
-                    <h4>{{ \Carbon\Carbon::now()->format('F d, Y') }}</h4>
-                    {{-- {{ dd(Auth::user()->membership_type) }} --}}
+                <div class="hero-banner__content text-center">
+                    <h3 class="text-white">Crypto Market Insights</h3>
+                    <h2 class="text-warning">Apa yang Harus Diketahui Hari Ini?</h2>
+                    <p class="text-white">Berita, analisis, dan tren terbaru untuk membantu Anda tetap selangkah lebih maju.
+                    </p>
+                    <h4 class="text-light">{{ \Carbon\Carbon::now()->format('F d, Y') }}</h4>
+                    <a href="#" class="button mt-3">Lihat Berita</a>
                 </div>
             </div>
         </div>
@@ -26,7 +28,7 @@
                             <div class="col-md-6">
                                 <div class="single-recent-blog-post card-view">
                                     <div class="thumb">
-                                        <img class="card-img rounded-0" src="{{ $item->image }}" alt="">
+                                        <img class="card-img rounded-0 img-fluid" src="{{ asset($item->image) }}" alt="">
                                         <ul class="thumb-info">
                                             <li><a href="#" style="font-size: 12px;"><i
                                                         class="ti-user"></i>{{ $item->users->name }}</a></li>
@@ -41,7 +43,7 @@
                                         </a>
                                         <p class="tag-list-inline">Tag:
                                             @foreach ($item->tags as $tag)
-                                                <a href="#">{{ $tag->name }}</a>
+                                                <a href="#" class="badge badge-warning">{{ $tag->name }}</a>
                                                 @if (!$loop->last)
                                                     ,
                                                 @endif
@@ -60,24 +62,6 @@
                         <div class="col-lg-12">
                             <nav class="blog-pagination justify-content-center d-flex">
                                 {{ $data->links() }}
-                                {{-- <ul class="pagination">
-                                    <li class="page-item">
-                                        <a href="#" class="page-link" aria-label="Previous">
-                                            <span aria-hidden="true">
-                                                <i class="ti-angle-left"></i>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                    <li class="page-item">
-                                        <a href="#" class="page-link" aria-label="Next">
-                                            <span aria-hidden="true">
-                                                <i class="ti-angle-right"></i>
-                                            </span>
-                                        </a>
-                                    </li>
-                                </ul> --}}
                             </nav>
                         </div>
                     </div>
