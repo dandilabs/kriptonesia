@@ -4,6 +4,76 @@
 @endsection
 
 @section('content')
+    <style>
+        /* CTA Section */
+        .cta-section {
+            padding: 60px 0;
+            position: relative;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            text-align: center;
+        }
+
+        .cta-content {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            box-shadow: 0 10px 30px rgba(255, 75, 43, 0.2);
+        }
+
+        .cta-content:hover {
+            background: linear-gradient(45deg, #8f94fb, #4e54c8) !important;
+            transform: scale(1.01);
+            box-shadow: 0px 8px 30px rgba(78, 84, 200, 0.3);
+        }
+
+        /* Tombol Daftar Sekarang */
+        .btn-register {
+            display: inline-block;
+            background: white;
+            color: #ff4b2b;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+        }
+
+        .btn-register:hover {
+            background: #f8f9fa;
+            color: #ff4b2b;
+            transform: translateY(-3px);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Tombol Kontak Kami */
+        .btn-contact {
+            display: inline-block;
+            background: white;
+            color: #ff4b2b;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 12px 25px;
+            border: 2px solid white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .btn-contact:hover {
+            background: #f8f9fa;
+            color: #ff4b2b;
+            transform: translateY(-3px);
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        adow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
     <!--================ Hero Banner Start =================-->
     <!-- Page Title -->
     <div class="page-title">
@@ -210,100 +280,35 @@
     <!--================ Story Section End =================-->
 
     <!--================ CTA Section Start =================-->
-    <section class="cta-section bg-gradient-primary text-white section-padding">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-8 mb-4 mb-lg-0">
-                    <h2 class="mb-3 text-white">Siap Memulai Perjalanan Crypto Anda?</h2>
-                    <p class="mb-0">Bergabunglah dengan ribuan anggota kami yang telah menemukan cara lebih cerdas
-                        berinvestasi di dunia cryptocurrency.</p>
-                </div>
-                <div class="col-lg-4 text-lg-right">
-                    <a href="{{ route('register') }}" class="button button-light">Daftar Sekarang</a>
-                    <a href="#" class="button button-outline-light ml-2">Kontak Kami</a>
+    <!-- CTA Section -->
+    <section class="cta-section text-white">
+        <div class="container" data-aos="fade-up">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="cta-content rounded-4 p-5" style="background: linear-gradient(45deg, #ff416c, #ff4b2b);">
+                        <div class="row align-items-center">
+                            <div class="col-lg-8 text-center text-lg-start mb-4 mb-lg-0">
+                                <h2 class="mb-3">Siap Memulai Perjalanan Crypto Anda?</h2>
+                                <p class="mb-0">Bergabunglah dengan ribuan anggota kami yang telah menemukan cara lebih
+                                    cerdas
+                                    berinvestasi di dunia cryptocurrency.</p>
+                            </div>
+                            <div class="col-lg-4 text-center text-lg-end">
+                                <a href="{{ route('register') }}" class="btn-register me-2">
+                                    <i class="bi bi-person-plus me-2"></i>Daftar Sekarang
+                                </a>
+                                <a href="{{ url('/kontak') }}" class="btn-contact mt-2">
+                                    <i class="bi bi-envelope me-2"></i>Kontak Kami
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </section><!-- End CTA Section -->
     <!--================ CTA Section End =================-->
 @endsection
 
 @push('styles')
-    <style>
-        /* Hero Banner */
-        .hero-banner--sm {
-            padding: 100px 0;
-            background-size: cover;
-            position: relative;
-        }
-
-        .bg-gradient-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        /* Section Title */
-        .section-title h2 {
-            position: relative;
-            padding-bottom: 15px;
-        }
-
-        .title-border {
-            width: 80px;
-            height: 3px;
-            background: #667eea;
-            margin-top: 15px;
-        }
-
-        /* About Feature */
-        .feature-icon {
-            font-size: 24px;
-            min-width: 40px;
-        }
-
-        /* Timeline */
-        .timeline {
-            position: relative;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .timeline::after {
-            content: '';
-            position: absolute;
-            width: 3px;
-            background-color: #667eea;
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -1.5px;
-        }
-
-        .timeline-container {
-            padding: 10px 40px;
-            position: relative;
-            background-color: inherit;
-            width: 50%;
-        }
-
-        .timeline-content {
-            padding: 20px;
-            background-color: white;
-            position: relative;
-            border-radius: 8px;
-            border-left: 3px solid #667eea;
-        }
-
-        /* Responsive timeline */
-        @media screen and (max-width: 768px) {
-            .timeline::after {
-                left: 31px;
-            }
-
-            .timeline-container {
-                width: 100%;
-                padding-left: 70px;
-                padding-right: 25px;
-            }
-        }
-    </style>
 @endpush

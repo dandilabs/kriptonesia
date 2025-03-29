@@ -114,18 +114,20 @@ class BlogController extends Controller
                 return abort(404, 'Kategori tidak ditemukan');
             }
 
+            $data = Post::latest()->paginate(5);
+
             $category_sidebar = Category::all();
             $data_artikel = Post::with(['users', 'tags'])
                 ->whereIn('category_id', $category_data)
                 ->latest()
-                ->paginate(10);
+                ->paginate(6);
             // Ambil 3 post dengan views tertinggi untuk Popular Post
             $popular_posts = Post::orderByDesc('views')->take(3)->get();
 
             // Ambil tag yang paling sering digunakan
             $popular_tags = Tag::withCount('posts')->orderByDesc('posts_count')->take(10)->get();
 
-            return view('blog.artikel', compact('category_sidebar', 'data_artikel', 'categoryNames', 'popular_posts', 'popular_tags'));
+            return view('blog.artikel', compact('category_sidebar', 'data_artikel', 'categoryNames', 'popular_posts', 'popular_tags','data'));
         } catch (\Exception $e) {
             Log::error('Error di list_artikel: ' . $e->getMessage());
             return abort(500, 'Terjadi kesalahan server');

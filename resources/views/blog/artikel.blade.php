@@ -3,88 +3,146 @@
     Artikel
 @endsection
 @section('content')
-    <!--================Hero Banner start =================-->
-    <section class="mb-30px">
-        <div class="container">
-            <div class="hero-banner hero-banner--sm">
-                <div class="hero-banner__content">
-                    <h1>Artikel</h1>
-                    <nav aria-label="breadcrumb" class="banner-breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ url('/') }}">Beranda</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Artikel</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
+    <!-- Page Title -->
+    <div class="page-title position-relative">
+        <div class="breadcrumbs">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url('/') }}"><i class="bi bi-house"></i> Beranda</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('blog.artikel') }}">List Artikel</a></li>
+                    <li class="breadcrumb-item active current">Artikel</li>
+                </ol>
+            </nav>
         </div>
-    </section>
-    <section class="blog-post-area section-margin">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="row">
-                        @foreach ($data_artikel as $item)
-                            <div class="col-md-6">
-                                <div class="single-recent-blog-post card-view">
-                                    <div class="thumb">
-                                        <img class="card-img rounded-0" src="{{ $item->image }}" alt="">
-                                        <ul class="thumb-info">
-                                            <li><a href="#" style="font-size: 12px;"><i class="ti-user"></i>{{ $item->users->name }}</a></li>
-                                            <li><a href="#" style="font-size: 12px;"><i class="fa fa-calendar"></i>{{ \Carbon\Carbon::parse($item->created_at)->format('F d, Y') }}</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="details mt-20">
-                                        <a href="{{route('blog.isi', $item->slug)}}">
-                                            <h3>{{ $item->judul }}</h3>
-                                        </a>
-                                        <p class="tag-list-inline">Tag:
-                                            @foreach ($item->tags as $tag)
-                                                <a href="#">{{ $tag->name }}</a>
-                                                @if (!$loop->last)
-                                                    ,
-                                                @endif
-                                            @endforeach
-                                        </p>
-                                        {{-- <p>{{ $item->content }}</p> --}}
-                                        <a class="button" href="{{route('blog.isi', $item->slug)}}">Read More <i class="ti-arrow-right"></i></a>
-                                    </div>
+
+        <div class="title-wrapper">
+            <h1>Artikel</h1>
+            {{-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis,
+                pulvinar dapibus leo.</p> --}}
+        </div>
+    </div><!-- End Page Title -->
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-lg-8">
+
+                <!-- Category Postst Section -->
+                <section id="category-postst" class="category-postst section">
+
+                    <div class="container" data-aos="fade-up" data-aos-delay="100">
+                        <div class="row gy-4">
+                            @foreach ($data_artikel as $item)
+                                <div class="col-lg-6">
+                                    <article>
+
+                                        <div class="post-img">
+                                            <img src="{{ $item->image }}" alt="" class="img-fluid">
+                                        </div>
+
+                                        <p class="post-category">{{ $item->category->name }}</p>
+
+                                        <h2 class="title">
+                                            <a href="{{ route('blog.isi', $item->slug) }}">{{ $item->judul }}</a>
+                                        </h2>
+
+                                        <div class="d-flex align-items-center">
+                                            <img src="assets/img/person/person-f-12.webp" alt=""
+                                                class="img-fluid post-author-img flex-shrink-0">
+                                            <div class="post-meta">
+                                                <p class="post-author">{{ $item->users->name }}</p>
+                                                <p class="post-date">
+                                                    <time
+                                                        datetime="2022-01-01">{{ \Carbon\Carbon::parse($item->created_at)->format('F d, Y') }}</time>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </article>
+                                </div><!-- End post list item -->
+                            @endforeach
+                        </div>
+                    </div>
+
+                </section><!-- /Category Postst Section -->
+
+                <!-- Pagination 2 Section -->
+                <section id="pagination-2" class="pagination-2 section">
+
+                    <div class="container">
+                        <div class="d-flex justify-content-center">
+                            {{ $data_artikel->links() }}
+                        </div>
+                    </div>
+
+                </section><!-- /Pagination 2 Section -->
+
+            </div>
+
+            <div class="col-lg-4 sidebar">
+
+                <div class="widgets-container" data-aos="fade-up" data-aos-delay="200">
+
+                    <!-- Search Widget -->
+                    <div class="search-widget widget-item">
+
+                        <h3 class="widget-title">Search</h3>
+                        <form action="">
+                            <input type="text">
+                            <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+                        </form>
+
+                    </div><!--/Search Widget -->
+
+                    <!-- Categories Widget -->
+                    <div class="categories-widget widget-item">
+
+                        <h3 class="widget-title">Categories</h3>
+                        <ul class="mt-3">
+                            @foreach ($category_sidebar as $hasil)
+                                <li>
+                                    <a href="{{ route('blog.category', $hasil->slug) }}">{{ $hasil->name }} <span>(
+                                            {{ $hasil->posts->count() }} )</span></a>
+                                </li>
+                            @endforeach
+                        </ul>
+
+                    </div><!--/Categories Widget -->
+
+                    <!-- Recent Posts Widget -->
+                    <div class="recent-posts-widget widget-item">
+
+                        <h3 class="widget-title">Postingan terbaru</h3>
+                        @foreach ($data as $hasil)
+                            <div class="post-item">
+                                <img src="{{ asset($hasil->image) }}" alt="" class="flex-shrink-0">
+                                <div>
+                                    <h4><a href="{{ route('blog.isi', $hasil->slug) }}">{{ $hasil->judul }}</a></h4>
+                                    <time
+                                        datetime="2020-01-01">{{ \Carbon\Carbon::parse($hasil->created_at)->format('M. d, Y') }}</time>
                                 </div>
                             </div>
                         @endforeach
-                    </div>
+                        <!-- End recent post item-->
 
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <nav class="blog-pagination justify-content-center d-flex">
-                                {{ $data_artikel->links() }}
-                                {{-- <ul class="pagination">
-                                    <li class="page-item">
-                                        <a href="#" class="page-link" aria-label="Previous">
-                                            <span aria-hidden="true">
-                                                <i class="ti-angle-left"></i>
-                                            </span>
-                                        </a>
-                                    </li>
-                                    <li class="page-item active"><a href="#" class="page-link">1</a></li>
-                                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                    <li class="page-item">
-                                        <a href="#" class="page-link" aria-label="Next">
-                                            <span aria-hidden="true">
-                                                <i class="ti-angle-right"></i>
-                                            </span>
-                                        </a>
-                                    </li>
-                                </ul> --}}
-                            </nav>
-                        </div>
-                    </div>
+                    </div><!--/Recent Posts Widget -->
+
+                    <!-- Tags Widget -->
+                    <div class="tags-widget widget-item">
+
+                        <h3 class="widget-title">Tags</h3>
+                        <ul>
+                            @foreach ($popular_tags as $tag)
+                                <li><a href="{{ route('blog.tag', $tag->slug) }}">{{ $tag->name }}</a></li>
+                            @endforeach
+                        </ul>
+
+                    </div><!--/Tags Widget -->
+
                 </div>
 
-                <!-- Start Blog Post Siddebar -->
-                @include('template.sidebar')
             </div>
-            <!-- End Blog Post Siddebar -->
+
         </div>
-    </section>
+    </div>
 @endsection

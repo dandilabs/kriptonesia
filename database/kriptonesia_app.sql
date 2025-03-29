@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 28, 2025 at 11:46 PM
+-- Generation Time: Mar 29, 2025 at 02:27 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -270,16 +270,16 @@ INSERT INTO `posts` (`id`, `judul`, `slug`, `category_id`, `content`, `views`, `
 (1, 'Apa Itu Bitcoin? Panduan Lengkap untuk Pemula', 'apa-itu-bitcoin-panduan-lengkap-untuk-pemula', 2, '<p>Bitcoin adalah mata uang digital terdesentralisasi pertama yang diciptakan oleh Satoshi Nakamoto. Artikel ini menjelaskan cara kerja, sejarah, dan cara membeli Bitcoin.</p>', 1500, 'public/uploads/posts/1743189553Cryptocurrency_logos.jpg', '2025-03-28 11:51:47', '2025-03-28 12:19:13', NULL, 1),
 (2, 'Apa Itu Bitcoin? Panduan Lengkap untuk Pemula', 'apa-itu-bitcoin-panduan-lengkap-untuk-pemula', 2, '<p>Bitcoin adalah mata uang digital terdesentralisasi pertama yang diciptakan oleh Satoshi Nakamoto. Artikel ini menjelaskan cara kerja, sejarah, dan cara membeli Bitcoin.</p>', 1500, 'public/uploads/posts/1743189544Blockchain1.jpg', '2025-03-28 11:52:19', '2025-03-28 12:19:04', NULL, 1),
 (3, 'Apa Itu Bitcoin? Panduan Lengkap untuk Pemula', 'apa-itu-bitcoin-panduan-lengkap-untuk-pemula', 2, '<p>Bitcoin adalah mata uang digital terdesentralisasi pertama yang diciptakan oleh Satoshi Nakamoto. Artikel ini menjelaskan cara kerja, sejarah, dan cara membeli Bitcoin.</p>', 1500, 'public/uploads/posts/1743189535Cryptocurrency_logos.jpg', '2025-03-28 11:53:00', '2025-03-28 12:18:55', NULL, 1),
-(4, 'Apa Itu 3? Panduan Lengkap untuk Pemula', 'apa-itu-3-panduan-lengkap-untuk-pemula', 2, '<p>3 adalah mata uang digital terdesentralisasi pertama yang diciptakan oleh Satoshi Nakamoto. Artikel ini menjelaskan cara kerja, sejarah, dan cara membeli 3.</p>', 1528, 'public/uploads/posts/1743188842Cryptocurrency_logos.jpg', '2025-03-28 11:58:40', '2025-03-28 15:23:34', NULL, 1),
-(5, 'Cara Aman Menyimpan Crypto di Wallet', 'cara-aman-menyimpan-crypto-di-wallet', 3, '<p>Simak panduan memilih wallet crypto (hot vs cold wallet) dan tips keamanan untuk menghindari peretasan.</p>', 3200, 'public/uploads/posts/1743188851Blockchain1.jpg', '2025-03-28 11:58:40', '2025-03-28 12:07:31', NULL, 2),
+(4, 'Apa Itu 3? Panduan Lengkap untuk Pemula', 'apa-itu-3-panduan-lengkap-untuk-pemula', 1, '<p>3 adalah mata uang digital terdesentralisasi pertama yang diciptakan oleh Satoshi Nakamoto. Artikel ini menjelaskan cara kerja, sejarah, dan cara membeli 3.</p>', 1528, 'public/uploads/posts/1743188842Cryptocurrency_logos.jpg', '2025-03-28 11:58:40', '2025-03-29 02:44:30', NULL, 1),
+(5, 'Cara Aman Menyimpan Crypto di Wallet', 'cara-aman-menyimpan-crypto-di-wallet', 3, '<p>Simak panduan memilih wallet crypto (hot vs cold wallet) dan tips keamanan untuk menghindari peretasan.</p>', 3201, 'public/uploads/posts/1743188851Blockchain1.jpg', '2025-03-28 11:58:40', '2025-03-29 02:28:23', NULL, 2),
 (6, 'Analisis Pasar: Prediksi Harga 4 Tahun 2024', 'analisis-pasar-prediksi-harga-4-tahun-2024', 6, '<p>Bagaimana prospek 4 pasca-upgrade Shanghai? Berikut analisis faktor teknis dan fundamental yang memengaruhi harganya.</p>', 6001, 'public/uploads/posts/1743201556Blockchain1.jpg', '2025-03-28 11:58:40', '2025-03-28 15:39:16', NULL, 1),
-(7, '5 Strategi DCA (Dollar-Cost Averaging) untuk Crypto', '5-strategi-dca-dollar-cost-averaging-untuk-crypto', 4, '<p>DCA adalah metode investasi crypto yang mengurangi risiko volatilitas. Pelajari cara menerapkannya dengan optimal.</p>', 2800, 'public/uploads/posts/1743188867Cryptocurrency_logos.jpg', '2025-03-28 11:58:40', '2025-03-28 12:07:47', NULL, 3),
+(7, '5 Strategi DCA (Dollar-Cost Averaging) untuk Crypto', '5-strategi-dca-dollar-cost-averaging-untuk-crypto', 4, '<p>DCA adalah metode investasi crypto yang mengurangi risiko volatilitas. Pelajari cara menerapkannya dengan optimal.</p>', 2801, 'public/uploads/posts/1743188867Cryptocurrency_logos.jpg', '2025-03-28 11:58:40', '2025-03-29 02:31:02', NULL, 3),
 (8, 'NFT 101: Memahami Konsep dan Potensinya', 'nft-101-memahami-konsep-dan-potensinya', 7, '<p>Apa itu NFT? Bagaimana cara membeli dan menjualnya? Temukan jawabannya di panduan komprehensif ini.</p>', 6000, 'public/uploads/posts/1743188875Cryptocurrency_logos.jpg', '2025-03-28 11:58:40', '2025-03-28 12:07:55', NULL, 2),
-(9, 'Update: Regulasi Crypto di Indonesia Terbaru 2024', 'update-regulasi-crypto-di-indonesia-terbaru-2024', 5, '<p>Peraturan Bappebti tentang pajak crypto dan batasan transaksi. Bagaimana dampaknya bagi investor?</p>', 6000, 'public/uploads/posts/1743189495Blockchain1.jpg', '2025-03-28 11:58:40', '2025-03-28 12:18:15', NULL, 1),
+(9, 'Update: Regulasi Crypto di Indonesia Terbaru 2024', 'update-regulasi-crypto-di-indonesia-terbaru-2024', 5, '<p>Peraturan Bappebti tentang pajak crypto dan batasan transaksi. Bagaimana dampaknya bagi investor?</p>', 6002, 'public/uploads/posts/1743189495Blockchain1.jpg', '2025-03-28 11:58:40', '2025-03-29 02:28:54', NULL, 1),
 (10, 'Review 5 Aplikasi Crypto Terbaik untuk Pemula', 'review-5-aplikasi-crypto-terbaik-untuk-pemula', 8, '<p>Bandingkan fitur Binance, Pintu, Tokocrypto, dan lainnya. Mana yang paling user-friendly?</p>', 2200, 'public/uploads/posts/1743189503Cryptocurrency_logos.jpg', '2025-03-28 11:58:40', '2025-03-28 12:18:23', NULL, 3),
 (11, '2 Explained: Teknologi di Balik Crypto', '2-explained-teknologi-di-balik-crypto', 1, '<p>Bagaimana 2 bekerja? Apa bedanya dengan database tradisional? Simak penjelasan sederhananya.</p>', 1800, 'public/uploads/posts/1743189511Blockchain1.jpg', '2025-03-28 11:58:40', '2025-03-28 12:18:31', NULL, 2),
 (12, 'Cara Mendeteksi Scam Crypto dan Penipuan', 'cara-mendeteksi-scam-crypto-dan-penipuan', 3, '<p>Kenali tanda-tanda proyek crypto palsu, phishing, dan skema Ponzi untuk melindungi aset Anda.</p>', 6000, 'public/uploads/posts/1743189519Cryptocurrency_logos.jpg', '2025-03-28 11:58:40', '2025-03-28 12:18:39', NULL, 1),
-(13, 'Memahami Gas Fee 4 dan Cara Menghematnya', 'memahami-gas-fee-4-dan-cara-menghematnya', 1, '<p>Apa itu Gas Fee? Kapan waktu terbaik untuk bertransaksi di 4? Berikut tipsnya.</p>', 2900, 'public/uploads/posts/1743189526Blockchain1.jpg', '2025-03-28 11:58:40', '2025-03-28 12:18:46', NULL, 3);
+(13, 'Memahami Gas Fee 4 dan Cara Menghematnya', 'memahami-gas-fee-4-dan-cara-menghematnya', 1, '<p>Apa itu Gas Fee? Kapan waktu terbaik untuk bertransaksi di 4? Berikut tipsnya.</p>', 2901, 'public/uploads/posts/1743189526Blockchain1.jpg', '2025-03-28 11:58:40', '2025-03-29 02:43:17', NULL, 3);
 
 -- --------------------------------------------------------
 
@@ -351,7 +351,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('vyAYwZBIlhbeVksjkfcc95G3TSODRHfPOUhtsU8m', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiOXkxaVJBZXl4VEoxWGtObEFJajVrTzdpRnM4ZjNQSlpxZ1Rvd3BkRyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fX0=', 1743201947);
+('4AZhqEUSmRafMhqDNui2pOBjk7RQpKa8sXpo3bXu', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiTjNRNmJQU0l6N0lyS1FzdnVIdEMxMnUwZXM5YmdGdkJYdnJjNW54dCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9rb250YWsiO319', 1743254813);
 
 -- --------------------------------------------------------
 

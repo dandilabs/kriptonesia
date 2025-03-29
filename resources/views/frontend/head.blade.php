@@ -33,9 +33,22 @@
             background: linear-gradient(45deg, #ff9f43, #ff3f34);
             color: white;
             font-size: 10px;
-            padding: 5px 8px;
-            border-radius: 5px;
+            padding: 3px 6px;
+            border-radius: 10px;
             font-weight: bold;
+            white-space: nowrap;
+            transform: scale(0.9);
+        }
+
+        /* For hover effect */
+        .nav-item {
+            margin-right: 15px;
+            /* Give space for badge */
+        }
+
+        .nav-link {
+            padding-right: 8px !important;
+            /* Make room for badge */
         }
     </style>
 </head>

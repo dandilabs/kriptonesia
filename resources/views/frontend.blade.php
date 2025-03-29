@@ -4,6 +4,129 @@
 @endsection
 
 @section('content')
+    <style>
+       /* Crypto CTA Section */
+    .crypto-cta {
+        padding: 80px 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .crypto-offer {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 40px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .badge {
+        background: linear-gradient(45deg, #ff416c, #ff4b2b);
+        color: white;
+        padding: 8px 15px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 12px;
+        display: inline-block;
+    }
+
+    .feature-item {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 8px 15px;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-warning {
+        background: linear-gradient(45deg, #ff9a00, #ff4b2b);
+        color: white;
+        border: none;
+        font-weight: 600;
+        padding: 12px 25px;
+        border-radius: 50px;
+        transition: all 0.3s;
+    }
+
+    .btn-warning:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(255, 155, 0, 0.3);
+    }
+
+    .btn-outline-primary {
+        border: 2px solid #4e54c8;
+        color: #4e54c8;
+        font-weight: 600;
+        padding: 12px 25px;
+        border-radius: 50px;
+        transition: all 0.3s;
+    }
+
+    .btn-outline-primary:hover {
+        background: #4e54c8;
+        color: white;
+    }
+
+    .floating-card {
+        position: absolute;
+        bottom: -20px;
+        right: -20px;
+        padding: 15px;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 150px;
+    }
+
+    .card-icon {
+        font-size: 24px;
+    }
+
+    .stats-number {
+        font-size: 24px;
+        font-weight: 700;
+        display: block;
+        line-height: 1;
+    }
+
+    .stats-text {
+        font-size: 12px;
+        opacity: 0.8;
+    }
+
+    .decoration {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    .circle-1, .circle-2 {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(78, 84, 200, 0.1);
+    }
+
+    .circle-1 {
+        width: 200px;
+        height: 200px;
+        top: -50px;
+        right: -50px;
+    }
+
+    .circle-2 {
+        width: 300px;
+        height: 300px;
+        bottom: -100px;
+        left: -100px;
+    }
+    </style>
     <!-- Blog Hero Section -->
     <section id="blog-hero" class="blog-hero section">
         <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -198,49 +321,48 @@
     </section><!-- /Category Section Section -->
 
     <!-- Call To Action 2 Section -->
-    <section id="call-to-action-2" class="call-to-action-2 section">
-
+    <section id="crypto-cta" class="crypto-cta section">
         <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-            <div class="advertise-1 d-flex flex-column flex-lg-row gap-4 align-items-center position-relative">
-
+            <div class="crypto-offer d-flex flex-column flex-lg-row gap-4 align-items-center position-relative">
                 <div class="content-left flex-grow-1" data-aos="fade-right" data-aos-delay="200">
-                    <span class="badge text-uppercase mb-2">Don't Miss</span>
-                    <h2>Revolutionize Your Digital Experience Today</h2>
-                    <p class="my-4">Strategia accelerates your business growth through innovative solutions and
-                        cutting-edge technology. Join thousands of satisfied customers who have transformed their
-                        operations.</p>
+                    <span class="badge text-uppercase mb-2">Limited Offer</span>
+                    <h2>Tingkatkan Pengetahuan Crypto Anda Hari Ini</h2>
+                    <p class="my-4">Kriptonesia membantu Anda menguasai pasar cryptocurrency dengan analisis mendalam dan strategi trading terbaik. Bergabunglah dengan ribuan trader yang telah meningkatkan profit mereka bersama kami.</p>
 
                     <div class="features d-flex flex-wrap gap-3 mb-4">
                         <div class="feature-item">
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>Premium Support</span>
+                            <i class="bi bi-check-circle-fill text-primary"></i>
+                            <span>Analisis Pasar Harian</span>
                         </div>
                         <div class="feature-item">
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>Cloud Integration</span>
+                            <i class="bi bi-check-circle-fill text-primary"></i>
+                            <span>Sinyal Trading Akurat</span>
                         </div>
                         <div class="feature-item">
-                            <i class="bi bi-check-circle-fill"></i>
-                            <span>Real-time Analytics</span>
+                            <i class="bi bi-check-circle-fill text-primary"></i>
+                            <span>Komunitas VIP Eksklusif</span>
                         </div>
                     </div>
 
                     <div class="cta-buttons d-flex flex-wrap gap-3">
-                        <a href="#" class="btn btn-primary">Start Free Trial</a>
-                        <a href="#" class="btn btn-outline">Learn More</a>
+                        <a href="{{ route('register') }}" class="btn btn-warning">
+                            <i class="bi bi-lightning-fill me-2"></i>Mulai Sekarang
+                        </a>
+                        <a href="{{ route('produk') }}" class="btn btn-outline-primary">
+                            <i class="bi bi-info-circle me-2"></i>Lihat Paket
+                        </a>
                     </div>
                 </div>
 
                 <div class="content-right position-relative" data-aos="fade-left" data-aos-delay="300">
-                    <img src="assets/img/misc/misc-1.webp" alt="Digital Platform" class="img-fluid rounded-4">
-                    <div class="floating-card">
+                    <img src="{{ asset('frontend/assets/img/cta/trading.jpg') }}" alt="Dashboard Kriptonesia" class="img-fluid rounded-4">
+                    <div class="floating-card bg-primary text-white">
                         <div class="card-icon">
                             <i class="bi bi-graph-up-arrow"></i>
                         </div>
                         <div class="card-content">
-                            <span class="stats-number">245%</span>
-                            <span class="stats-text">Growth Rate</span>
+                            <span class="stats-number">89%</span>
+                            <span class="stats-text">Accuracy Rate</span>
                         </div>
                     </div>
                 </div>
@@ -249,11 +371,8 @@
                     <div class="circle-1"></div>
                     <div class="circle-2"></div>
                 </div>
-
             </div>
-
         </div>
-
     </section><!-- /Call To Action 2 Section -->
 
     <!-- Latest Posts Section -->
@@ -307,9 +426,8 @@
             <div class="row gy-4 justify-content-between align-items-center">
                 <div class="col-lg-6">
                     <div class="cta-content" data-aos="fade-up" data-aos-delay="200">
-                        <h2>Subscribe to our newsletter</h2>
-                        <p>Proin eget tortor risus. Mauris blandit aliquet elit, eget tincidunt nibh pulvinar a. Curabitur
-                            aliquet quam id dui posuere blandit.</p>
+                        <h2>Newsletter</h2>
+                        <p>Dapatkan update terbaru seputar cryptocurrency langsung ke email Anda</p>
                         <form action="forms/newsletter.php" method="post" class="php-email-form cta-form"
                             data-aos="fade-up" data-aos-delay="300">
                             <div class="input-group mb-3">
@@ -325,7 +443,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="cta-image" data-aos="zoom-out" data-aos-delay="200">
-                        <img src="assets/img/cta/cta-1.webp" alt="" class="img-fluid">
+                        <img src="{{ asset('frontend/assets/img/cta/cta-1.webp') }}" alt="" class="img-fluid">
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-@extends('template.index')
+@extends('frontend.index')
 
 @section('title', 'Riwayat Pembayaran')
 
@@ -17,23 +17,23 @@
             background-color: #dc3545;
         }
     </style>
-    <section class="mb-30px">
-        <div class="container">
-            <div class="hero-banner hero-banner--sm">
-                <div class="hero-banner__content text-center">
-                    <h1>Riwayat Pembayaran</h1>
-                    <nav aria-label="breadcrumb" class="banner-breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ url('/') }}">Beranda</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Riwayat Pembayaran</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
+    <!-- Page Title -->
+    <div class="page-title">
+        <div class="breadcrumbs">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url('/') }}"><i class="bi bi-house"></i> Beranda</a></li>
+                    <li class="breadcrumb-item active current">Riwayat Pembayaran</li>
+                </ol>
+            </nav>
         </div>
-    </section>
+
+        <div class="title-wrapper">
+            <h1>Riwayat Pembayaran</h1>
+        </div>
+    </div><!-- End Page Title -->
     <div class="container">
-        <h3>Riwayat Pembayaran</h3>
+        <h3>Riwayat Pembayaran - {{ Auth::user()->name }}</h3>
         <table class="table table-bordered">
             <thead>
                 <tr>

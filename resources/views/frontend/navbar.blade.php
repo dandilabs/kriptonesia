@@ -35,15 +35,21 @@
                         </li>
                         <li><a href="{{ route('blog.artikel') }}"
                                 class="{{ Route::is('blog.artikel') ? 'active' : '' }}">Artikel</a></li>
-                        <li>
-                            <a href="{{ route('produk') }}" class="{{ Request::is('produk') ? 'active' : '' }}">
-                                Produk <span class="badge badge-custom">🔥 Limited</span></a>
+                        <li class="nav-item position-relative">
+                            <a href="{{ route('produk') }}"
+                                class="nav-link {{ route::is('produk') ? 'active' : '' }}">
+                                Produk
+                                <span class="badge-custom position-absolute top-0 start-100 translate-middle">🔥
+                                    Limited</span>
+                            </a>
                         </li>
                         <li>
-                            <a href="{{ url('/tentang-kami') }}" class="{{ Request::is('tentang-kami') ? 'active' : '' }}">Tentang Kami</a>
+                            <a href="{{ url('/tentang-kami') }}"
+                                class="{{ Request::is('tentang-kami') ? 'active' : '' }}">Tentang Kami</a>
                         </li>
                         <li>
-                            <a href="{{ url('/kontak') }}" class="{{ Request::is('kontak') ? 'active' : '' }}">Kontak</a>
+                            <a href="{{ url('/kontak') }}"
+                                class="{{ Request::is('kontak') ? 'active' : '' }}">Kontak</a>
                         </li>
                         <li class="dropdown"><a href="#"><span>Membership</span> <i
                                     class="bi bi-chevron-down toggle-dropdown"></i></a>
@@ -59,7 +65,7 @@
                                     <li class="dropdown">
                                         <a href="#">
                                             <span>{{ Auth::user()->name }}</span>
-                                                <i class="bi bi-chevron-down toggle-dropdown"></i>
+                                            <i class="bi bi-chevron-down toggle-dropdown"></i>
                                         </a>
                                         @if (Auth::user()->role == 1)
                                             <ul>

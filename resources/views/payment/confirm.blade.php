@@ -1,28 +1,28 @@
-@extends('template.index')
+@extends('frontend.index')
 
 @section('title', 'Konfirmasi Pembayaran')
 
 @section('content')
-    <section class="mb-30px">
-        <div class="container">
-            <div class="hero-banner hero-banner--sm">
-                <div class="hero-banner__content text-center">
-                    <h1>Konfirmasi Pembayaran</h1>
-                    <nav aria-label="breadcrumb" class="banner-breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ url('/') }}">Beranda</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Konfirmasi Pembayaran</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
+    <!-- Page Title -->
+    <div class="page-title">
+        <div class="breadcrumbs">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url('/') }}"><i class="bi bi-house"></i> Beranda</a></li>
+                    <li class="breadcrumb-item active current">Konfirmasi Pembayaran</li>
+                </ol>
+            </nav>
         </div>
-    </section>
+
+        <div class="title-wrapper">
+            <h1>Konfirmasi Pembayaran</h1>
+        </div>
+    </div><!-- End Page Title -->
 
     <div class="container">
         <div class="card">
             <div class="card-header">
-                <h3>Detail Pembayaran</h3>
+                <h3>Detail Pembayaran - {{ Auth::user()->name }}</h3>
             </div>
             <div class="card-body">
                 <h5 class="card-title">Detail Pembayaran</h5>
