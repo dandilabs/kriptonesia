@@ -71,7 +71,7 @@
 
                     <div class="container">
                         <div class="d-flex justify-content-center">
-                            {{ $data_artikel->links() }}
+                            {{ $data_artikel->links('vendor.pagination.custom') }}
                         </div>
                     </div>
 
@@ -97,7 +97,7 @@
                     <!-- Categories Widget -->
                     <div class="categories-widget widget-item">
 
-                        <h3 class="widget-title">Categories</h3>
+                        <h3 class="widget-title">Kategori</h3>
                         <ul class="mt-3">
                             @foreach ($category_sidebar as $hasil)
                                 <li>

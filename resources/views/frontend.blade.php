@@ -5,127 +5,128 @@
 
 @section('content')
     <style>
-       /* Crypto CTA Section */
-    .crypto-cta {
-        padding: 80px 0;
-        position: relative;
-        overflow: hidden;
-    }
+        /* Crypto CTA Section */
+        .crypto-cta {
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .crypto-offer {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        padding: 40px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
+        .crypto-offer {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-    .badge {
-        background: linear-gradient(45deg, #ff416c, #ff4b2b);
-        color: white;
-        padding: 8px 15px;
-        border-radius: 50px;
-        font-weight: 700;
-        font-size: 12px;
-        display: inline-block;
-    }
+        .badge {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 12px;
+            display: inline-block;
+        }
 
-    .feature-item {
-        background: rgba(255, 255, 255, 0.1);
-        padding: 8px 15px;
-        border-radius: 50px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
+        .feature-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
-    .btn-warning {
-        background: linear-gradient(45deg, #ff9a00, #ff4b2b);
-        color: white;
-        border: none;
-        font-weight: 600;
-        padding: 12px 25px;
-        border-radius: 50px;
-        transition: all 0.3s;
-    }
+        .btn-warning {
+            background: linear-gradient(45deg, #ff9a00, #ff4b2b);
+            color: white;
+            border: none;
+            font-weight: 600;
+            padding: 12px 25px;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
 
-    .btn-warning:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 20px rgba(255, 155, 0, 0.3);
-    }
+        .btn-warning:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 155, 0, 0.3);
+        }
 
-    .btn-outline-primary {
-        border: 2px solid #4e54c8;
-        color: #4e54c8;
-        font-weight: 600;
-        padding: 12px 25px;
-        border-radius: 50px;
-        transition: all 0.3s;
-    }
+        .btn-outline-primary {
+            border: 2px solid #4e54c8;
+            color: #4e54c8;
+            font-weight: 600;
+            padding: 12px 25px;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
 
-    .btn-outline-primary:hover {
-        background: #4e54c8;
-        color: white;
-    }
+        .btn-outline-primary:hover {
+            background: #4e54c8;
+            color: white;
+        }
 
-    .floating-card {
-        position: absolute;
-        bottom: -20px;
-        right: -20px;
-        padding: 15px;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        width: 150px;
-    }
+        .floating-card {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 150px;
+        }
 
-    .card-icon {
-        font-size: 24px;
-    }
+        .card-icon {
+            font-size: 24px;
+        }
 
-    .stats-number {
-        font-size: 24px;
-        font-weight: 700;
-        display: block;
-        line-height: 1;
-    }
+        .stats-number {
+            font-size: 24px;
+            font-weight: 700;
+            display: block;
+            line-height: 1;
+        }
 
-    .stats-text {
-        font-size: 12px;
-        opacity: 0.8;
-    }
+        .stats-text {
+            font-size: 12px;
+            opacity: 0.8;
+        }
 
-    .decoration {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        z-index: -1;
-    }
+        .decoration {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
 
-    .circle-1, .circle-2 {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(78, 84, 200, 0.1);
-    }
+        .circle-1,
+        .circle-2 {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(78, 84, 200, 0.1);
+        }
 
-    .circle-1 {
-        width: 200px;
-        height: 200px;
-        top: -50px;
-        right: -50px;
-    }
+        .circle-1 {
+            width: 200px;
+            height: 200px;
+            top: -50px;
+            right: -50px;
+        }
 
-    .circle-2 {
-        width: 300px;
-        height: 300px;
-        bottom: -100px;
-        left: -100px;
-    }
+        .circle-2 {
+            width: 300px;
+            height: 300px;
+            bottom: -100px;
+            left: -100px;
+        }
     </style>
     <!-- Blog Hero Section -->
     <section id="blog-hero" class="blog-hero section">
@@ -287,33 +288,32 @@
             <!-- List Posts -->
             <div class="row">
                 @foreach ($categories as $category)
-                    @if ($category->posts->isNotEmpty())
-                        @foreach ($category->posts as $post)
-                            <div class="col-xl-4 col-lg-6">
-                                <article class="list-post">
-                                    <div class="post-img">
-                                        <img src="{{ asset($post->image) }}" alt="" class="img-fluid"
-                                            loading="lazy">
+                    {{-- @if ($category->posts->isNotEmpty()) --}}
+                    @foreach ($category->posts as $post)
+                        <div class="col-xl-4 col-lg-6">
+                            <article class="list-post">
+                                <div class="post-img">
+                                    <img src="{{ asset($post->image) }}" alt="" class="img-fluid" loading="lazy">
+                                </div>
+                                <div class="post-content">
+                                    <div class="category-meta">
+                                        <span class="post-category">{{ $post->category->name }}</span>
                                     </div>
-                                    <div class="post-content">
-                                        <div class="category-meta">
-                                            <span class="post-category">{{ $post->category->name }}</span>
-                                        </div>
-                                        <h3 class="title">
-                                            <a href="{{ route('blog.isi', $post->slug) }}">{{ $post->judul }}</a>
-                                        </h3>
-                                        <div class="post-meta">
-                                            <span class="read-time">2 mins read</span>
-                                            <span
-                                                class="post-date">{{ \Carbon\Carbon::parse($post->created_at)->format('d M Y') }}</span>
-                                        </div>
+                                    <h3 class="title">
+                                        <a href="{{ route('blog.isi', $post->slug) }}">{{ $post->judul }}</a>
+                                    </h3>
+                                    <div class="post-meta">
+                                        <span class="read-time">2 mins read</span>
+                                        <span
+                                            class="post-date">{{ \Carbon\Carbon::parse($post->created_at)->format('d M Y') }}</span>
                                     </div>
-                                </article>
-                            </div>
-                        @endforeach
-                    @else
+                                </div>
+                            </article>
+                        </div>
+                    @endforeach
+                    {{-- @else
                         <p>Belum ada post di kategori ini.</p>
-                    @endif
+                    @endif --}}
                 @endforeach
             </div>
         </div>
@@ -327,7 +327,9 @@
                 <div class="content-left flex-grow-1" data-aos="fade-right" data-aos-delay="200">
                     <span class="badge text-uppercase mb-2">Limited Offer</span>
                     <h2>Tingkatkan Pengetahuan Crypto Anda Hari Ini</h2>
-                    <p class="my-4">Kriptonesia membantu Anda menguasai pasar cryptocurrency dengan analisis mendalam dan strategi trading terbaik. Bergabunglah dengan ribuan trader yang telah meningkatkan profit mereka bersama kami.</p>
+                    <p class="my-4">Kriptonesia membantu Anda menguasai pasar cryptocurrency dengan analisis mendalam dan
+                        strategi trading terbaik. Bergabunglah dengan ribuan trader yang telah meningkatkan profit mereka
+                        bersama kami.</p>
 
                     <div class="features d-flex flex-wrap gap-3 mb-4">
                         <div class="feature-item">
@@ -355,7 +357,8 @@
                 </div>
 
                 <div class="content-right position-relative" data-aos="fade-left" data-aos-delay="300">
-                    <img src="{{ asset('frontend/assets/img/cta/trading.jpg') }}" alt="Dashboard Kriptonesia" class="img-fluid rounded-4">
+                    <img src="{{ asset('frontend/assets/img/cta/trading.jpg') }}" alt="Dashboard Kriptonesia"
+                        class="img-fluid rounded-4">
                     <div class="floating-card bg-primary text-white">
                         <div class="card-icon">
                             <i class="bi bi-graph-up-arrow"></i>

@@ -40,42 +40,46 @@ class PaymentController extends Controller
             return redirect('/');
         }
 
-        // CEK PEMBAYARAN EXPIRED - TAMBAHKAN KODE INI
-        $payment = PaymentConfirmation::where('user_id', $user->id)
-        ->where('payment_type', $request->payment_type)
-        ->where('status', 'pending')
-        ->first();
+        $paymentType = $request->payment_type; // Define paymentType here
 
-        if ($payment && $payment->created_at->diffInMinutes(now()) > 5) {
+        // Cek pembayaran sebelumnya
+        $payment = PaymentConfirmation::where('user_id', $user->id)->where('payment_type', $request->payment_type)->orderBy('created_at', 'desc')->first();
+
+        // Jika pembayaran sebelumnya expired, buat yang baru
+        if ($payment && $payment->status === 'expired') {
+            $newPayment = PaymentConfirmation::create([
+                'user_id' => $user->id,
+                'payment_type' => $request->payment_type,
+                'amount' => $this->getPrice($request->payment_type),
+                'status' => 'pending',
+            ]);
+
+            $payment = $newPayment;
+        }
+        // Jika pembayaran pending tapi sudah expired (lebih dari 5 menit)
+        elseif ($payment && $payment->status === 'pending' && $payment->created_at->diffInMinutes(now()) > 5) {
             $payment->update(['status' => 'expired']);
 
             $newPayment = PaymentConfirmation::create([
                 'user_id' => $user->id,
                 'payment_type' => $request->payment_type,
-                'amount' => $this->getPrice($request->payment_type), // Ganti calculateAmount dengan getPrice
+                'amount' => $this->getPrice($request->payment_type),
                 'status' => 'pending',
             ]);
 
-            return redirect()->route('payment.confirm', [
+            $payment = $newPayment;
+        }
+        // Jika tidak ada pembayaran sama sekali, buat yang baru
+        elseif (!$payment) {
+            $payment = PaymentConfirmation::create([
                 'user_id' => $user->id,
                 'payment_type' => $request->payment_type,
+                'amount' => $this->getPrice($request->payment_type),
+                'status' => 'pending',
             ]);
         }
 
-        $paymentType = $request->payment_type ?? 'membership'; // **Pastikan variabel ini ada**
-        $payment = PaymentConfirmation::where('user_id', $user->id)
-            ->where('payment_type', $request->payment_type)
-            ->where('status', 'pending')
-            ->orderBy('created_at', 'desc') // Pastikan ambil yang terbaru
-            ->first();
-
-        if (!$payment) {
-            Alert::error('Data pembayaran tidak ditemukan.');
-            return redirect('/');
-        }
-
-        $amount = $payment->amount; // ✅ Ambil dari database
-
+        $amount = $payment->amount;
         $biayaLayanan = 4000;
         $pajak = $amount * 0.1;
         $totalBayar = $amount;
@@ -142,7 +146,7 @@ class PaymentController extends Controller
                 'amount' => $request->amount,
                 'proof' => $this->storeProof($request->file('proof')),
                 'status' => 'verifying', // Ubah status menjadi verifying
-            ]
+            ],
         );
 
         // Update user status
@@ -169,10 +173,23 @@ class PaymentController extends Controller
     {
         $usdRate = $this->getUsdRate(); // Ambil kurs USDT terbaru
         // Hanya tampilkan pembayaran terakhir per jenis pembayaran
-        $payments = PaymentConfirmation::where('user_id', Auth::id())
-        ->orderBy('created_at', 'desc')
-        ->get()
-        ->unique('payment_type'); // Hanya ambil yang unik berdasarkan payment_type
-        return view('payment.history', compact('payments','usdRate'));
+        $payments = PaymentConfirmation::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get()->unique('payment_type'); // Hanya ambil yang unik berdasarkan payment_type
+        return view('payment.history', compact('payments', 'usdRate'));
+    }
+
+    private function getPrice($paymentType)
+    {
+        $prices = [
+            'news_1hari' => 10000,
+            'news_1bulan' => 50000,
+            'news_3bulan' => 120000,
+            'news_6bulan' => 200000,
+            'membership_1bulan' => 150000,
+            'membership_3bulan' => 400000,
+            'membership_6bulan' => 700000,
+            'membership_lifetime' => 2000000,
+        ];
+
+        return $prices[$paymentType] ?? null; // Jika tidak ditemukan, return null
     }
 }

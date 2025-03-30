@@ -78,10 +78,10 @@ class BlogController extends Controller
     public function list_category(Category $category)
     {
         $category_sidebar = Category::all();
-        $data = $category->posts()->paginate(1);
+        $data = $category->posts()->paginate(6);
 
         // Ambil 3 post dengan views tertinggi untuk Popular Post
-        $popular_posts = Post::orderByDesc('views')->take(3)->get();
+        $popular_posts = Post::orderByDesc('views')->take(5)->get();
 
         // Ambil tag yang paling sering digunakan
         $popular_tags = Tag::withCount('posts')->orderByDesc('posts_count')->take(10)->get();

@@ -36,8 +36,7 @@
                         <li><a href="{{ route('blog.artikel') }}"
                                 class="{{ Route::is('blog.artikel') ? 'active' : '' }}">Artikel</a></li>
                         <li class="nav-item position-relative">
-                            <a href="{{ route('produk') }}"
-                                class="nav-link {{ route::is('produk') ? 'active' : '' }}">
+                            <a href="{{ route('produk') }}" class="nav-link {{ route::is('produk') ? 'active' : '' }}">
                                 Produk
                                 <span class="badge-custom position-absolute top-0 start-100 translate-middle">🔥
                                     Limited</span>
@@ -73,58 +72,63 @@
                                                     <a href="{{ url('/admin/home') }}"><i
                                                             class="nav-icon fas fa-tachometer-alt"></i> Dashboard Admin</a>
                                                 </li>
-                                            @elseif (Auth::check() && Auth::user()->payment_status === 'paid')
+                                            </ul>
+                                        @elseif (Auth::check() && Auth::user()->payment_status === 'paid')
+                                            <ul>
                                                 <li>
                                                     <a href="{{ url('/member/home') }}"><i
-                                                            class="nav-icon fas fa-user"></i>
-                                                        Dashboard Member</a>
+                                                            class="nav-icon fas fa-user"></i> Dashboard Member</a>
                                                 </li>
                                                 <li>
                                                     <a href="{{ route('payment.history') }}"><i
                                                             class="nav-icon fas fa-history"></i> Riwayat Pembayaran</a>
                                                 </li>
-                                            @elseif (Auth::user()->payment_status === 'verifying')
-                                                <li>
-                                                    <i class="nav-icon fas fa-hourglass-half"></i> Pembayaran Sedang
-                                                    Diverifikasi
-                                                </li>
-                                                <li>
-                                                    <a href="{{ route('payment.history') }}"><i
-                                                            class="nav-icon fas fa-history"></i> Riwayat Pembayaran</a>
-                                                </li>
-                                            @elseif (Auth::user()->payment_status === 'pending')
-                                                @php
-                                                    $pendingPayment = App\Models\PaymentConfirmation::where(
-                                                        'user_id',
-                                                        Auth::id(),
-                                                    )
-                                                        ->where('status', 'pending')
-                                                        ->first();
-                                                @endphp
+                                            </ul>
+                                        @else
+                                            @php
+                                                $latestPayment = App\Models\PaymentConfirmation::where(
+                                                    'user_id',
+                                                    Auth::id(),
+                                                )
+                                                    ->orderBy('created_at', 'desc')
+                                                    ->first();
+                                            @endphp
 
-                                                @if ($pendingPayment)
+                                            <ul>
+                                                @if ($latestPayment)
+                                                    @if ($latestPayment->status === 'verifying')
+                                                        <li>
+                                                            <i class="nav-icon fas fa-hourglass-half"></i> Pembayaran Sedang
+                                                            Diverifikasi
+                                                        </li>
+                                                    @elseif($latestPayment->status === 'pending')
+                                                        <li>
+                                                            <a
+                                                                href="{{ route('payment.confirm', ['user_id' => Auth::id(), 'payment_type' => $latestPayment->payment_type]) }}">
+                                                                <i class="nav-icon fas fa-exclamation-triangle"></i>
+                                                                Selesaikan Pembayaran
+                                                            </a>
+                                                        </li>
+                                                    @elseif($latestPayment->status === 'expired')
+                                                        <li>
+                                                            <a href="{{ route('member.upgrade') }}">
+                                                                <i class="nav-icon fas fa-shopping-cart"></i> Buat
+                                                                Pembayaran Baru
+                                                            </a>
+                                                        </li>
+                                                    @endif
                                                     <li>
-                                                        <a
-                                                            href="{{ route('payment.confirm', ['user_id' => Auth::id(), 'payment_type' => $pendingPayment->payment_type]) }}"><i
-                                                                class="nav-icon fas fa-exclamation-triangle"></i> Selesaikan
-                                                            Pembayaran</a>
+                                                        <a href="{{ route('payment.history') }}"><i
+                                                                class="nav-icon fas fa-history"></i> Riwayat Pembayaran</a>
                                                     </li>
                                                 @else
                                                     <li>
-                                                        <i class="nav-icon fas fa-hourglass-half"></i> Pembayaran Sedang
-                                                        Diverifikasi
+                                                        <a href="{{ route('member.upgrade') }}"><i
+                                                                class="nav-icon fas fa-shopping-cart"></i> Mulai
+                                                            Berlangganan</a>
                                                     </li>
                                                 @endif
-                                                <li>
-                                                    <a href="{{ route('payment.history') }}"><i
-                                                            class="nav-icon fas fa-history"></i> Riwayat Pembayaran</a>
-                                                </li>
-                                            @else
-                                                <li>
-                                                    <a href="{{ route('member.upgrade') }}"><i
-                                                            class="nav-icon fas fa-shopping-cart"></i> Mulai
-                                                        Berlangganan</a>
-                                                </li>
+                                            </ul>
                                         @endif
                                     <li>
                                         <a href="{{ route('logout') }}"

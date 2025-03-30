@@ -125,6 +125,7 @@ class RegisterController extends Controller
 
         // Untuk user free, login seperti biasa
         if ($user->membership_type === 'free') {
+            Alert::success('Registrasi Berhasil! 🎉', 'Akun Anda sudah aktif! Yuk, jelajahi insight dan strategi trading terbaik sekarang! 🚀');
             return redirect($this->redirectPath());
         }
 

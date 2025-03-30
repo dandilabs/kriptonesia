@@ -3,6 +3,21 @@
     Detail
 @endsection
 @section('content')
+    <!-- Page Title -->
+    <div class="page-title">
+        <div class="breadcrumbs">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url('/') }}"><i class="bi bi-house"></i> Home</a></li>
+                    <li class="breadcrumb-item active current">Detail Postingan</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="title-wrapper">
+            <h1>Detail Post</h1>
+        </div>
+    </div><!-- End Page Title -->
     <div class="container">
         <div class="row">
 
@@ -20,10 +35,11 @@
                                 <div class="meta-overlay">
                                     <div class="meta-categories">
                                         @if ($post->category)
-                                            <a href="{{ route('blog.category', $post->slug) }}" class="category">{{ $post->category->name }}</a>
+                                            <a href="{{ route('blog.category', $post->slug) }}"
+                                                class="category">{{ $post->category->name }}</a>
                                         @endif
                                         <span class="divider">•</span>
-                                        <span class="reading-time"><i class="bi bi-clock"></i> 6 min read</span>
+                                        <span class="reading-time"><i class="bi bi-eye"></i>{{$post->views }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -56,13 +72,11 @@
 
                                 <div class="meta-bottom">
                                     <div class="tags-section">
-                                        <h4>Related Topics</h4>
+                                        <h4>Tags</h4>
                                         <div class="tags">
-                                            <a href="#" class="tag">Web Development</a>
-                                            <a href="#" class="tag">Performance</a>
-                                            <a href="#" class="tag">Best Practices</a>
-                                            <a href="#" class="tag">Trends</a>
-                                            <a href="#" class="tag">2025</a>
+                                            @foreach ($post->tags as $tag)
+                                                <a href="#" class="tag">{{ $tag->name }}</a>
+                                            @endforeach
                                         </div>
                                     </div>
 
@@ -103,11 +117,12 @@
                     <!-- Categories Widget -->
                     <div class="categories-widget widget-item">
 
-                        <h3 class="widget-title">Categories</h3>
+                        <h3 class="widget-title">Kategori</h3>
                         <ul class="mt-3">
                             @foreach ($category_sidebar as $hasil)
                                 <li>
-                                    <a href="{{ route('blog.category', $hasil->slug) }}">{{ $hasil->name }} <span>( {{ $hasil->posts->count() }} )</span></a>
+                                    <a href="{{ route('blog.category', $hasil->slug) }}">{{ $hasil->name }} <span>(
+                                            {{ $hasil->posts->count() }} )</span></a>
                                 </li>
                             @endforeach
                         </ul>
@@ -122,10 +137,12 @@
                                 <img src="{{ asset($hasil->image) }}" alt="" class="flex-shrink-0">
                                 <div>
                                     <h4><a href="{{ route('blog.isi', $hasil->slug) }}">{{ $hasil->judul }}</a></h4>
-                                    <time datetime="2020-01-01">{{ \Carbon\Carbon::parse($hasil->created_at)->format('M. d, Y') }}</time>
+                                    <time
+                                        datetime="2020-01-01">{{ \Carbon\Carbon::parse($hasil->created_at)->format('M. d, Y') }}</time>
                                 </div>
                             </div>
-                        @endforeach<!-- End recent post item-->
+                        @endforeach
+                        <!-- End recent post item-->
 
                     </div><!--/Recent Posts Widget -->
 
