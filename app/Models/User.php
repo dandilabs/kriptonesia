@@ -60,4 +60,11 @@ class User extends Authenticatable
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
+
+    public function isAdmin()
+    {
+        return $this->role === 1; // Sesuaikan dengan logika role di aplikasi Anda
+        // atau
+        // return $this->role === 'admin';
+    }
 }

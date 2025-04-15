@@ -1,79 +1,107 @@
 @extends('layouts.admin')
+@section('title', 'Daftar Tag')
 @section('content')
+    @include('sweetalert::alert')
+    <style>
+        .bg-lightblue {
+            background-color: #e3f2fd;
+        }
 
-@include('sweetalert::alert')
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
+        .card-primary.card-outline {
+            border-top: 3px solid #007bff;
+        }
+
+        .table-hover tbody tr:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+        }
+    </style>
+    <!-- Content Header -->
+    <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">List Tags</h1>
-                </div><!-- /.col -->
+                    <h1 class="m-0 text-dark">Daftar Tag</h1>
+                </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="">Home</a></li>
-                        <li class="breadcrumb-item active">List Tags</li>
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="fas fa-home"></i></a></li>
+                        <li class="breadcrumb-item active">Tag</li>
                     </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Main content -->
-    <div class="content">
+    <section class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <a href="{{route('tag.create')}}" class="btn btn-block btn-outline-primary">
-                                    <i class="fa fa-plus-circle"></i> Add </a>
-                            </h3>
+                    <div class="card card-primary card-outline">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h3 class="card-title">Manajemen Tag</h3>
+                            <a href="{{ route('tag.create') }}" class="btn btn-sm btn-success">
+                                <i class="fas fa-plus-circle mr-1"></i> Tambah Baru
+                            </a>
                         </div>
+
                         <div class="card-body">
-                            <table id="example2" class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Name</th>
-                                        <th>Slug</th>
-                                        <th class="text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($data as $item)
+                            <div class="table-responsive">
+                                <table id="tagTable" class="table table-bordered table-striped table-hover">
+                                    <thead class="bg-lightblue">
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->name }}</td>
-                                            <td>{{ $item->slug }}</td>
-                                            <td class="text-center">
-                                                <form action="{{route('tag.destroy', $item->id )}}" method="post">
-                                                    @csrf
-                                                    @method('delete')
-                                                    <a href="{{route('tag.edit', $item->id)}}" class="btn btn-outline-primary btn-sm"> <i class="fas fa-pencil-alt">
-                                                    </i> Edit</a>
-                                                    <button type="submit" class="btn btn-outline-danger btn-sm"> <i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
-                                                </form>
-                                            </td>
+                                            <th width="5%">No</th>
+                                            <th>Nama Tag</th>
+                                            <th>Slug</th>
+                                            <th width="20%" class="text-center">Aksi</th>
                                         </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($data as $item)
+                                            <tr>
+                                                <td class="text-center">{{ $loop->iteration }}</td>
+                                                <td>{{ $item->name }}</td>
+                                                <td>{{ $item->slug }}</td>
+                                                <td class="text-center">
+                                                    <div class="btn-group" role="group">
+                                                        <a href="{{ route('tag.edit', $item->id) }}"
+                                                            class="btn btn-sm btn-warning" data-toggle="tooltip"
+                                                            title="Edit">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                        <form action="{{ route('tag.destroy', $item->id) }}" method="POST"
+                                                            class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm btn-danger"
+                                                                onclick="return confirm('Apakah Anda yakin ingin menghapus tag ini?')"
+                                                                data-toggle="tooltip" title="Hapus">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="4" class="text-center">Tidak ada data tag</td>
+                                            </tr>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content -->
+        </div>
+    </section>
 @endsection
+
 @push('js')
     <script>
         $(document).ready(function() {
-            $('#example2').DataTable({
+            $('#tagTable').DataTable({
                 "paging": true, // Aktifkan pagination
                 "lengthChange": true, // Tambahkan pilihan jumlah data per halaman
                 "searching": true,
@@ -81,7 +109,7 @@
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
-                "pageLength": 10 // Set jumlah data default per halaman
+                "pageLength": 5 // Set jumlah data default per halaman
             });
         });
     </script>

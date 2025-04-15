@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+@include('sweetalert::alert')
     <style>
         .submit-btn {
             display: inline-block;

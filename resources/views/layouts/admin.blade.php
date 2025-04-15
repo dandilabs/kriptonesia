@@ -9,6 +9,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>AdminLTE 3 | Starter</title>
+        <link href="{{ asset('frontend/assets/img/favicon.png') }}" rel="icon">
 
         <!-- Google Font: Source Sans Pro -->
         <link rel="stylesheet"
@@ -20,10 +21,10 @@
         <!-- DataTables -->
         <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.bootstrap5.css">
         <!-- Select2 -->
-        <link rel="stylesheet" href="{{asset('admin/plugins/select2/css/select2.min.css')}}">
-        <link rel="stylesheet" href="{{asset('admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+        <link rel="stylesheet" href="{{ asset('admin/plugins/select2/css/select2.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('admin/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
         <!-- summernote -->
-        <link rel="stylesheet" href="{{asset('admin/plugins/summernote/summernote-bs4.min.css')}}">
+        <link rel="stylesheet" href="{{ asset('admin/plugins/summernote/summernote-bs4.min.css') }}">
         {{-- <link rel="stylesheet" href="{{ asset('admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
         <link rel="stylesheet" href="{{ asset('admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
         <link rel="stylesheet" href="{{ asset('admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}"> --}}
@@ -86,9 +87,9 @@
             <aside class="main-sidebar sidebar-dark-primary elevation-4">
                 <!-- Brand Logo -->
                 <a href="index3.html" class="brand-link">
-                    <img src="{{ asset('admin/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
+                    <img src="{{ asset('frontend/assets/img/favicon.png') }}" alt="AdminLTE Logo"
                         class="brand-image img-circle elevation-3" style="opacity: .8">
-                    <span class="brand-text font-weight-light">AdminLTE 3</span>
+                    <span class="brand-text font-weight-light">Kriptonesia</span>
                 </a>
 
                 <!-- Sidebar -->
@@ -167,11 +168,50 @@
         <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
         <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
         <!-- Select2 -->
-        <script src="{{asset('admin/plugins/select2/js/select2.full.min.js')}}"></script>
+        <script src="{{ asset('admin/plugins/select2/js/select2.full.min.js') }}"></script>
         <!-- CKEditor -->
         <script src="https://cdn.ckeditor.com/4.20.2/standard/ckeditor.js"></script>
         <script>
             $(document).ready(function() {
+                // Toggle leverage field
+                $('#tradeTypeSelect').change(function() {
+                    if ($(this).val() === 'future') {
+                        $('#leverageField').show();
+                    } else {
+                        $('#leverageField').hide();
+                        $('input[name="leverage"]').val('');
+                    }
+                });
+
+                // Hitung rasio risk/reward otomatis
+                $('input[name="entry_price"], input[name="target_price"], input[name="stop_loss"]').on('input',
+                    function() {
+                        const entry = parseFloat($('input[name="entry_price"]').val()) || 0;
+                        const target = parseFloat($('input[name="target_price"]').val()) || 0;
+                        const stopLoss = parseFloat($('input[name="stop_loss"]').val()) || 0;
+
+                        if (entry > 0 && target > 0 && stopLoss > 0) {
+                            const reward = target - entry;
+                            const risk = entry - stopLoss;
+                            const ratio = risk > 0 ? (reward / risk).toFixed(2) : 0;
+                            $('#risk-reward-ratio').text(ratio + ':1');
+                        } else {
+                            $('#risk-reward-ratio').text('0:1');
+                        }
+                    });
+
+                bsCustomFileInput.init();
+                // Inisialisasi text editor untuk analisis
+                $('#analysis').summernote({
+                    height: 200,
+                    toolbar: [
+                        ['style', ['bold', 'italic', 'underline']],
+                        ['para', ['ul', 'ol']],
+                        ['insert', ['link', 'picture']]
+                    ],
+                    placeholder: 'Tulis analisis teknis disini...'
+                });
+
                 CKEDITOR.replace('content'); // Pastikan ID sesuai dengan textarea
             });
         </script>

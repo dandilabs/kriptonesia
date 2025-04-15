@@ -7,6 +7,8 @@ use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Cache;
 use Symfony\Component\CssSelector\Node\FunctionNode;
 
 class BlogController extends Controller
@@ -15,11 +17,14 @@ class BlogController extends Controller
     {
         // Ambil 3 post terbaru
         $featured_posts = Post::latest()->take(3)->get();
-        $categories = Category::with(['posts' => function($query) {
-            $query->with(['users', 'tags'])
-                ->latest()
-                ->take(3);
-        }])->get(); // Ambil semua kategori, meskipun tidak ada post
+        $categories = Category::with([
+            'posts' => function ($query) {
+                $query
+                    ->with(['users', 'tags'])
+                    ->latest()
+                    ->take(3);
+            },
+        ])->get(); // Ambil semua kategori, meskipun tidak ada post
 
         $data = Post::latest()->paginate(5);
         $terbaru = Post::latest()->paginate(6);
@@ -29,13 +34,54 @@ class BlogController extends Controller
         // Ambil tag yang paling sering digunakan
         $popular_tags = Tag::withCount('posts')->orderByDesc('posts_count')->take(10)->get();
 
-        return view('frontend', compact('data', 'categories', 'popular_posts', 'popular_tags','featured_posts','terbaru'));
+        // Ambil harga dari CoinGecko
+        $cryptoPrices = Cache::remember('crypto_prices', 300, function () {
+            try {
+                $response = Http::get('https://api.coingecko.com/api/v3/simple/price', [
+                    'ids' => 'bitcoin,ethereum,binancecoin,ripple,cardano,solana',
+                    'vs_currencies' => 'usd',
+                    'include_24hr_change' => 'true',
+                ]);
+                return $response->successful() ? $response->json() : [];
+            } catch (\Exception $e) {
+                Log::error('CoinGecko API Error: ' . $e->getMessage());
+                return [];
+            }
+        });
+
+        $cryptoList = [
+            'bitcoin' => [
+                'name' => 'Bitcoin',
+                'image' => 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png',
+            ],
+            'ethereum' => [
+                'name' => 'Ethereum',
+                'image' => 'https://assets.coingecko.com/coins/images/279/large/ethereum.png',
+            ],
+            'binancecoin' => [
+                'name' => 'Binance Coin',
+                'image' => 'https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png',
+            ],
+            'ripple' => [
+                'name' => 'XRP',
+                'image' => 'https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png',
+            ],
+            'cardano' => [
+                'name' => 'Cardano',
+                'image' => 'https://assets.coingecko.com/coins/images/975/large/cardano.png',
+            ],
+            'solana' => [
+                'name' => 'Solana',
+                'image' => 'https://assets.coingecko.com/coins/images/4128/large/solana.png',
+            ],
+        ];
+        return view('frontend', compact('data', 'categories', 'popular_posts', 'popular_tags', 'featured_posts', 'terbaru', 'cryptoPrices', 'cryptoList'));
     }
 
     public function isi_post($slug)
     {
         $category_sidebar = Category::all();
-        $post  = Post::where('slug', $slug)->firstOrFail();
+        $post = Post::where('slug', $slug)->firstOrFail();
 
         $data = Post::latest()->paginate(5);
 
@@ -56,9 +102,7 @@ class BlogController extends Controller
         // ->take(3)
         // ->get();
 
-
-
-        return view('blog.isi_post', compact('post', 'category_sidebar','popular_posts','popular_tags','data'));
+        return view('blog.isi_post', compact('post', 'category_sidebar', 'popular_posts', 'popular_tags', 'data'));
     }
 
     public function list_post(Post $posts)
@@ -127,7 +171,7 @@ class BlogController extends Controller
             // Ambil tag yang paling sering digunakan
             $popular_tags = Tag::withCount('posts')->orderByDesc('posts_count')->take(10)->get();
 
-            return view('blog.artikel', compact('category_sidebar', 'data_artikel', 'categoryNames', 'popular_posts', 'popular_tags','data'));
+            return view('blog.artikel', compact('category_sidebar', 'data_artikel', 'categoryNames', 'popular_posts', 'popular_tags', 'data'));
         } catch (\Exception $e) {
             Log::error('Error di list_artikel: ' . $e->getMessage());
             return abort(500, 'Terjadi kesalahan server');

@@ -6,14 +6,21 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UpgradeController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ExchangeController;
+use App\Http\Controllers\FearGreedController;
 use App\Http\Controllers\CryptoNewsController;
 use App\Http\Controllers\MemberTradeController;
 use App\Http\Controllers\SignalTradeController;
+use App\Http\Controllers\TopHoldingsController;
 use App\Http\Controllers\PaymentAdminController;
+use App\Http\Controllers\CryptoCalendarController;
+use App\Http\Controllers\TrendingCryptoController;
+use App\Http\Controllers\ExchangeInsightController;
 
 // 🔹 Route untuk autentikasi
 Auth::routes();
@@ -79,6 +86,7 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
     // 🔹 Manajemen Pembayaran
     Route::get('/payments', [PaymentAdminController::class, 'index'])->name('admin.payments');
     Route::post('/payments/update/{id}', [PaymentAdminController::class, 'updateStatus'])->name('admin.payments.update');
+    Route::get('/payments/{id}/expired', [PaymentAdminController::class, 'setExpired'])->name('admin.payment.expired');
 });
 
 
@@ -87,6 +95,22 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
 // ==================================================
 Route::group(['middleware' => ['auth', 'member'], 'prefix' => 'member'], function () {
     Route::get('/home', [App\Http\Controllers\MemberController::class, 'index'])->name('member.home');
+    Route::get('/news', [App\Http\Controllers\MemberController::class, 'news'])->name('member.news');
+    Route::get('/news/search', [MemberController::class, 'search'])->name('member.search');
     Route::get('/signal-trade', [MemberTradeController::class, 'index'])->name('trade.index');
+    Route::get('/detail-trade/{id}', [MemberTradeController::class, 'show'])->name('trade.show');
+    Route::get('/community', [MemberTradeController::class, 'community'])->name('member.community');
+    Route::get('/crypto-calendar', [CryptoCalendarController::class, 'index'])->name('member.calendar');
+    Route::get('/fear-greed-index', [FearGreedController::class, 'index'])->name('member.fear');
+    Route::get('/fear-greed-index/data', [FearGreedController::class, 'getData'])->name('member.data');
+    Route::get('/api/fear-greed', [FearGreedController::class, 'index'])->name('api.feargreed');
+    Route::get('/top-holdings/{coin_id}', [TopHoldingsController::class, 'index'])->name('top.holdings');
+    Route::get('/crypto-insight', [ExchangeInsightController::class, 'index'])->name('crypto-insight');
+    Route::get('/crypto/{id}', [ExchangeInsightController::class, 'show'])->name('crypto.show');
+    Route::get('/trending-crypto', [TrendingCryptoController::class, 'index'])->name('trending.crypto');
+
+
+
+
     // Route::get('/profile', [App\Http\Controllers\MemberController::class, 'profile'])->name('member.profile');
 });

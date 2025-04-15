@@ -56,6 +56,16 @@
                                             <i class="fas fa-check"></i> Verifikasi
                                         </button>
                                     </form>
+                                @elseif($payment->status == 'paid')
+                                    <form action="{{ route('admin.payment.expired', $payment->id) }}" method="POST"
+                                        class="d-inline"
+                                        onsubmit="return confirm('Yakin mau expired-kan pembayaran ini?');">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-times-circle"></i> Force Expired
+                                        </button>
+                                    </form>
                                 @else
                                     <span class="text-success"><i class="fas fa-check-circle"></i> Terverifikasi</span>
                                 @endif

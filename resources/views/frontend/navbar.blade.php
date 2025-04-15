@@ -73,7 +73,7 @@
                                                             class="nav-icon fas fa-tachometer-alt"></i> Dashboard Admin</a>
                                                 </li>
                                             </ul>
-                                        @elseif (Auth::check() && Auth::user()->payment_status === 'paid')
+                                            @elseif(Auth::user()->payment_status === 'paid' && (Auth::user()->membership_type === 'membership_lifetime' || Auth::user()->expired_at > now()))
                                             <ul>
                                                 <li>
                                                     <a href="{{ url('/member/home') }}"><i
@@ -138,8 +138,9 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
-                                </ul>
-                            @endguest
+
+                                @endguest
+                            </ul>
                         </li>
                     </ul>
                     </li>

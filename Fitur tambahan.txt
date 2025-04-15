@@ -1,0 +1,13 @@
+Fitur Premium yang Bisa Ditambahkan:
+Kalender Ekonomi Crypto - Integrasi dengan API kalender ekonomi
+- Launching project
+- Update jaringan
+- Data ekonomi global yang berpengaruh ke crypto
+
+Portofolio Tracker - Untuk melacak investasi user
+
+Auto-Trading Signals - Integrasi dengan Telegram API
+
+Kalkulator Profit - Untuk menghitung potensi profit
+
+Weekly Report - Laporan mingguan otomatis

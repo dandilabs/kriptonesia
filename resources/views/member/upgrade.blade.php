@@ -75,7 +75,7 @@
                                     <div class="select-wrapper">
                                         <select id="membership" class="form-select" name="membership_type">
                                             <optgroup label="Langganan News">
-                                                {{-- <option value="news_1hari">1 Day Pass (Rp5.000 / ${{ number_format(5000 / $usdRate, 2) }} USDT)</option> --}}
+                                                <option value="news_1hari">1 Day Pass (Rp5.000 / ${{ number_format(5000 / $usdRate, 2) }} USDT)</option>
                                                 <option value="news_1bulan">1 Month (${{ number_format(50000 / $usdRate, 2) }} USDT)</option>
                                                 <option value="news_3bulan">3 Months (${{ number_format(120000 / $usdRate, 2) }} USDT)</option>
                                                 <option value="news_6bulan">6 Months (${{ number_format(200000 / $usdRate, 2) }} USDT)</option>

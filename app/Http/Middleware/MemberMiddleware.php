@@ -4,55 +4,50 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Models\PaymentConfirmation;
 use Symfony\Component\HttpFoundation\Response;
 
 class MemberMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
-
         if (!Auth::check()) {
             return redirect('/login')->with('error', 'Silakan login terlebih dahulu.');
         }
 
         $user = Auth::user();
+        $isLifetime = $user->membership_type === 'membership_lifetime';
 
-            // Jika user memiliki status pembayaran 'paid', izinkan akses
-        if ($user->payment_status === 'paid') {
+        // Auto update expired khusus non-lifetime
+        if ($user->payment_status === 'paid' && !$isLifetime && $user->expired_at < now()) {
+            $user->update(['payment_status' => 'expired']);
+
+            PaymentConfirmation::where('user_id', $user->id)
+                ->where('status', 'paid')
+                ->where('expired_at', '<', now())
+                ->update(['status' => 'expired']);
+        }
+
+        // Kalau user lifetime atau masih aktif, lanjut
+        if ($user->payment_status === 'paid' || $isLifetime) {
             return $next($request);
         }
 
-            // Jika user adalah free member, izinkan akses ke halaman upgrade
+        // Kalau user free member, boleh akses halaman upgrade
         if ($request->routeIs('member.upgrade*')) {
             return $next($request);
         }
 
-        // Cek status pembayaran di tabel payment_confirmations
-        $payment = DB::table('payment_confirmations')
-            ->where('user_id', Auth::user()->id)
-            ->where('status', 'paid')
-            ->first();
+        // Kalau ada payment yang sudah paid tapi belum expired
+        $payment = DB::table('payment_confirmations')->where('user_id', $user->id)->where('status', 'paid')->first();
 
-        // Jika pembayaran sudah berhasil, izinkan akses
         if ($payment) {
             return $next($request);
         }
 
-        // Jika tidak memenuhi syarat, redirect ke home dengan pesan error
+        // Kalau semua gagal → tendang ke home
         return redirect('/')->with('error', 'Akses dashboard hanya untuk member berbayar yang sudah melakukan pembayaran.');
-        //  // Jika user sudah login dan memiliki role = 0 (member)
-        // if (Auth::check() && Auth::user()->role == 0) {
-        //     return $next($request); // Izinkan akses
-        // }
-
-        // // Redirect ke home jika bukan member
-        // return redirect('/')->with('error', 'Akses ditolak! Anda bukan member.');
     }
 }

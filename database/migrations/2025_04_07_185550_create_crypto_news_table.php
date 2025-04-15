@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('crypto_news', function (Blueprint $table) {
             $table->id();
-            $table->string('title'); // Judul berita
-            $table->text('description'); // Isi berita
-            $table->string('source'); // Sumber berita (CoinGecko)
-            $table->string('url')->nullable(); // Link sumber asli
-            $table->timestamp('published_at'); // Waktu publish
+            $table->string('source');
+            $table->string('title');
+            $table->text('description');
+            $table->string('url');
+            $table->string('image_url')->nullable();
+            $table->timestamp('published_at');
             $table->timestamps();
         });
     }
