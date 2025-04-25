@@ -17,25 +17,14 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'role',
-        'membership_type',
-        'expired_at',
-        'payment_status'
-    ];
+    protected $fillable = ['name', 'email', 'password', 'role', 'membership_type', 'expired_at', 'payment_status'];
 
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token'];
 
     /**
      * Get the attributes that should be cast.
@@ -58,7 +47,7 @@ class User extends Authenticatable
     protected $casts = [
         'expired_at' => 'datetime',
         'created_at' => 'datetime',
-        'updated_at' => 'datetime'
+        'updated_at' => 'datetime',
     ];
 
     public function isAdmin()

@@ -126,19 +126,6 @@
                                             <span class="input-group-text"><i class="bi bi-list"></i></span>
                                             <select id="membership" class="form-control" name="membership_type" required>
                                                 <option value="free">Hanya Daftar</option>
-                                                <optgroup label="Langganan News">
-                                                    <option value="news_1hari">News - 1 Hari (Rp5.000)</option>
-                                                    <option value="news_1bulan">News - 1 Bulan (Rp50.000)</option>
-                                                    <option value="news_3bulan">News - 3 Bulan (Rp120.000)</option>
-                                                    <option value="news_6bulan">News - 6 Bulan (Rp200.000)</option>
-                                                    <option value="news_lifetime">News - Lifetime (Rp500.000)</option>
-                                                </optgroup>
-                                                <optgroup label="Membership Full Akses">
-                                                    <option value="membership_1bulan">1 Bulan - Rp250.000</option>
-                                                    <option value="membership_3bulan">3 Bulan - Rp500.000</option>
-                                                    <option value="membership_6bulan">6 Bulan - Rp1.500.000</option>
-                                                    <option value="membership_lifetime">Lifetime - Rp3.000.000</option>
-                                                </optgroup>
                                             </select>
                                         </div>
                                     </div>

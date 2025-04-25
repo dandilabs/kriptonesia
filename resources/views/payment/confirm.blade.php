@@ -38,20 +38,23 @@
                 <div class="payment-details">
                     <h4><i class="bi bi-receipt me-2"></i>Detail Pembayaran</h4>
                     <div class="detail-item">
-                        <span>Jenis Layanan:</span>
-                        <strong>{{ ucfirst($paymentType) }}</strong>
+                        <span>Paket:</span>
+                        <strong>{{ $product->name }}</strong>
                     </div>
                     <div class="detail-item">
-                        <span>Biaya Layanan:</span>
-                        <strong>{{ number_format($biayaLayananUsd, 2) }} USDT</strong>
+                        <span>Harga Paket:</span>
+                        <strong>${{ number_format($basePriceUsd, 2) }} USDT</strong>
+                        <small class="text-muted">(Rp {{ number_format($basePrice) }})</small>
                     </div>
                     <div class="detail-item">
-                        <span>Pajak (10%):</span>
-                        <strong>{{ number_format($pajakUsd, 2) }} USDT</strong>
+                        <span>Biaya Layanan (10%):</span>
+                        <strong>${{ number_format($biayaLayananUsd, 2) }} USDT</strong>
+                        <small class="text-muted">(Rp {{ number_format($biayaLayanan) }})</small>
                     </div>
                     <div class="detail-item total">
                         <span>Total Bayar:</span>
-                        <strong class="total-amount">{{ number_format($totalBayarUsd, 2) }} USDT</strong>
+                        <strong class="total-amount">${{ number_format($totalBayarUsd, 2) }} USDT</strong>
+                        <small class="text-muted">(Rp {{ number_format($totalBayar) }})</small>
                     </div>
                 </div>
 

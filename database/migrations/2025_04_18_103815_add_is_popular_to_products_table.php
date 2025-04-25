@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('payment_confirmations', function (Blueprint $table) {
-            $table->datetime('expired_at')->change();
+        Schema::table('products', function (Blueprint $table) {
+            $table->boolean('is_popular')->default(false)->after('is_active');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('payment_confirmations', function (Blueprint $table) {
-            $table->timestamp('expired_at')->change();
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropColumn('is_popular');
         });
     }
 };

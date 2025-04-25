@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
         // Jadwalkan command check expired memberships
         $schedule->command('check:expiredstatus')->daily();
         $schedule->command('update:fear-greed-index')->daily();
+        $schedule->command('bitcoin-news:fetch')->everyThreeHours();
     }
 
     /**

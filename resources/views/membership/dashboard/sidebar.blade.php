@@ -12,11 +12,11 @@
             <!-- News Package Menu -->
             @if (str_contains(Auth::user()->membership_type, 'news'))
                 <li class="nav-item">
-                    <a href="{{ route('member.news') }}"
-                        class="nav-link {{ request()->routeIs('member.news') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-newspaper"></i>
-                        <p>Berita Eksklusif</p>
-                        <span class="right badge badge-info">NEWS</span>
+                    <a href="{{ route('crypto-news.index') }}"
+                        class="nav-link {{ request()->routeIs('crypto-news.*') ? 'active' : '' }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Crypto News</p>
+                        <span class="right badge badge-info">NEW</span>
                     </a>
                 </li>
             @endif
@@ -62,9 +62,9 @@
 
                 <!-- Market Data Submenu -->
                 <li
-                    class="nav-item has-treeview {{ request()->routeIs('member.calendar*') || request()->routeIs('exchange-insight') || request()->routeIs('trending.crypto') ? 'menu-open' : '' }}">
+                    class="nav-item has-treeview {{ request()->routeIs('member.calendar*') || request()->routeIs('exchange-insight') || request()->routeIs('trending.crypto') || request()->routeIs('bitcoin-news.*') ? 'menu-open' : '' }}">
                     <a href="#"
-                        class="nav-link {{ request()->routeIs('member.calendar*') || request()->routeIs('exchange-insight') || request()->routeIs('trending.crypto') ? 'active' : '' }}">
+                        class="nav-link {{ request()->routeIs('member.calendar*') || request()->routeIs('exchange-insight') || request()->routeIs('trending.crypto') || request()->routeIs('bitcoin-news.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-chart-bar"></i>
                         <p>
                             Market Data
@@ -92,6 +92,15 @@
                                 class="nav-link {{ request()->routeIs('trending.crypto') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Trending Cryptocurrencies</p>
+                            </a>
+                        </li>
+                        <!-- Tambahan Crypto News -->
+                        <li class="nav-item">
+                            <a href="{{ route('crypto-news.index') }}"
+                                class="nav-link {{ request()->routeIs('crypto-news.*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Crypto News</p>
+                                <span class="right badge badge-info">NEW</span>
                             </a>
                         </li>
                     </ul>

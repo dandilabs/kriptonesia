@@ -1,0 +1,38 @@
+<li class="nav-item">
+    <a href="{{ route('crypto.search') }}" class="nav-link">
+        <i class="nav-icon fas fa-search-dollar"></i>
+        <p>Cari Coin</p>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('member.watchlist') }}" class="nav-link">
+        <i class="nav-icon fas fa-star"></i>
+        <p>Watchlist Saya</p>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('member.whale-activity') }}" class="nav-link">
+        <i class="far fa-circle nav-icon"></i>
+        <p>Whale Tracker</p>
+        <span class="right badge badge-danger">Beta</span>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('member.weekly') }}" class="nav-link">
+        <i class="nav-icon fas fa-lightbulb"></i>
+        <p>Insight Mingguan</p>
+    </a>
+</li>
+<li class="nav-item">
+    <a href="{{ route('member.education') }}" class="nav-link">
+        <i class="nav-icon fas fa-graduation-cap"></i>
+        <p>Kelas Crypto</p>
+    </a>
+</li>
+
+Fitur tambahan nantinya
+Coin Detail Search (Quick Lookup)
+Watchlist / Favorite Coins
+Whale Activity Tracker (simulasi)
+Insight Mingguan (Newsletter/Highlight)
+Edukasi / Video Tutorial

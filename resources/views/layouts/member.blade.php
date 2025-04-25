@@ -27,6 +27,136 @@ scratch. This page gets rid of all links and provides the needed markup only.
     {{-- <link rel="stylesheet" href="{{ asset('admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet" href="{{ asset('admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}"> --}}
+    <style>
+        /* Base Styles */
+        .sidebar {
+            width: 250px;
+            background: #2c3e50;
+            color: #ecf0f1;
+            height: 100vh;
+            position: fixed;
+            transition: all 0.3s;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #b8c7ce;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .nav-link.active {
+            background: rgba(0, 0, 0, 0.2);
+            color: #fff;
+            border-left-color: #3498db;
+        }
+
+        .nav-icon {
+            width: 20px;
+            text-align: center;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .nav-text {
+            flex-grow: 1;
+        }
+
+        /* Badges */
+        .badge {
+            padding: 3px 6px;
+            font-size: 10px;
+            font-weight: bold;
+            border-radius: 10px;
+            margin-left: 8px;
+        }
+
+        .badge-vip {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .badge-new {
+            background: #3498db;
+            color: white;
+        }
+
+        /* Submenu */
+        .has-submenu .dropdown-icon {
+            transition: transform 0.3s;
+        }
+
+        .has-submenu.open .dropdown-icon {
+            transform: rotate(180deg);
+        }
+
+        .submenu {
+            display: none;
+            padding-left: 20px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .has-submenu.open .submenu {
+            display: block;
+        }
+
+        .submenu .nav-link {
+            padding: 10px 15px;
+            font-size: 14px;
+        }
+
+        /* Sections */
+        .nav-section {
+            padding: 10px 20px;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #7b8a8b;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        /* Special Links */
+        .nav-highlight {
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+        }
+
+        .nav-danger {
+            color: #e74c3c;
+        }
+
+        .nav-danger:hover {
+            background: rgba(231, 76, 60, 0.1);
+        }
+
+        /* Active Indicator */
+        .active-indicator {
+            position: absolute;
+            right: 10px;
+            width: 6px;
+            height: 6px;
+            background: #3498db;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .nav-link.active .active-indicator {
+            opacity: 1;
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -164,8 +294,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- DataTables  & Plugins -->
     @stack('js')
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
     <!-- Select2 -->
     <script src="{{ asset('admin/plugins/select2/js/select2.full.min.js') }}"></script>
     <!-- CKEditor -->
@@ -228,8 +356,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Top trending crypto -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.bootstrap5.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -263,6 +391,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
         });
     </script>
 
+    <script>
+        // Smooth submenu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const submenuToggles = document.querySelectorAll('.has-submenu > .nav-link');
+
+            submenuToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const parent = this.parentElement;
+                    parent.classList.toggle('open');
+                });
+            });
+        });
+    </script>
     <!-- crypto Insight -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     {{-- <script src="{{ asset('admin/plugins/datatables/jquery.dataTables.min.js') }}"></script>

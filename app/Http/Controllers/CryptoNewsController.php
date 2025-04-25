@@ -2,49 +2,115 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Tag;
-use App\Models\Post;
-use App\Models\Category;
-use Illuminate\Http\Request;
+use App\Models\CryptoNews;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 
 class CryptoNewsController extends Controller
 {
-    public function getCryptoNews(Request $request)
+    public function index()
     {
-        $category_sidebar = Category::all();
-        $popular_posts = Post::orderByDesc('views')->take(3)->get();
-        $popular_tags = Tag::withCount('posts')->orderByDesc('posts_count')->take(10)->get();
+        $news = CryptoNews::latest('published_at')->paginate(12);
 
-        $apiKey = config('services.newsdata.api_key');
-        $page = $request->query('page', 1); // Ambil halaman dari query string
-        $perPage = 10; // Jumlah berita per halaman
+        return view('membership.crypto-news.index', [
+            'news' => $news,
+            'lastUpdated' => Cache::get('crypto_news_last_updated'),
+        ]);
+    }
 
-        $url = "https://newsdata.io/api/1/news?apikey={$apiKey}&q=crypto&language=id,en&page={$page}";
+    public function fetchLatest()
+    {
+        try {
+            $response = Http::get('https://cryptopanic.com/api/v1/posts/', [
+                'auth_token' => config('services.cryptopanic.api_key'),
+                'currencies' => 'BTC',
+                'kind' => 'news',
+            ]);
 
-        $response = Http::get($url);
+            if (!$response->successful()) {
+                throw new \Exception('Gagal terhubung ke API. Status: ' . $response->status());
+            }
 
-        if ($response->failed()) {
-            return abort(500, 'Gagal mengambil berita dari NewsData.io');
+            $data = $response->json();
+
+            // Tambahkan logging untuk debug
+            Log::debug('CryptoPanic API Response Sample:', [
+                'first_item' => $data['results'][0] ?? null,
+                'media_structure' => $data['results'][0]['media'] ?? null,
+            ]);
+
+            if (empty($data['results'])) {
+                throw new \Exception('Data dari API kosong');
+            }
+
+            $this->storeNews($data['results']);
+            Cache::put('crypto_news_last_updated', now()->toDateTimeString(), now()->addHours(1));
+
+            return back()->with('success', 'Berita Crypto berhasil diperbarui!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error: ' . $e->getMessage());
+        }
+    }
+
+    protected function storeNews(array $newsItems)
+    {
+        foreach ($newsItems as $item) {
+            try {
+                $publishedAt = isset($item['published_at']) ? date('Y-m-d H:i:s', strtotime($item['published_at'])) : now();
+
+                Log::debug('Debug Image Extraction', [
+                    'media_raw' => $item['media'] ?? null,
+                    'resolved_image' => $this->getBestImage($item['media'] ?? []),
+                    'title' => $item['title'] ?? '',
+                ]);
+
+
+                CryptoNews::updateOrCreate(
+                    ['url' => $item['url']],
+                    [
+                        'title' => $item['title'] ?? 'No Title',
+                        'summary' => $item['description'] ?? null,
+                        'source' => $item['source']['title'] ?? null,
+                        'source_icon' => $item['source']['icon'] ?? null,
+                        'image_url' => $this->getBestImage($item['media'] ?? []), // Perbaikan di sini
+                        'published_at' => $publishedAt,
+                        'votes' => ($item['votes']['positive'] ?? 0) - ($item['votes']['negative'] ?? 0),
+                        'currencies' => $item['currencies'] ?? [],
+                    ],
+                );
+            } catch (\Exception $e) {
+                Log::error('Error storing news item: ' . $e->getMessage(), ['item' => $item]);
+                continue;
+            }
+        }
+    }
+
+    protected function getBestImage($media)
+    {
+        if (empty($media)) {
+            return null;
         }
 
-        $data = $response->json();
-
-        // Pastikan API mengembalikan data dengan benar
-        if (!isset($data['results']) || empty($data['results'])) {
-            return abort(500, 'Data tidak tersedia dari API NewsData.io');
+        // Jika media string langsung (kadang image langsung diberikan)
+        if (is_string($media) && filter_var($media, FILTER_VALIDATE_URL)) {
+            return $media;
         }
 
-        // Ubah array ke Collection
-        $news = collect($data['results']);
+        // Jika array asosiatif tunggal
+        if (is_array($media) && isset($media['url'])) {
+            return $media['url'];
+        }
 
-        // Total results kadang tidak ada di response API
-        $totalResults = $data['totalResults'] ?? $page * $perPage + count($news);
+        // Jika array berisi banyak item
+        if (is_array($media)) {
+            foreach ($media as $item) {
+                if (isset($item['url']) && str_contains($item['url'], 'http')) {
+                    return $item['url'];
+                }
+            }
+        }
 
-        // Buat pagination manual
-        $pagination = new LengthAwarePaginator($news, $totalResults, $perPage, $page, ['path' => url()->current()]);
-
-        return view('crypto_news.index', compact('pagination', 'category_sidebar', 'popular_posts', 'popular_tags'));
+        return null;
     }
 }

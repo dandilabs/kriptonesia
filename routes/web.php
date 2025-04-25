@@ -14,6 +14,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ExchangeController;
 use App\Http\Controllers\FearGreedController;
 use App\Http\Controllers\CryptoNewsController;
+use App\Http\Controllers\BitcoinNewsController;
 use App\Http\Controllers\MemberTradeController;
 use App\Http\Controllers\SignalTradeController;
 use App\Http\Controllers\TopHoldingsController;
@@ -39,20 +40,16 @@ Route::get('/kontak', function () {
     return view('blog.kontak');
 });
 
-Route::get('/news', [CryptoNewsController::class, 'getCryptoNews']);
-
-
 Route::get('/list-artikel', [BlogController::class, 'list_artikel'])->name('blog.artikel');
 Route::get('/detail-post/{slug}', [BlogController::class, 'isi_post'])->name('blog.isi');
 Route::get('/list-post/{slug}', [BlogController::class, 'list_post'])->name('blog.list');
 Route::get('/list-category/{category}', [BlogController::class, 'list_category'])->name('blog.category');
 Route::get('/tag/{tag:slug}', [BlogController::class, 'list_tag'])->name('blog.tag');
-Route::get('/produk-kriptonesia', [ProductController::class, 'index'])->name('produk');
+Route::get('/produk-kriptonesia', [ProductController::class, 'showProducts'])->name('produk');
 
 // 🔹 Route untuk pembayaran (semua user)
 Route::get('/payment/confirm', [PaymentController::class, 'showConfirmationForm'])->name('payment.confirm');
 Route::post('/payment/confirm', [PaymentController::class, 'processConfirmation'])->name('payment.confirm.process');
-
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/upgrade', [UpgradeController::class, 'showForm'])->name('member.upgrade');
@@ -67,6 +64,8 @@ Route::middleware(['auth'])->group(function () {
 Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+    // Manajemen Products
+    Route::resource('/products', ProductController::class);
     // 🔹 Manajemen Konten
     Route::resource('/category', CategoryController::class);
     Route::resource('/tag', TagController::class);
@@ -89,7 +88,6 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
     Route::get('/payments/{id}/expired', [PaymentAdminController::class, 'setExpired'])->name('admin.payment.expired');
 });
 
-
 // ==================================================
 // 🚀 ROUTE UNTUK MEMBER (HANYA USER DENGAN MEMBERSHIP)
 // ==================================================
@@ -108,9 +106,10 @@ Route::group(['middleware' => ['auth', 'member'], 'prefix' => 'member'], functio
     Route::get('/crypto-insight', [ExchangeInsightController::class, 'index'])->name('crypto-insight');
     Route::get('/crypto/{id}', [ExchangeInsightController::class, 'show'])->name('crypto.show');
     Route::get('/trending-crypto', [TrendingCryptoController::class, 'index'])->name('trending.crypto');
-
-
-
+    Route::get('/bitcoin-news', [BitcoinNewsController::class, 'index'])->name('bitcoin-news.index');
+    Route::post('/bitcoin-news/fetch', [BitcoinNewsController::class, 'fetchLatest'])->name('bitcoin-news.fetch');
+    Route::get('/crypto-news', [CryptoNewsController::class, 'index'])->name('crypto-news.index');
+    Route::post('/crypto-news/fetch', [CryptoNewsController::class, 'fetchLatest'])->name('crypto-news.fetch');
 
     // Route::get('/profile', [App\Http\Controllers\MemberController::class, 'profile'])->name('member.profile');
 });

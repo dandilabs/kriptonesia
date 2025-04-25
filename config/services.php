@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Third Party Services
@@ -39,4 +38,11 @@ return [
         'api_key' => env('NEWSDATA_API_KEY', 'default_api_key_jika_tidak_terbaca'),
     ],
 
+    'lunarcrush' => [
+        'api_key' => env('LUNARCRUSH_API_KEY'),
+    ],
+
+    'cryptopanic' => [
+        'api_key' => env('CRYPTOPANIC_API_KEY'),
+    ],
 ];

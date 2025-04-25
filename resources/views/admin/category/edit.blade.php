@@ -50,10 +50,7 @@
 
                                 <div class="form-group">
                                     <label for="name">Nama Kategori <span class="text-danger">*</span></label>
-                                    <input type="text" name="name" id="name"
-                                        class="form-control @error('name') is-invalid @enderror"
-                                        value="{{ old('name', $category->name) }}" placeholder="Masukkan nama kategori"
-                                        required>
+                                    <input type="text" name="name" id="name" class="form-control @error('name') is-invalid @enderror" value="{{ old('name', $category->name) }}" placeholder="Masukkan nama kategori"required>
                                     @error('name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

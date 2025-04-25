@@ -29,26 +29,43 @@
     <!-- Main CSS File -->
     <link href="{{ asset('frontend/assets/css/main.css') }}" rel="stylesheet">
     <style>
+        /* Pastikan Font Awesome terlihat */
+        .navmenu i {
+            margin-right: 8px;
+            width: 16px;
+            text-align: center;
+        }
+
+        /* Perbaikan tampilan dropdown */
+        .dropdown ul {
+            min-width: 200px;
+        }
+
+        .dropdown li {
+            position: relative;
+        }
+
+        .dropdown > ul {
+            display: none;
+            position: absolute;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            z-index: 1000;
+        }
+
+        .dropdown:hover > ul {
+            display: block;
+        }
+
+        /* Badge Limited */
         .badge-custom {
-            background: linear-gradient(45deg, #ff9f43, #ff3f34);
+            background: #ff4757;
             color: white;
             font-size: 10px;
-            padding: 3px 6px;
+            padding: 2px 5px;
             border-radius: 10px;
-            font-weight: bold;
-            white-space: nowrap;
-            transform: scale(0.9);
-        }
-
-        /* For hover effect */
-        .nav-item {
-            margin-right: 15px;
-            /* Give space for badge */
-        }
-
-        .nav-link {
-            padding-right: 8px !important;
-            /* Make room for badge */
+            margin-left: 5px;
         }
     </style>
 </head>

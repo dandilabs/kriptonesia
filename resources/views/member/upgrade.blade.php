@@ -68,31 +68,27 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form method="post" action="{{ route('member.upgrade.process') }}" enctype="multipart/form-data">
+                            <form method="post" action="{{ route('member.upgrade.process') }}">
                                 @csrf
                                 <div class="form-group">
-                                    <label for="membership" class="form-label">Select Membership Package</label>
+                                    <label for="product_id" class="form-label">Pilih Paket Membership</label>
                                     <div class="select-wrapper">
-                                        <select id="membership" class="form-select" name="membership_type">
-                                            <optgroup label="Langganan News">
-                                                <option value="news_1hari">1 Day Pass (Rp5.000 / ${{ number_format(5000 / $usdRate, 2) }} USDT)</option>
-                                                <option value="news_1bulan">1 Month (${{ number_format(50000 / $usdRate, 2) }} USDT)</option>
-                                                <option value="news_3bulan">3 Months (${{ number_format(120000 / $usdRate, 2) }} USDT)</option>
-                                                <option value="news_6bulan">6 Months (${{ number_format(200000 / $usdRate, 2) }} USDT)</option>
-                                                <option value="news_lifetime">Lifetime Access (${{ number_format(500000 / $usdRate, 2) }} USDT)</option>
-                                            </optgroup>
-                                            <optgroup label="Membership Full Akses">
-                                                <option value="membership_1bulan">1 Month (${{ number_format(250000 / $usdRate, 2) }} USDT)</option>
-                                                <option value="membership_3bulan">3 Months (${{ number_format(500000 / $usdRate, 2) }} USDT)</option>
-                                                <option value="membership_6bulan">6 Months (${{ number_format(1500000 / $usdRate, 2) }} USDT)</option>
-                                                <option value="membership_lifetime">Lifetime (${{ number_format(3000000 / $usdRate, 2) }} USDT)</option>
-                                            </optgroup>
+                                        <select id="product_id" class="form-select" name="product_id" required>
+                                            @foreach ($products as $type => $group)
+                                                <optgroup label="{{ ucfirst($type) }}">
+                                                    @foreach ($group as $product)
+                                                        <option value="{{ $product->id }}">
+                                                            {{ $product->name }} (${{ number_format($product->price_usd, 2) }} USDT)
+                                                        </option>
+                                                    @endforeach
+                                                </optgroup>
+                                            @endforeach
                                         </select>
                                         <i class="bi bi-chevron-down select-arrow"></i>
                                     </div>
                                 </div>
                                 <div class="submit-btn-container">
-                                    <button type="submit" class="btn btn-primary btn-lg px-5 py-3" style="background: linear-gradient(45deg, #ff416c, #ff4b2b); border: none;">
+                                    <button type="submit" class="btn btn-primary btn-lg px-5 py-3">
                                         <span>Tingkatkan Sekarang</span>
                                         <i class="bi bi-arrow-right"></i>
                                     </button>

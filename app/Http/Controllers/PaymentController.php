@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\PaymentConfirmation;
 use Illuminate\Support\Facades\Auth;
@@ -42,6 +43,17 @@ class PaymentController extends Controller
 
         $paymentType = $request->payment_type; // Define paymentType here
 
+        $validTypes = ['news_1bulan', 'news_3bulan', 'news_6bulan', 'membership_3bulan', 'membership_6bulan', 'membership_lifetime'];
+        if (!in_array($paymentType, $validTypes)) {
+            Alert::error('Jenis pembayaran tidak valid.');
+            return redirect('/');
+        }
+
+        $product = Product::where('code', $paymentType)->first();
+        if (!$product) {
+            Alert::error('Produk tidak valid.');
+            return redirect('/');
+        }
         // Cek pembayaran sebelumnya
         $payment = PaymentConfirmation::where('user_id', $user->id)->where('payment_type', $request->payment_type)->orderBy('created_at', 'desc')->first();
 
@@ -79,17 +91,29 @@ class PaymentController extends Controller
             ]);
         }
 
-        $amount = $payment->amount;
-        $biayaLayanan = 4000;
-        $pajak = $amount * 0.1;
-        $totalBayar = $amount;
+        // Hitung total dalam IDR
+        $basePrice = $product->price; // Harga produk dalam IDR
+        $biayaLayanan = $basePrice * 0.1; // Biaya layanan 10%
+        $totalBayar = $basePrice + $biayaLayanan;
 
+        // Konversi ke USDT
         $usdRate = $this->getUsdRate();
+        $basePriceUsd = $product->price_usd; // Langsung dari produk
         $biayaLayananUsd = $biayaLayanan / $usdRate;
-        $pajakUsd = $pajak / $usdRate;
         $totalBayarUsd = $totalBayar / $usdRate;
 
-        return view('payment.confirm', compact('user', 'paymentType', 'amount', 'biayaLayanan', 'pajak', 'totalBayar', 'usdRate', 'biayaLayananUsd', 'pajakUsd', 'totalBayarUsd'));
+        return view('payment.confirm', compact('user', 'paymentType', 'product', 'basePrice', 'biayaLayanan', 'totalBayar', 'usdRate', 'basePriceUsd', 'biayaLayananUsd', 'totalBayarUsd'));
+        // $amount = $payment- >amount;
+        // $biayaLayanan = 4000;
+        // $pajak = $amount * 0.1;
+        // $totalBayar = $amount;
+
+        // $usdRate = $this->getUsdRate();
+        // $biayaLayananUsd = $biayaLayanan / $usdRate;
+        // $pajakUsd = $pajak / $usdRate;
+        // $totalBayarUsd = $totalBayar / $usdRate;
+
+        // return view('payment.confirm', compact('user', 'paymentType', 'amount', 'biayaLayanan', 'pajak', 'totalBayar', 'usdRate', 'biayaLayananUsd', 'pajakUsd', 'totalBayarUsd', 'product'));
     }
 
     // Tampilkan form konfirmasi pembayaran
@@ -179,17 +203,10 @@ class PaymentController extends Controller
 
     private function getPrice($paymentType)
     {
-        $prices = [
-            'news_1hari' => 10000,
-            'news_1bulan' => 50000,
-            'news_3bulan' => 120000,
-            'news_6bulan' => 200000,
-            'membership_1bulan' => 150000,
-            'membership_3bulan' => 400000,
-            'membership_6bulan' => 700000,
-            'membership_lifetime' => 2000000,
-        ];
-
-        return $prices[$paymentType] ?? null; // Jika tidak ditemukan, return null
+        $product = Product::where('code', $paymentType)->first();
+        if (!$product) {
+            throw new \Exception('Product not found');
+        }
+        return $product->price; // Kembalikan harga dasar saja
     }
 }

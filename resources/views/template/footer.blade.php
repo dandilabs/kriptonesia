@@ -109,8 +109,17 @@
         updateTimer();
     });
 </script>
-<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}">
+<script>
+    // Pastikan Font Awesome terload
+    document.addEventListener('DOMContentLoaded', function() {
+        if(typeof FontAwesome === 'undefined') {
+            const faScript = document.createElement('script');
+            faScript.src = 'https://kit.fontawesome.com/a076d05399.js';
+            document.head.appendChild(faScript);
+        }
+    });
 </script>
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
 </body>
 
 </html>
